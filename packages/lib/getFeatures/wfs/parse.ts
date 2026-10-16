@@ -1,4 +1,5 @@
 import { GeoJSON, WFS } from 'ol/format'
+import Geometry from 'ol/geom/Geometry'
 import { FeatureCollection } from 'geojson'
 import { PolarGeoJsonFeature, WFSVersion } from '../types'
 import { getFeatureTitleFromPattern } from './getFeatureTitleFromPattern'
@@ -27,12 +28,14 @@ const normalizeSrsNames = (text: string) =>
  * @param title - {@link AdditionalSearchOptions.title}
  * @param useTitleAsPattern - whether title contains patterns from config
  * @param version - WFS version of the response; defaults to 1.1.0
+ * @param geometryName - Optional property to use as the primary geometry.
  */
 export function parseWfsResponse(
   response: Response,
   title: string | string[] | undefined,
   useTitleAsPattern: boolean,
-  version?: WFSVersion
+  version?: WFSVersion,
+  geometryName?: string
 ): Promise<FeatureCollection> {
   const features: PolarGeoJsonFeature[] = []
   const featureCollection: FeatureCollection = {
@@ -60,6 +63,12 @@ export function parseWfsResponse(
       normalizedText.match(/srsName="[^"]*EPSG:(\d+)/i)?.[1]
 
     parsedFeatures.forEach((f) => {
+      if (geometryName) {
+        if (!(f.get(geometryName) instanceof Geometry)) {
+          throw new Error(`Missing WFS geometry property "${geometryName}".`)
+        }
+        f.setGeometryName(geometryName)
+      }
       const featureObject = JSON.parse(writer.writeFeature(f))
       featureObject.title = ''
       if (title) {

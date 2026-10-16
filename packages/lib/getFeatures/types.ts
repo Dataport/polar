@@ -74,3 +74,9 @@ export interface WfsParameters extends QueryParameters {
  * NOTE: If more are usable / needed, add 'em here.
  */
 export type WFSVersion = '1.1.0' | '2.0.0'
+
+/** Options for German ALKIS identifiers in an INSPIRE CP 4.0 service. */
+export interface InspireCadastralParameters extends QueryParameters {
+  srsName?: string
+  maxGemarkungen?: number
+}

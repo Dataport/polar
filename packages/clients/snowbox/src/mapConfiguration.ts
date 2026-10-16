@@ -88,46 +88,28 @@ export const mapConfiguration = {
   addressSearch: {
     searchMethods: [
       {
+        groupId: 'parcelSearch',
+        type: 'inspireCadastralParcel',
+        url: 'https://service.gdi-sh.de/SH_INSPIREDOWNLOAD_AI_CP_ALKIS',
         queryParameters: {
-          searchAddress: true,
-          searchStreets: true,
-          searchHouseNumbers: true,
-        },
-        type: 'mpapi',
-        url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
-      },
-      {
-        queryParameters: {
-          typeName: 'Flurstueck',
-          featurePrefix: 'adv',
-          xmlns:
-            'http://repository.gdi-de.org/schemas/adv/produkt/alkis-vereinfacht/2.0',
           maxFeatures: 20,
-          patterns: [
-            '{{gemarkung}} {{flur}} {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
-            '{{gemarkung}} {{flur}} {{flstnrzae}}, {{flstkennz}}',
-            '{{gemarkung}} {{flstnrzae}}/{{flstnrnen}}, {{flstkennz}}',
-            '{{gemarkung}} {{flstnrzae}}, {{flstkennz}}',
-            '{{gemarkung}} {{flstnrzae}}',
-            '{{flstkennz}}',
-            '{{flstnrzae}}',
-          ],
-          patternKeys: {
-            // only capturing group content is used
-            gemarkung: '([^0-9]+)',
-            flur: '([0-9]+)',
-            flstnrzae: '([0-9]+)',
-            flstnrnen: '([0-9]+)',
-            flstkennz: '([0-9_]+)$',
-          },
+          srsName: 'EPSG:25832',
         },
-        placeholder: 'Schiffbek 996',
-        type: 'wfs',
-        groupId: 'wfs_search',
-        label: 'Flurstückssuche',
-        url: 'https://geodienste.hamburg.de/WFS_HH_ALKIS_vereinfacht',
       },
     ],
+    groupProperties: {
+      defaultGroup: {
+        label: 'Adresssuche',
+      },
+      parcelSearch: {
+        label: 'Flurstückssuche',
+        placeholder: 'Gemarkung, Flur, Flurstück',
+        hint: 'z. B. Preetz 6 14/4 oder 14/4',
+      },
+    },
+    highlightResult: {
+      clearOn: ['plugin/pins/coordinatesAfterDrag'],
+    },
     minLength: 3,
     waitMs: 300,
   },

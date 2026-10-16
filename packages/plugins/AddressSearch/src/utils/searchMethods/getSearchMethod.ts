@@ -1,10 +1,13 @@
-import { getWfsFeatures as wfs } from '@polar/lib-get-features'
+import {
+  getWfsFeatures as wfs,
+  getInspireCadastralParcels as inspireCadastralParcel,
+} from '@polar/lib-get-features'
 import { SearchMethodFunction } from '@polar/lib-custom-types'
 import bkg from './bkg'
 import mpapi from './mpapi'
 
 export const getMethodContainer = () => {
-  const methods = { bkg, wfs, mpapi }
+  const methods = { bkg, wfs, mpapi, inspireCadastralParcel }
 
   const registerSearchMethods = (
     additionalMethods: Record<string, SearchMethodFunction>

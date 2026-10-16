@@ -2,6 +2,8 @@
 
 ## unpublished
 
+- Feature: Add optional `highlightResult` configuration to highlight the area or line geometry of the chosen result in the map.
+- Feature: Add search type `inspireCadastralParcel` with district/flur searches and descriptive result titles.
 - Feature: Add optional `version` parameter to WFS search configuration for WFS 2.0.0 services.
 
 ## 3.3.0

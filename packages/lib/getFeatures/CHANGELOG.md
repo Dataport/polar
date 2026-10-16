@@ -2,6 +2,7 @@
 
 ## unpublished
 
+- Feature: Add `getInspireCadastralParcels` for German INSPIRE CP parcel and zoning searches with resolved district names.
 - Feature: Support WFS 2.0.0 in `getWfsFeatures` via the optional `version` parameter.
 - Fix: Normalize OGC CRS URIs (any version) and URNs (e.g. `urn:ogc:def:crs:EPSG::3857`) to `EPSG:<code>` before parsing WFS geometries.
 

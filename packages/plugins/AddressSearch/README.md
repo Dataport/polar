@@ -33,6 +33,7 @@ In `categoryProperties` and `groupProperties`, id strings called `groupId` and `
 | customSelectResult | Record<string, customSelectFunction>? | An object that maps categoryIds to functions. These functions are then called as vuex store actions instead of the `selectResult` default implementation. This allows overriding selection behaviour with full store access. Use `''` as key for categoryless results. |
 | focusAfterSearch | boolean? | Whether the focus should switch to the first result after a successful search. Defaults to `false`. |
 | groupProperties | Record<string, groupProperties>? | An object defining properties for a group. The searchMethod's groupId is used as identifier. All services without groupId fall back to the key `"defaultGroup"`. |
+| highlightResult | (boolean \| highlightResult)? | If set, the area or line geometry of the chosen result is highlighted in the map. Point geometries are not highlighted, since they are usually marked by `@polar/plugin-pins`. Defaults to `false`. See `addressSearch.highlightResult` for options. |
 | minLength | number? | Minimal input length after which searches are started. Defaults to 0. |
 | removeLoading | string? | Expects the path to a mutation within the store. This mutation is committed with a plugin-specific loading key as payload when finishing asynchronous procedures that are intended to be communicated to the user. |
 | waitMs | number? | Debounce time in ms for search requests after last user input. Defaults to 0. |
@@ -97,7 +98,7 @@ addressSearch: {
 
 | fieldName | type | description |
 | - | - | - |
-| type | enum["bkg", "wfs", "mpapi"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`. |
+| type | enum["bkg", "wfs", "mpapi", "inspireCadastralParcel"] | Service type. Enum can be extended by configuration, see `addressSearch.customSearchMethods`. |
 | url | string | Search service URL. Should you require a service provider, please contact us for further information. |
 | categoryId | string? | Grouped services can optionally be distinguished in the UI with categories. See `addressSearch.categoryProperties` for configuration options. |
 | resultModifier | (function (object: FeatureCollection) => FeatureCollection)? | Optional resultModifier function. It will get the full FeatureCollection object that may be reduced before returning it. The resultModifier function will be called before adding anything to the store. Programming knowledge required. |
@@ -162,6 +163,27 @@ This is a function with the following signature:
 
 With this, arbitrary click results can be supported. Please mind that undocumented mutations and actions fired in such a function are subject to change without further notice.
 
+#### addressSearch.highlightResult
+
+Setting `highlightResult: true` highlights the chosen result's geometry with the default style. Alternatively, an object with the following fields may be given.
+
+| fieldName | type | description |
+| - | - | - |
+| clearOn | string[]? | Store getter paths. Whenever one of their values changes, the highlight is removed. E.g. `'plugin/pins/coordinatesAfterDrag'` removes the highlight once the user moves the pin by clicking or dragging. |
+| style | { stroke?: ol/style/Stroke~Options, fill?: ol/style/Fill~Options }? | Overrides parts of the default style `{ stroke: { color: '#003064', width: 3 }, fill: { color: 'rgba(0, 48, 100, 0.15)' } }`. |
+
+The highlight is replaced when another result is chosen and removed when the search is cleared or a point result is chosen.
+
+Example configuration:
+```js
+highlightResult: {
+  clearOn: ['plugin/pins/coordinatesAfterDrag'],
+  style: {
+    stroke: { color: '#E10019', width: 2 },
+  },
+}
+```
+
 #### addressSearch.groupProperties
 
 | fieldName | type | description |
@@ -216,6 +238,78 @@ queryParameters: {
   maxFeatures: 120,
 },
 ```
+
+##### INSPIRE cadastral search
+
+`type: 'inspireCadastralParcel'` searches German ALKIS parcel identifiers in an
+INSPIRE CP 4.0 service exposing `cp:CadastralParcel` and `cp:CadastralZoning` via
+WFS 2.0.0. Unlike the general `wfs` search, it also resolves cadastral district
+(Gemarkung) names and includes district, flur and parcel numbers in result titles.
+It expects the German 20-character parcel identifier format
+`LLGGGGFFFZZZZZNNNN__`. This is not a generic search for arbitrary INSPIRE services.
+
+| Parameter | Type | Description |
+| - | - | - |
+| maxFeatures | number? | Positive integer, defaults to 20. Maximum returned results. |
+| maxGemarkungen | number? | Positive integer, defaults to 10. Maximum districts considered in a name search. Identical names can refer to several districts. |
+| srsName | string? | Query projection, defaults to `EPSG:25832`. |
+
+```js
+{
+  groupId: 'parcelSearch',
+  type: 'inspireCadastralParcel',
+  url: 'https://service.gdi-sh.de/SH_INSPIREDOWNLOAD_AI_CP_ALKIS',
+  queryParameters: {
+    maxFeatures: 20,
+    maxGemarkungen: 10,
+    srsName: 'EPSG:25832',
+  },
+  label: 'Flurstückssuche',
+  placeholder: 'Gemarkung, Flur, Flurstück',
+  hint: 'z. B. Preetz 6 14/4 oder 14/4',
+}
+```
+
+Supported inputs:
+
+| Input | Interpretation |
+| - | - |
+| `123` | Parcels with numerator 123, including 123/1, but not 1234. |
+| `14/4` | Exact parcel number 14/4. |
+| `14/` | Parcels with numerator 14 and a denominator. |
+| `Preetz 14/4` | Parcel 14/4 in districts whose names begin with Preetz (case-insensitive). |
+| `Preetz 6 14/4`, `Preetz Flur 6 14/4`, `Preetz, Flur 6, 14/4` | Parcel 14/4 in flur 6 of matching districts. |
+| `Preetz` | Matching districts as geometry features. |
+| `Preetz Flur 6` | Flur 6 as geometry features. `Preetz 6` instead searches parcel numerator 6. |
+| `016137006000140004` | Parcel identifier prefix (6 to 20 digits/underscores). |
+
+Example title: `Gemarkung Preetz (6137), Flur 6, Flurstück 14/4`.
+District and flur results omit the parcel number. Selecting a result publishes
+its original geometry through the normal AddressSearch selection mechanism.
+The default selection fits the map to a district/flur geometry; parcel
+selection retains the usual Pins behavior. A configured `customSelectResult`
+continues to take precedence.
+Previously selected titles can be used as search inputs again.
+
+Parcel properties are preserved (including `label`, `nationalCadastralReference`
+and `areaValue`). The search adds `gemarkung`, `gemarkungsnummer` (four digits),
+`flur`, `zaehler`, `nenner` and `flurstueckskennzeichen`. Zoning results have the
+same additional properties except `flurstueckskennzeichen`; non-applicable
+numbers are empty strings. These can be subscribed to using
+`plugin/addressSearch/chosenAddress/properties`.
+
+The SH service does not supply municipality, town or street names. Flurs are
+exposed as `GemarkungsteilFlur`. Related district names require additional
+requests; successful names are cached in memory per URL. Cancellation propagates
+to every request. Network, XML and service errors are reported through the normal
+AddressSearch error handling, rather than producing incomplete result labels.
+
+Results are sorted **after** the service's result limit has been applied, by
+district, district number, flur, numerator and denominator. This does not select
+the globally smallest/best results. The SH service has no paging or server-side
+sorting, so broad searches are not exhaustive. Include a district name to narrow
+the search. `maxFeatures` and `maxGemarkungen` deliberately cap service traffic;
+they do not cause additional requests for subsequent pages.
 
 ##### addressSearch.searchMethodsObject.queryParameters (type:wfs)
 

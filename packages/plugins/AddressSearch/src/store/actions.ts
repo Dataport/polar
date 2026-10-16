@@ -1,8 +1,20 @@
 import debounce from 'lodash.debounce'
-import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson'
+import Vue from 'vue'
+import GeoJSON from 'ol/format/GeoJSON'
+import {
+  Feature as GeoJsonFeature,
+  FeatureCollection,
+  GeoJsonProperties,
+  Geometry,
+} from 'geojson'
 import { PolarActionTree } from '@polar/lib-custom-types'
 import { SearchResultSymbols } from '../'
 import { getMethodContainer } from '../utils/searchMethods/getSearchMethod'
+import {
+  clearHighlight,
+  createHighlightLayer,
+  showFeature,
+} from '../utils/resultHighlight'
 import {
   AddressSearchGetters,
   AddressSearchState,
@@ -51,11 +63,36 @@ export const makeActions = () => {
   let methodContainer
 
   const actions: PolarActionTree<AddressSearchState, AddressSearchGetters> = {
-    setupModule({ getters }): void {
+    setupModule({ getters, rootGetters }): void {
       debouncedLoad = debounce(
         () => this.dispatch('plugin/addressSearch/load'),
         getters.waitMs
       ).bind(this)
+
+      const { highlightResult } = getters.addressSearchConfiguration
+      if (highlightResult) {
+        const { style, clearOn = [] } =
+          typeof highlightResult === 'object' ? highlightResult : {}
+        const map = rootGetters.map
+        const highlightLayer = createHighlightLayer(style)
+        map.addLayer(highlightLayer)
+        this.watch(
+          () => getters.chosenAddress,
+          (feature) =>
+            showFeature(
+              highlightLayer,
+              feature as GeoJsonFeature | null,
+              map,
+              rootGetters.configuration.epsg
+            )
+        )
+        clearOn.forEach((path) =>
+          this.watch(
+            () => rootGetters[path],
+            () => clearHighlight(highlightLayer)
+          )
+        )
+      }
 
       // searchMethod without url is invalid – print error
       getters.searchMethods
@@ -186,7 +223,7 @@ export const makeActions = () => {
       }
     },
     selectResult(actionContext, payload): void {
-      const { commit, getters } = actionContext
+      const { commit, getters, rootGetters } = actionContext
       const { feature, categoryId } = payload
       const customMethod =
         getters.addressSearchConfiguration.customSelectResult?.[categoryId]
@@ -197,6 +234,28 @@ export const makeActions = () => {
         commit('setChosenAddress', feature)
         commit('setInputValue', feature.title)
         commit('setSearchResults', SearchResultSymbols.NO_SEARCH)
+        if (
+          feature.properties?.nationalCadastalZoningReference &&
+          getters.selectedGroup.some(
+            (method) => method.type === 'inspireCadastralParcel'
+          )
+        ) {
+          const map = rootGetters.map
+          const geometry = new GeoJSON().readGeometry(feature.geometry, {
+            dataProjection: feature.epsg,
+            featureProjection: map.getView().getProjection(),
+          })
+          if (geometry) {
+            // Pins reacts to chosenAddress in a Vue watcher; fit afterwards.
+            Vue.nextTick(() => {
+              if (getters.chosenAddress === feature) {
+                map.getView().fit(geometry.getExtent(), {
+                  size: map.getSize(),
+                })
+              }
+            })
+          }
+        }
       }
     },
     escapeSelection({ commit }): void {

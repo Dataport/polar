@@ -49,7 +49,12 @@ export interface LoadingIndicatorConfiguration extends PluginOptions {
 }
 
 /** Possible search methods by type */
-export type SearchType = 'bkg' | 'wfs' | 'mpapi' | string
+export type SearchType =
+  | 'bkg'
+  | 'wfs'
+  | 'mpapi'
+  | 'inspireCadastralParcel'
+  | string
 
 /**
  * Additional queryParameters for the GET-Request;
@@ -112,6 +117,14 @@ export interface AddressSearchCategoryProperties {
   label: string
 }
 
+/** Highlighting of the chosen AddressSearch result's geometry */
+export interface AddressSearchHighlightConfiguration {
+  /** Partial overrides of the default highlight style */
+  style?: Partial<HighlightStyle>
+  /** Store getter paths; on change of any value, the highlight is removed */
+  clearOn?: string[]
+}
+
 /** AddressSearch Module Configuration */
 export interface AddressSearchConfiguration extends PluginOptions {
   // Configured search methods
@@ -130,6 +143,8 @@ export interface AddressSearchConfiguration extends PluginOptions {
   focusAfterSearch?: boolean
   // definition of groups referred to in searchMethods
   groupProperties?: Record<string, AddressSearchGroupProperties>
+  // optional highlighting of the chosen result's area or line geometry
+  highlightResult?: boolean | AddressSearchHighlightConfiguration
   // Minimal input length before the search starts
   minLength?: number
   // optional loading action name to end loading

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add optional `highlightResult` field and interface `AddressSearchHighlightConfiguration` to `AddressSearchConfiguration`.
+- Feature: Add `'inspireCadastralParcel'` to `SearchType`.
+
 ## 2.3.0
 
 - Feature: Add optional `resultModifier` field to `SearchMethodConfiguration`.
