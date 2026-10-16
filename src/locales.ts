@@ -22,6 +22,14 @@ export const resourcesDe = {
 		wrapper: 'Seitenauswahl',
 		entries: 'Eintrag {{start}} bis {{end}} von {{total}}',
 	},
+	resultList: {
+		count: '({{count}} Ergebnisse)',
+		extend: 'Alle Ergebnisse anzeigen',
+		reduce: 'Ergebnisliste reduzieren',
+	},
+	searchInput: {
+		clear: 'Eingabefeld der Suche löschen',
+	},
 } as const
 
 /**
@@ -36,6 +44,14 @@ export const resourcesEn = {
 		previous: 'Previous page',
 		wrapper: 'Pagination',
 		entries: 'Entry {{start}} to {{end}} of {{total}}',
+	},
+	resultList: {
+		count: '({{count}} results)',
+		extend: 'Show all results',
+		reduce: 'Reduce result list',
+	},
+	searchInput: {
+		clear: 'Clear search input field',
 	},
 } as const
 
