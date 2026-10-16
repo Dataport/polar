@@ -446,6 +446,27 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			!isRoutingResultList &&
 			!path.includes(coreStore.map.getTargetElement())
 		) {
+			const index = currentlyFocusedInput.value
+			const routeLength = route.value[index]?.length ?? 0
+
+			const userClearedWaypoint =
+				routeLength > 0 &&
+				routeInput.value[index] === null &&
+				(routeInputValues.value[index] ?? '').trim() === ''
+			const isStartOrEndPoint =
+				currentlyFocusedInput.value == 0 ||
+				currentlyFocusedInput.value == route.value.length - 1
+
+			if (userClearedWaypoint) {
+				if (isStartOrEndPoint && route.value.length === 2) {
+					route.value = route.value.toSpliced(index, 1, [])
+					routeSource.clear()
+					routingResponseData.value = null
+				} else {
+					setRoute(index, true)
+				}
+			}
+
 			currentlyFocusedInput.value = -1
 		}
 	}
