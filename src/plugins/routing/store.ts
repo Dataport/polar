@@ -106,17 +106,16 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			}
 		},
 	})
-	const routeIncomplete = computed(() =>
-		route.value.some((part) => part.length === 0)
-	)
 	const routeAsWGS84 = computed(() =>
-		route.value.map((coordinate) =>
-			transform(
-				coordinate,
-				coreStore.map.getView().getProjection().getCode(),
-				'EPSG:4326'
+		route.value
+			.filter((coordinate) => coordinate.length > 0)
+			.map((coordinate) =>
+				transform(
+					coordinate,
+					coreStore.map.getView().getProjection().getCode(),
+					'EPSG:4326'
+				)
 			)
-		)
 	)
 	const routeFeature = computed(
 		() => routingResponseData.value?.features[0] ?? null
@@ -389,7 +388,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		abortController = new AbortController()
 		const { signal } = abortController
 		try {
-			routingResponseData.value = await fetchRoute(signal)
+			const response = await fetchRoute(signal)
+			if (signal.aborted) {
+				return
+			}
+			routingResponseData.value = response
 
 			if (!routeFeature.value) {
 				throw new Error(t(($) => $.noFeature, { ns: PluginId }))
@@ -479,16 +482,17 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			selectedTravelMode,
 			() => coreStore.language,
 		],
-		([coordinates], [previousCoordinates]) => {
+		([coordinates]) => {
 			if (
-				coordinates.filter((coordinate) => coordinate.length > 0).length ===
-					1 &&
-				previousCoordinates.filter((coordinate) => coordinate.length > 0)
-					.length > 1
+				coordinates.filter((coordinate) => coordinate.length > 0).length < 2
 			) {
+				if (abortController) {
+					abortController.abort()
+					abortController = null
+				}
 				routeSource.clear()
 				routingResponseData.value = null
-			} else if (!routeIncomplete.value) {
+			} else {
 				void getRoute()
 			}
 		}
@@ -619,7 +623,8 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	return {
 		/**
 		 * The coordinates selected by the user.
-		 * If all coordinate pairs are filled, a route is requested.
+		 * A route is requested through the filled coordinate pairs in order
+		 * when at least two are available. Empty waypoint inputs are ignored.
 		 */
 		route,
 
