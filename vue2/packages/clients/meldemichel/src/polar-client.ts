@@ -19,6 +19,7 @@ import {
   addJenfeldBoundary,
   jenfeldBoundaryId,
 } from './utils/jenfeld/addJenfeldBoundary'
+import { hardwireGeolocation } from './utils/jenfeld/hardwireGeolocation'
 
 // eslint-disable-next-line no-console
 console.log(`POLAR Meldemichel loaded in version ${packageInfo.version}.`)
@@ -117,6 +118,7 @@ export default {
           if (mode === MODE.JENFELD) {
             clipWithJenfeldBoundary(client.$store.getters.map)
             addJenfeldBoundary(client.$store.getters.map)
+            hardwireGeolocation(client)
           }
           hideBorder(client.$store.getters.map)
           setBackgroundImage(containerId)

@@ -11,6 +11,10 @@ import { mockedT } from '@/test/utils/mockI18n'
 import { useFilterStore } from '../store'
 import FilterUI from './FilterUI.ce.vue'
 
+vi.mock('i18next', () => ({
+	t: (keyFn, opts) => mockedT(keyFn, opts),
+}))
+
 /* eslint-disable no-empty-pattern */
 const test = _test.extend<{
 	wrapper: VueWrapper
@@ -18,9 +22,6 @@ const test = _test.extend<{
 	store: ReturnType<typeof useFilterStore>
 }>({
 	wrapper: async ({}, use) => {
-		vi.mock('i18next', () => ({
-			t: (keyFn, opts) => mockedT(keyFn, opts),
-		}))
 		const wrapper = mount(FilterUI, {
 			attachTo: document.body,
 			global: {

@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { PluginContainer } from '@/core'
 import type { ZoomPluginOptions } from './types'
 
 import component from './components/ZoomUI.ce.vue'
@@ -24,7 +24,7 @@ export default function pluginZoom(
 		id: PluginId,
 		component,
 		locales,
-		storeModule: useZoomStore as PolarPluginStore,
+		storeModule: useZoomStore,
 		options,
 	}
 }

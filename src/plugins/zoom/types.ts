@@ -1,4 +1,4 @@
-import type { Icon, PluginOptions } from '@/core'
+import type { Icon, PlaceablePluginOptions } from '@/core'
 
 /**
  * Plugin identifier.
@@ -25,19 +25,12 @@ export interface ZoomIconOptions {
 /**
  * Plugin options for zoom plugin.
  */
-export interface ZoomPluginOptions extends PluginOptions {
+export interface ZoomPluginOptions extends PlaceablePluginOptions {
 	/**
 	 * Override the default icons for the zoom buttons.
 	 * @defaultValue `{ zoomIn: 'kern-icon--zoom-in', zoomOut: 'kern-icon--zoom-out' }`
 	 */
 	icons?: ZoomIconOptions
-
-	/**
-	 * Render type.
-	 *
-	 * @defaultValue `'independent'`
-	 */
-	renderType?: 'independent' | 'iconMenu'
 
 	/**
 	 * Defines if the zoom buttons and slider should be visible on small devices.

@@ -4,12 +4,12 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { ComputedRef } from 'vue'
 import type { ZoomPluginOptions } from './types'
 
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useCoreStore } from '@/core/stores'
 
 import { PluginId } from './types'
@@ -60,15 +60,7 @@ export const useZoomStore = defineStore('plugins/zoom', () => {
 				['TOP_MIDDLE', 'BOTTOM_MIDDLE'].includes(layoutTag.value))
 	)
 
-	const tooltipPosition = computed(() =>
-		renderType.value === 'independent'
-			? layoutTag.value.includes('RIGHT')
-				? 'left'
-				: 'right'
-			: coreStore.getPluginStore('iconMenu')?.layoutTag.includes('RIGHT')
-				? 'left'
-				: 'right'
-	) as ComputedRef<'left' | 'right'>
+	const { spaceDirection: tooltipPosition } = useSpaceDetector(configuration)
 
 	const zoomUiVisible = computed(
 		() => configuration.value.showMobile || !coreStore.hasSmallDisplay

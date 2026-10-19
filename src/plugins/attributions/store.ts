@@ -4,12 +4,14 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { StoreReference } from '@/core'
-import type { Attribution } from './types'
+import type { Ref } from 'vue'
+import type { PlaceablePluginOptions, StoreReference } from '@/core'
+import type { Attribution, AttributionsPluginOptions } from './types'
 
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
+import { useSpaceDetector } from '@/composables/spaceDetector'
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
 import { useCoreStore } from '@/core/stores'
 
@@ -17,6 +19,11 @@ import { buildMapInfo } from './utils/buildMapInfo'
 import { formatAttributionText } from './utils/formatAttributionText'
 import { getVisibleAttributions } from './utils/getVisibleAttributions'
 import { getVisibleLayers } from './utils/getVisibleLayers'
+
+const isPlaceableConfiguration = (
+	configuration: Ref<AttributionsPluginOptions>
+): configuration is Ref<PlaceablePluginOptions> =>
+	configuration.value.renderType !== 'footer'
 
 /* eslint-disable tsdoc/syntax */
 /**
@@ -56,6 +63,11 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 		(configuration.value.staticAttributions || []).map(formatAttributionText)
 	)
 	const windowWidth = computed(() => configuration.value.windowWidth || 500)
+	const { spaceDirection } = isPlaceableConfiguration(configuration)
+		? useSpaceDetector(configuration)
+		: {
+				spaceDirection: ref<'left'>('left'),
+			}
 
 	useStoreWatcher(listenToChanges, updateLayers)
 
@@ -117,6 +129,9 @@ export const useAttributionsStore = defineStore('plugins/attributions', () => {
 
 		/** @internal */
 		renderType,
+
+		/** @internal */
+		spaceDirection,
 
 		/** @internal */
 		windowWidth,

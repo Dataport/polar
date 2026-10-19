@@ -19,7 +19,7 @@
 						})
 					"
 					:icon="icon"
-					tooltip-position="left"
+					:tooltip-position="spaceDirection"
 					@click="() => toggle(plugin.id)"
 				/>
 				<!-- Content is otherwise displayed in MoveHandle of the core. -->
@@ -72,7 +72,7 @@ const coreStore = useCoreStore()
 const { deviceIsHorizontal, hasSmallWidth, hasWindowSize } =
 	storeToRefs(coreStore)
 const iconMenuStore = useIconMenuStore()
-const { open } = storeToRefs(iconMenuStore)
+const { open, spaceDirection } = storeToRefs(iconMenuStore)
 
 const maxWidth = ref('inherit')
 const pluginComponent = useTemplateRef<[Component]>('pluginComponent')

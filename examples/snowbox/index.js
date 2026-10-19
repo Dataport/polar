@@ -7,12 +7,14 @@ import {
 	subscribe,
 	updateState,
 } from '@polar/polar'
+import { isVisible } from '@polar/polar/lib/invisibleStyle'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
 import pluginAttributions from '@polar/polar/plugins/attributions'
 import pluginExport from '@polar/polar/plugins/export'
 import pluginFilter from '@polar/polar/plugins/filter'
 import pluginFullscreen from '@polar/polar/plugins/fullscreen'
 import pluginGeoLocation from '@polar/polar/plugins/geoLocation'
+import pluginGfi from '@polar/polar/plugins/gfi'
 import pluginIconMenu from '@polar/polar/plugins/iconMenu'
 import pluginInitialView from '@polar/polar/plugins/initialView'
 import pluginLayerChooser from '@polar/polar/plugins/layerChooser'
@@ -33,6 +35,7 @@ const basemapGreyId = '23421'
 const ausgleichsflaechen = '1454'
 const reports = '6059'
 const denkmal = 'denkmaelerWMS'
+const kielPolygon = 'kiel_polygon'
 const hamburgBorder = '6074'
 
 let colorScheme = 'light'
@@ -78,15 +81,7 @@ const dataportTheme = {
 
 // arbitrary condition for testing
 const isEvenId = (mmlid) => Number(mmlid.slice(-1)) % 2 === 0
-
-// NOTE: This function is only usable if the layer is clustered
-const isReportSelectable = (feature) =>
-	feature
-		.get('features')
-		.reduce(
-			(accumulator, current) => isEvenId(current.get('mmlid')) || accumulator,
-			false
-		)
+const isReportSelectable = (feature) => isEvenId(feature.get('mmlid'))
 
 const map = await createMap(
 	'snowbox',
@@ -149,6 +144,12 @@ const map = await createMap(
 						legend: true,
 					},
 				},
+			},
+			{
+				id: kielPolygon,
+				type: 'mask',
+				name: 'Kiel Polygone',
+				visibility: true,
 			},
 		],
 		layout: 'nineRegions',
@@ -215,6 +216,18 @@ const map = await createMap(
 							label_off: 'Mach klein',
 						},
 					},
+					gfi: {
+						layer: {
+							[reports]: {
+								property: {
+									addr: 'Adresse',
+									statu: 'Status',
+									beschr: 'Beschr.',
+									kat_text: 'Kat.',
+								},
+							},
+						},
+					},
 					iconMenu: {
 						hints: {
 							attributions: 'LMAO',
@@ -252,6 +265,7 @@ document.getElementById('secondMap').addEventListener('click', async () => {
 		secondMap,
 		pluginFullscreen({
 			layoutTag: 'TOP_RIGHT',
+			displayComponent: true,
 		})
 	)
 	additionalMaps.push(secondMap)
@@ -361,10 +375,10 @@ addPlugin(
 addPlugin(
 	map,
 	pluginReverseGeocoder({
-		// type: 'wps',
-		// url: 'https://geodienste.hamburg.de/HH_WPS',
-		type: 'nominatim',
-		url: 'https://polar.dataport.de/nominatim/reverse',
+		type: 'wps',
+		url: 'https://geodienste.hamburg.de/HH_WPS',
+		// type: 'nominatim',
+		// url: 'https://polar.dataport.de/nominatim/reverse',
 		coordinateSources: [
 			{
 				plugin: 'pins',
@@ -412,6 +426,91 @@ addPlugin(
 				},
 				{
 					plugin: pluginLayerChooser({}),
+				},
+			],
+			[
+				{
+					plugin: pluginGfi({
+						layers: {
+							[reports]: {
+								window: true,
+								geometry: false,
+								title: (feature) =>
+									`Meldung ${feature.properties.str} ${feature.properties.hsnr}`,
+								properties: [
+									'addr',
+									'statu',
+									'beschr',
+									'pic',
+									'kat_text',
+									'skat_text',
+								],
+								exportProperty: 'pic',
+								showTooltip: (feature) => {
+									const olMap = getStore(map, 'core').map
+									const features = feature.get('features') || [feature]
+									const visibleFeatures = features.filter((f) => isVisible(f))
+									if (visibleFeatures.length > 1) {
+										return [
+											['h2', 'Mehrere Anliegen'],
+											[
+												'span',
+												`Klick zum ${olMap.getView().getZoom() !== olMap.getView().getMaxZoom() ? 'Zoomen' : 'Öffnen'}`,
+											],
+										]
+									}
+									const tooltipFeature = visibleFeatures[0]
+									return [
+										[
+											'h2',
+											`${tooltipFeature.get('str')} ${tooltipFeature.get('hsnr')}`,
+										],
+										[
+											'span',
+											`layer.${reports}.category.skat.knownValue.${tooltipFeature.get('skat')}`,
+											{ ns: 'filter' },
+										],
+									]
+								},
+								isSelectable: (feature) => isEvenId(feature.properties.mmlid),
+							},
+							[kielPolygon]: {
+								window: true,
+							},
+						},
+						afterLoadFunction: (featuresByLayerId) => {
+							Object.values(featuresByLayerId).forEach((featureList) => {
+								featureList.forEach((feature) => {
+									if (feature.properties) {
+										feature.properties = {
+											addr: [
+												feature.properties.str,
+												feature.properties.hsnr,
+											].join(' '),
+											...feature.properties,
+										}
+									}
+								})
+							})
+							return featuresByLayerId
+						},
+						featureList: {
+							icon: 'kern-icon--checklist',
+							activeLayers: {
+								plugin: 'layerChooser',
+								key: 'activeMaskIds',
+							},
+							mode: 'visible',
+							bindWithCoreHoverSelect: true,
+							pageLength: 5,
+							text: {
+								title: (feature) =>
+									feature.get('str') + ' ' + feature.get('hsnr'),
+								subtitle: 'Michels Meldung',
+								subSubtitle: (feature) => feature.get('skat_text'),
+							},
+						},
+					}),
 				},
 			],
 			[
@@ -530,6 +629,7 @@ addPlugin(
 		displayComponent: true,
 		layoutTag: 'TOP_LEFT',
 		searchMethods: [
+			// TODO: mpapi currently fails
 			/*
 			{
 				queryParameters: {
@@ -538,8 +638,7 @@ addPlugin(
 				},
 				type: 'mpapi',
 				url: 'https://geodienste.hamburg.de/HH_WFS_GAGES?service=WFS&request=GetFeature&version=2.0.0',
-			},
-			*/
+			}, */
 			{
 				type: 'nominatim',
 				url: 'https://polar.dataport.de/nominatim/search',
@@ -579,6 +678,15 @@ subscribe(
 			JSON.stringify(coordinates))
 )
 
+subscribe(
+	map,
+	'gfi',
+	'listFeatures',
+	(features) =>
+		(document.getElementById('gfi-features').innerText =
+			JSON.stringify(features))
+)
+
 /* simple language switcher attached for demo purposes;
  * language switching is considered a global concern and
  * should be handled by the leading application */
@@ -599,3 +707,7 @@ document
 		colorScheme = colorScheme === 'light' ? 'dark' : 'light'
 		updateState(map, 'core', 'colorScheme', colorScheme)
 	})
+
+document.getElementById('kiel-teleport').addEventListener('click', () => {
+	updateState(map, 'core', 'center', [575609, 6023501])
+})

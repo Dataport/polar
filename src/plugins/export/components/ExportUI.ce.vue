@@ -1,6 +1,7 @@
 <template>
 	<div class="polar-plugin-export">
 		<PolarIconButton
+			v-if="renderType === 'independent'"
 			:hint="
 				singleExport
 					? $t(($) => $.button.tooltip.format, {
@@ -14,13 +15,13 @@
 			"
 			:active="visible"
 			:icon="singleExport ? icon(singleExport) : 'kern-icon-fill--photo-camera'"
-			:tooltip-position="tooltipPosition"
+			:tooltip-position="spaceDirection"
 			@click="singleExport ? exportAs(singleExport) : toggleButtons()"
 		/>
 		<div
-			v-if="visible && !singleExport"
+			v-if="(visible && !singleExport) || renderType === 'iconMenu'"
 			class="polar-plugin-export-formats"
-			:class="`polar-plugin-export-formats-${tooltipPosition}`"
+			:class="`polar-plugin-export-formats-${spaceDirection}`"
 		>
 			<PolarIconButton
 				v-for="format in availableFormats"
@@ -32,7 +33,7 @@
 					})
 				"
 				:icon="icon(format)"
-				:tooltip-position="tooltipPosition"
+				:tooltip-position="spaceDirection"
 				@click="exportAs(format)"
 			/>
 		</div>
@@ -52,15 +53,12 @@ import { PluginId } from '../types'
 
 const exportStore = useExportStore()
 
-const { availableFormats, layoutTag } = storeToRefs(exportStore)
+const { availableFormats, spaceDirection, renderType } =
+	storeToRefs(exportStore)
 const { exportAs } = exportStore
 
 const visible = ref(false)
 const toggleButtons = () => (visible.value = !visible.value)
-
-const tooltipPosition = computed(() =>
-	layoutTag.value?.includes('RIGHT') ? 'left' : 'right'
-)
 
 const singleExport = computed(() =>
 	availableFormats.value.length === 1 ? availableFormats.value[0] : null
@@ -83,6 +81,8 @@ const icon = (format: ExportFormat) => {
 <style scoped>
 .polar-plugin-export {
 	position: relative;
+	/* required for usage in IconMenu to avoid buttons from getting hidden */
+	overflow-y: initial !important;
 
 	.polar-plugin-export-formats {
 		position: absolute;

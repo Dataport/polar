@@ -11,15 +11,7 @@ let colorScheme = 'light'
 
 // arbitrary condition for testing
 const isEvenId = (mmlid) => Number(mmlid.slice(-1)) % 2 === 0
-
-// NOTE: This function is only usable if the layer is clustered
-const isReportSelectable = (feature) =>
-	feature
-		.get('features')
-		.reduce(
-			(accumulator, current) => isEvenId(current.get('mmlid')) || accumulator,
-			false
-		)
+const isReportSelectable = (feature) => isEvenId(feature.get('mmlid'))
 
 const map = await createMap(
 	'polarstern',

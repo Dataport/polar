@@ -1,4 +1,4 @@
-import { alkisWms, basemapGrau } from '../servicesConstants'
+import { alkisWms, basemapGrau, basemapFarbe } from '../servicesConstants'
 
 export const denkmalAmtLink =
   '<a href="https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LD/ld_node.html" target="_blank">Landesamt für Denkmalpflege</a>'
@@ -10,6 +10,12 @@ export const attributionsBasemapGrau = {
   id: basemapGrau,
   title:
     'Karte Basemap.de (Graustufen): <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <YEAR> CC BY 4.0',
+}
+
+export const attributionsBasemapFarbe = {
+  id: basemapFarbe,
+  title:
+    'Karte Basemap.de (Farbe): <a href="https://basemap.de/" target="_blank">basemap.de / BKG</a> <YEAR> CC BY 4.0',
 }
 
 export const attributionsAlkisWms = {

@@ -20,6 +20,7 @@ export const resourcesDe = {
 	hints: {
 		attributions: 'Quellennachweis',
 		draw: 'Zeichenwerkzeuge',
+		export: 'Export',
 		filter: 'Filter',
 		layerChooser: 'Kartenauswahl',
 		gfi: 'Objektliste',
@@ -38,6 +39,7 @@ export const resourcesEn = {
 	hints: {
 		attributions: 'Attributions',
 		draw: 'Draw tools',
+		export: 'Export',
 		filter: 'Filter',
 		layerChooser: 'Choose map',
 		gfi: 'Feature list',

@@ -107,18 +107,13 @@ function formatDistance(distance: number) {
 	return `${formatter.format(distance)} m`
 }
 function formatDuration(duration: number) {
-	if (duration >= 3600) {
-		return `${new Intl.NumberFormat(coreStore.language, {
-			minimumFractionDigits: 2,
-			maximumFractionDigits: 2,
-		}).format(duration / 3600)} h`
-	} else if (duration >= 60) {
-		return `${new Intl.NumberFormat(coreStore.language, {
-			minimumFractionDigits: 1,
-			maximumFractionDigits: 1,
-		}).format(duration / 60)} min`
-	}
-	return `${duration} sec`
+	const totalMinutes = Math.ceil(duration / 60)
+	return new Intl.DurationFormat(coreStore.language, {
+		style: 'narrow',
+	}).format({
+		hours: Math.floor(totalMinutes / 60),
+		minutes: totalMinutes % 60,
+	})
 }
 </script>
 
@@ -195,7 +190,7 @@ section {
 				.kern-badge {
 					box-sizing: content-box;
 					justify-content: center;
-					width: var(--kern-metric-dimension-5x-large);
+					width: calc(4 * var(--kern-metric-dimension-large));
 					border: var(--kern-metric-border-width-light) solid
 						var(--kern-color-decorative-border-contextual);
 				}

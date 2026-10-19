@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { PluginContainer } from '@/core'
 import type { PointerPositionPluginOptions } from './types'
 
 import component from './components/PointerPosition.ce.vue'
@@ -27,7 +27,7 @@ export default function pluginPointerPosition(
 		component,
 		locales,
 		options,
-		storeModule: usePointerPositionStore as PolarPluginStore,
+		storeModule: usePointerPositionStore,
 	}
 }
 

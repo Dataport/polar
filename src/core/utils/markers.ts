@@ -139,9 +139,6 @@ function variantKey(count: number, displayFeatureCount: boolean) {
 /**
  * The map became a little laggy due to constant re-generation of styles.
  * This memoization function optimises this issue by reusing styles.
- * Styles are cached per (referentially stable) style object and a variant that
- * captures whether it is a single feature, a generic cluster, or a cluster
- * showing a specific count.
  */
 const memoizeStyle = (getMarker: GetMarkerFunction): GetMarkerFunction => {
 	const cache = new Map<MarkerStyle, Map<string, Style>>()

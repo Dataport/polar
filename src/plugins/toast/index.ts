@@ -4,7 +4,7 @@
  */
 /* eslint-enable tsdoc/syntax */
 
-import type { PluginContainer, PolarPluginStore } from '@/core'
+import type { PluginContainer } from '@/core'
 import type { ToastPluginOptions } from './types'
 
 import component from './components/ToastContainer.ce.vue'
@@ -28,7 +28,7 @@ export default function pluginToast(
 		id: PluginId,
 		component,
 		locales,
-		storeModule: useToastStore as PolarPluginStore,
+		storeModule: useToastStore,
 		options,
 	}
 }

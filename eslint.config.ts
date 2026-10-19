@@ -3,25 +3,26 @@ import browserConfig from '@dataport/eslint-config-geodev/browser'
 import htmlConfig from '@dataport/eslint-config-geodev/html'
 import jsonConfig from '@dataport/eslint-config-geodev/json'
 import markdownConfig from '@dataport/eslint-config-geodev/markdown'
+import plugins from '@dataport/eslint-config-geodev/plugins'
 import tsConfig from '@dataport/eslint-config-geodev/typescript'
 import vueConfig from '@dataport/eslint-config-geodev/vue'
-import importPlugin from 'eslint-plugin-import'
-import perfectionist from 'eslint-plugin-perfectionist'
+import importX from 'eslint-plugin-import-x'
 import prettierConfig from 'eslint-plugin-prettier/recommended'
-import vue from 'eslint-plugin-vue'
 import { defineConfig } from 'eslint/config'
 
 import local from './eslintRules/index.js'
+
+const { perfectionist, vue } = plugins
 
 /**
  * POLAR-specific ESLint configuration
  */
 const polarConfig = defineConfig({
 	plugins: {
-		import: importPlugin,
 		perfectionist,
 		vue,
 		local,
+		'import-x': importX,
 	},
 	rules: {
 		'prettier/prettier': 'error',
@@ -47,7 +48,7 @@ const polarConfig = defineConfig({
 			},
 		],
 		'import-x/order': 'off',
-		'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+		'import-x/consistent-type-specifier-style': ['error', 'prefer-top-level'],
 		'perfectionist/sort-imports': [
 			'error',
 			{
@@ -161,6 +162,10 @@ const polarHtmlConfig = defineConfig({
 		// POLAR-specific rules
 		'@html-eslint/require-closing-tags': ['error', { selfClosing: 'always' }],
 		'@html-eslint/no-extra-spacing-attrs': [
+			'error',
+			{ enforceBeforeSelfClose: true },
+		],
+		'@html-eslint/no-extra-spacing-tags': [
 			'error',
 			{ enforceBeforeSelfClose: true },
 		],

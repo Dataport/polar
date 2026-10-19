@@ -1,46 +1,88 @@
 <template>
 	<div class="kern-light">
-		<!-- Shared background zone: header + hero sit on top of the SVG -->
-		<div class="lp-hero-zone">
-			<div class="lp-hero-decorations" aria-hidden="true">
-				<img
-					src="./components/assets/polar-header-bear.svg"
-					class="lp-hero-bear"
-					alt=""
-				/>
-				<img
-					src="./components/assets/polar-header-star.svg"
-					class="lp-hero-star"
-					alt=""
-				/>
+		<main>
+			<!-- Shared background zone: header + hero sit on top of the SVG -->
+			<div class="lp-hero-zone">
+				<div class="lp-hero-decorations" aria-hidden="true">
+					<img
+						src="./components/assets/polar-header-bear.svg"
+						class="lp-hero-bear"
+						alt=""
+					/>
+					<img
+						src="./components/assets/polar-header-star.svg"
+						class="lp-hero-star"
+						alt=""
+					/>
+				</div>
+				<Header />
+				<HeroSection />
 			</div>
-			<TheHeader />
-			<HeroSection />
-		</div>
-		<FeaturesSection />
-		<UxSection />
-		<DevExSection />
-		<UsedBySection />
-		<RoadmapSection />
-		<CtaSection />
-		<VideoSection />
-		<TheFooter />
+			<AnnouncementSection />
+			<FeaturesSection />
+			<UxSection />
+			<DevExSection />
+			<Suspense>
+				<template #default>
+					<UsedBySection />
+				</template>
+				<template #fallback>
+					<div class="lp-deferred-section lp-deferred-section--used-by" />
+				</template>
+			</Suspense>
+			<Suspense>
+				<template #default>
+					<RoadmapSection />
+				</template>
+				<template #fallback>
+					<div class="lp-deferred-section lp-deferred-section--roadmap" />
+				</template>
+			</Suspense>
+			<Suspense>
+				<template #default>
+					<GetStartedSection />
+				</template>
+				<template #fallback>
+					<div class="lp-deferred-section lp-deferred-section--get-started" />
+				</template>
+			</Suspense>
+			<Suspense>
+				<template #default>
+					<VideoSection />
+				</template>
+				<template #fallback>
+					<div class="lp-deferred-section lp-deferred-section--video" />
+				</template>
+			</Suspense>
+		</main>
+		<Footer />
 	</div>
 </template>
 
 <script setup lang="ts">
 import kernExtraIcons from 'virtual:kern-extra-icons'
+import { defineAsyncComponent } from 'vue'
 
-import CtaSection from './components/CtaSection.vue'
+import AnnouncementSection from './components/AnnouncementSection.vue'
 import DevExSection from './components/DevExSection.vue'
 import FeaturesSection from './components/FeaturesSection.vue'
+import Footer from './components/Footer.vue'
+import Header from './components/Header.vue'
 import HeroSection from './components/HeroSection.vue'
-import RoadmapSection from './components/RoadmapSection.vue'
-import TheFooter from './components/TheFooter.vue'
-import TheHeader from './components/TheHeader.vue'
-import UsedBySection from './components/UsedBySection.vue'
 import UxSection from './components/UxSection.vue'
-import VideoSection from './components/VideoSection.vue'
+
+const GetStartedSection = defineAsyncComponent(
+	() => import('./components/GetStartedSection.vue')
+)
+const RoadmapSection = defineAsyncComponent(
+	() => import('./components/RoadmapSection.vue')
+)
+const UsedBySection = defineAsyncComponent(
+	() => import('./components/UsedBySection.vue')
+)
+const VideoSection = defineAsyncComponent(
+	() => import('./components/VideoSection.vue')
+)
 
 document.adoptedStyleSheets.push(kernExtraIcons)
 if (import.meta.hot) {
@@ -154,5 +196,25 @@ h3 {
 	p {
 		margin: 0;
 	}
+}
+
+.lp-deferred-section {
+	min-height: 12rem;
+}
+
+.lp-deferred-section--used-by {
+	min-height: 20rem;
+}
+
+.lp-deferred-section--roadmap {
+	min-height: 50rem;
+}
+
+.lp-deferred-section--get-started {
+	min-height: 18rem;
+}
+
+.lp-deferred-section--video {
+	min-height: 24rem;
 }
 </style>
