@@ -1,4 +1,4 @@
-import type PolarContainer from '../../components/PolarContainer.ce.vue'
+import type { PolarMapInstance } from '../../components/polarMapInstance'
 import type { PluginContainer } from '../../types'
 
 /**
@@ -7,10 +7,7 @@ import type { PluginContainer } from '../../types'
  * @param map - Map to add the plugin to.
  * @param plugins - Plugins to be added.
  */
-export function addPlugins(
-	map: typeof PolarContainer,
-	plugins: PluginContainer[]
-) {
+export function addPlugins(map: PolarMapInstance, plugins: PluginContainer[]) {
 	plugins.forEach((plugin) => {
 		addPlugin(map, plugin)
 	})
@@ -49,7 +46,7 @@ export function addPlugins(
  * @param map - Map to add the plugin to.
  * @param plugin - Plugin to be added.
  */
-export function addPlugin(map: typeof PolarContainer, plugin: PluginContainer) {
+export function addPlugin(map: PolarMapInstance, plugin: PluginContainer) {
 	map.store.addPlugin(plugin)
 }
 
@@ -59,6 +56,6 @@ export function addPlugin(map: typeof PolarContainer, plugin: PluginContainer) {
  * @param map - Map to remove the plugin from.
  * @param pluginId - ID of the plugin to be removed.
  */
-export function removePlugin(map: typeof PolarContainer, pluginId: string) {
+export function removePlugin(map: PolarMapInstance, pluginId: string) {
 	map.store.removePlugin(pluginId)
 }
