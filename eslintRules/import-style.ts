@@ -70,7 +70,7 @@ function resolveToSrcRel(
  *
  * Files outside `srcDir` (default `"src"`) are ignored.
  *
- * @example rule options  { srcDir: "src" }
+ * @example rule options  \{ srcDir: "src" \}
  */
 const importStyle: Rule.RuleModule = {
 	meta: {
