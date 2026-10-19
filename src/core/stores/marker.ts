@@ -9,6 +9,7 @@ import type {
 	MarkerStyle,
 	PluginId,
 } from '../types'
+import type { GetMarkerFunction } from '../types'
 
 import { toMerged } from 'es-toolkit'
 import { unByKey } from 'ol/Observable'
@@ -19,10 +20,11 @@ import { isVisible } from '@/lib/invisibleStyle'
 
 import { useClusterMarker } from '../composables/useClusterMarker'
 import { resolveClusterClick } from '../utils/map/resolveClusterClick'
-import { getMarkerStyle } from '../utils/markers'
+import { createGetMarkerStyle } from '../utils/markers'
 import { useMainStore } from './main'
 import { usePluginStore } from './plugin'
 
+let getMarkerStyle: GetMarkerFunction = createGetMarkerStyle(() => {})
 // these have been measured to fit once and influence marker size
 const imgSize: [number, number] = [26, 36]
 const imgSizeMulti: [number, number] = [40, 36]
@@ -101,7 +103,8 @@ export const useMarkerStore = defineStore('marker', () => {
 						? layerConfiguration.hoverStyle
 						: layerConfiguration.defaultStyle
 				: layerConfiguration.unselectableStyle,
-			feature.get('features')?.length > 1
+			feature.get('features')?.length,
+			displayFeatureCount.value
 		)
 	}
 
@@ -184,7 +187,6 @@ export const useMarkerStore = defineStore('marker', () => {
 				}
 			: configuration.value.callOnMapSelect
 	)
-
 
 	let lastClickEvent: PointerEvent | KeyboardEvent | WheelEvent | null = null
 
