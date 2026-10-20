@@ -24,10 +24,13 @@ import { createGetMarkerStyle } from '../utils/markers/markers'
 import { useMainStore } from './main'
 import { usePluginStore } from './plugin'
 
-let getMarkerStyle: GetMarkerFunction = createGetMarkerStyle(() => {})
-// these have been measured to fit once and influence marker size
-const imgSize: [number, number] = [26, 36]
-const imgSizeMulti: [number, number] = [40, 36]
+const getMarkerStyle: GetMarkerFunction = createGetMarkerStyle(() => {})
+
+/**  these have been measured to fit once and influence marker size
+ *  [40, 36] is the smallest size that worked well, so we kept it and scaled it up
+ */
+const imgSize: [number, number] = [40 * 2, 36 * 2]
+const imgSizeMulti: [number, number] = [40 * 2, 36 * 2]
 
 const defaultStroke = '#FFFFFF'
 const defaultStrokeWidth = '2'
