@@ -26,8 +26,7 @@ export function createMapElement(
 	mapConfiguration: MapConfiguration,
 	serviceRegister: MasterportalApiServiceRegister
 ) {
-	// @ts-expect-error | We trust that the element is registered
-	const map = document.createElement('polar-map') as typeof PolarContainer
+	const map = document.createElement('polar-map')
 	map.mapConfiguration = mapConfiguration
 	map.serviceRegister = serviceRegister
 	return map
@@ -78,7 +77,9 @@ export async function createMap(
 		throw new Error(`Container with ID '${containerId}' not found`)
 	}
 	map.id = container.id
-	container.classList.forEach((c) => map.classList.add(c))
+	container.classList.forEach((c) => {
+		map.classList.add(c)
+	})
 	container.replaceWith(map)
 	return map
 }

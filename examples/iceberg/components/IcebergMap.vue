@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PolarContainer } from '@polar/polar'
+import type { PolarMapInstance } from '@polar/polar'
 
 import { addPlugins, getStore, removePlugin, subscribe } from '@polar/polar'
 import pluginAddressSearch from '@polar/polar/plugins/addressSearch'
@@ -66,7 +66,7 @@ const store = useIcebergStore()
 const language = ref('de')
 const splitScreen = ref(false)
 
-const map = useTemplateRef<typeof PolarContainer>('map')
+const map = useTemplateRef<PolarMapInstance>('map')
 watch(map, (map) => {
 	if (!map) {
 		return
