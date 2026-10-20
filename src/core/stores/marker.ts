@@ -20,7 +20,7 @@ import { isVisible } from '@/lib/invisibleStyle'
 
 import { useClusterMarker } from '../composables/useClusterMarker'
 import { resolveClusterClick } from '../utils/map/resolveClusterClick'
-import { createGetMarkerStyle } from '../utils/markers'
+import { createGetMarkerStyle } from '../utils/markers/markers'
 import { useMainStore } from './main'
 import { usePluginStore } from './plugin'
 

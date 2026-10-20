@@ -1,10 +1,14 @@
-import type { GetMarkerFunction, MarkerStyle, MarkerSVGConfig } from '../types'
+import type {
+	GetMarkerFunction,
+	MarkerStyle,
+	MarkerSVGConfig,
+} from '../../types'
 
 import PolygonStyle from '@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon'
 import Icon from 'ol/style/Icon'
 import Style from 'ol/style/Style'
 
-import { circlePin, getSVGConfig } from './markerSVG'
+import { getSVGConfig } from './markerSVG'
 
 const polygonStyle = new PolygonStyle()
 const prefix = 'data:image/svg+xml;base64,'
@@ -23,7 +27,10 @@ const getImagePattern = (fill: MarkerStyle['fill']) =>
     </pattern>
   </defs>`
 
-const makeMarker = ({ fill, size, stroke }: MarkerStyle) =>
+const makeMarker = (
+	{ fill, size, stroke }: MarkerStyle,
+	circlePin: MarkerSVGConfig
+) =>
 	`${prefix}${encodeSVG(`
 <svg fill="none" width="${size[0]}" height="${size[1]}" viewBox="${circlePin.viewBox}" xmlns="http://www.w3.org/2000/svg">
   <title>DB6C494E-88E8-49F1-89CE-97CBEC3A5240</title>
@@ -206,7 +213,7 @@ function buildStyle(
 					displayFeatureCount,
 					getSVGConfig(count, displayFeatureCount)
 				)
-			: makeMarker(style)
+			: makeMarker(style, getSVGConfig(count, displayFeatureCount))
 	return new Style({
 		image: buildCanvasIcon(requestRender, src, width, height),
 	})
