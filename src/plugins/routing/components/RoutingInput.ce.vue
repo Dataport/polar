@@ -116,17 +116,7 @@ const routeInputValue = computed({
 			return typedValue
 		}
 
-		const addressText = routeInput.value[props.index]
-		if (addressText && addressText.length > 0) {
-			return addressText
-		}
-
-		const coordinate = route.value[props.index]
-		if (!showSearchResultList.value && Array.isArray(coordinate)) {
-			return coordinate.length ? coordinate.join(',') : ''
-		}
-
-		return ''
+		return routeInput.value[props.index] ?? ''
 	},
 	set: (value: string) => {
 		routeStore.setRouteInputValue(props.index, value)
