@@ -7,7 +7,10 @@ export type GetMarkerFunction = (
 	count: number,
 	displayFeatureCount: boolean
 ) => Style
-export type GetSVGConfigFunction = (digits: string) => MarkerSVGConfig
+export type GetSVGConfigFunction = (
+	digits: number,
+	displayFeatureCount: boolean
+) => MarkerSVGConfig
 export type GetTextPositionFunction = (path: string) => TextPosition
 export type PinShape = 'circle' | 'pill'
 export interface TextPosition {

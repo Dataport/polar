@@ -205,7 +205,7 @@ function buildStyle(
 						clusterCount: count,
 					},
 					displayFeatureCount,
-					getSVGConfig(String(count))
+					getSVGConfig(count, displayFeatureCount)
 				)
 			: makeMarker(style)
 	return new Style({

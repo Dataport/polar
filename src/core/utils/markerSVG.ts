@@ -16,8 +16,19 @@ import type {
  * @param digits - expects a number to decide which config should be used
  * @returns - the correct svgConfig for the marker.
  */
-export const getSVGConfig: GetSVGConfigFunction = (digits: string) => {
-	switch (digits.length) {
+export const getSVGConfig: GetSVGConfigFunction = (
+	digits: number,
+	displayFeatureCount: boolean
+) => {
+	let pinChoice: number
+
+	if (displayFeatureCount) {
+		pinChoice = digits < 2 ? 0 : String(digits).length
+	} else {
+		pinChoice = digits < 2 ? 0 : 1
+	}
+
+	switch (pinChoice) {
 		case 0:
 			return circlePin
 		case 1:
