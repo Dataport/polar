@@ -46,8 +46,8 @@ const makeMultiMarker = (
 	{ fill, clusterSize, stroke, clusterCount }: MarkerStyle,
 	displayFeatureCount: boolean,
 	svgConfig: MarkerSVGConfig
-) => {
-	return svgConfig.pinShape === 'circle'
+) =>
+	svgConfig.pinShape === 'circle'
 		? `${prefix}${encodeSVG(`
 <svg width="${clusterSize[0]}" height="${clusterSize[1]}"
 	viewBox="${svgConfig.viewBox}" xmlns="http://www.w3.org/2000/svg">
@@ -124,7 +124,6 @@ const makeMultiMarker = (
   ${svgConfig.defs}
 </svg>
 `)}`
-}
 
 // center bottom of marker 📍 is intended to show the spot
 const anchor = [0.5, 1]
