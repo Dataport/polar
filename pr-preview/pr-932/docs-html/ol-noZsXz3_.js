@@ -1,0 +1,1 @@
+import{_n as e}from"./stores-C-YT9_yb.js";import"./store-Gw4DtMft.js";export{e as Collection};
