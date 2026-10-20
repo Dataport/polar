@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/composables/useStoreWatcher
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { ComputedRef, WatchOptions, WatchStopHandle } from 'vue'
 import type { StoreReference } from '@/core/types'

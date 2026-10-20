@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/attributions/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Ref } from 'vue'
 import type { PlaceablePluginOptions, StoreReference } from '@/core'
@@ -25,13 +23,12 @@ const isPlaceableConfiguration = (
 ): configuration is Ref<PlaceablePluginOptions> =>
 	configuration.value.renderType !== 'footer'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for the attributions.
  */
-/* eslint-enable tsdoc/syntax */
+
 export const useAttributionsStore = defineStore('plugins/attributions', () => {
 	const coreStore = useCoreStore()
 

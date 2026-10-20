@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/zoom
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer } from '@/core'
 import type { ZoomPluginOptions } from './types'

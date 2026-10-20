@@ -1,13 +1,11 @@
 import type { Locale } from '@/core'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the iconMenu plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/iconMenu
  */
-/* eslint-enable tsdoc/syntax */
 
 /**
  * German locales for iconMenu plugin.

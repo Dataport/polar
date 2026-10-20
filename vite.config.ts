@@ -53,6 +53,31 @@ function collectLibEntries() {
 
 const libEntries = collectLibEntries()
 
+/**
+ * Removes `@docHidden` TSDoc tags from emitted declaration files.
+ */
+function stripDocHidden(content: string) {
+	if (!content.includes('@docHidden')) {
+		return content
+	}
+	const result: string[] = []
+	for (const line of content.split('\n')) {
+		// Standalone comment (`/** @docHidden */`): drop the whole comment
+		if (/^\s*\/\*\*\s*@docHidden\s*\*\/\s*$/.test(line)) {
+			continue
+		}
+		// Tag within a block: drop the tag line and the preceding blank line
+		if (/^\s*\*\s*@docHidden\s*$/.test(line)) {
+			if (result.length && /^\s*\*\s*$/.test(result[result.length - 1])) {
+				result.pop()
+			}
+			continue
+		}
+		result.push(line)
+	}
+	return result.join('\n')
+}
+
 export default defineConfig(({ mode }) => ({
 	plugins: [
 		// @ts-expect-error | commonJs dts is broken
@@ -69,6 +94,9 @@ export default defineConfig(({ mode }) => ({
 			bundleTypes: true,
 			processor: 'vue',
 			tsconfigPath: './src/tsconfig.json',
+			beforeWriteFile: (_, content) => ({
+				content: stripDocHidden(content),
+			}),
 		}),
 		...(mode === 'development'
 			? [
