@@ -87,6 +87,11 @@ export interface MarkerStyle {
 }
 
 /**
+ * The SVG shadow paths for the stacked marker layers.
+ */
+type SvgShadowPath = string
+
+/**
  * The MarkerSVGConfig contains the SVG-informations needed to create the svg for the marker.
  */
 export interface MarkerSVGConfig {
@@ -121,11 +126,8 @@ export interface MarkerSVGConfig {
 	/** The outer shape of the marker. */
 	shapePath: string
 
-	/**
-	 * The SVG shadow paths for the stacked marker layers.
-	 */
-	stackedShadow1: string
-	stackedShadow2: string
+	stackedShadow1: SvgShadowPath
+	stackedShadow2: SvgShadowPath
 
 	/**
 	 * The SVG paths for the stacked shape of the marker.
