@@ -13,7 +13,7 @@
 <h1>Interface MarkerStyle</h1></div>
 <div class="tsd-signature"><span class="tsd-signature-keyword">interface</span> <span class="tsd-kind-interface">MarkerStyle</span> <span class="tsd-signature-symbol">{</span><br/>    <a class="tsd-kind-property" href="#clustersize">clusterSize</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#fill">fill</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span> <span class="tsd-signature-symbol">|</span> <a href="_polar_polar.PolygonFillHatch.html" class="tsd-signature-type tsd-kind-interface">PolygonFillHatch</a><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#size">size</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#stroke">stroke</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#strokewidth">strokeWidth</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#clustercount">clusterCount</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/1256352f3e20513a5f4612da53bbacfa05b6bf6b/src/core/types/marker.ts#L48">src/core/types/marker.ts:48</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/448f2ff84ab69f6b449ac968043c4add86ed162d/src/core/types/marker.ts#L48">src/core/types/marker.ts:48</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -34,21 +34,22 @@
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="clustersize"><span>cluster<wbr/>Size</span><a href="#clustersize" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">clusterSize</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
-<div class="tsd-comment tsd-typography"><p><code>width</code> and <code>height</code> of the <code>&lt;svg&gt;</code>-cluster-marker.</p>
+<div class="tsd-comment tsd-typography"><p><code>width</code> and <code>height</code> of the <code>&lt;svg&gt;</code>-cluster-marker.
+These are the smallest values that worked well, so we kept them and scaled them up.</p>
 </div>
 <div class="tsd-comment tsd-typography">
 <div class="tsd-tag-defaultValue">
 <h4 class="tsd-anchor-link" id="default-value">Default Value<a href="#default-value" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p><code>[40 * 2, 36 * 2]</code></p>
 </div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/1256352f3e20513a5f4612da53bbacfa05b6bf6b/src/core/types/marker.ts#L54">src/core/types/marker.ts:54</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/448f2ff84ab69f6b449ac968043c4add86ed162d/src/core/types/marker.ts#L54">src/core/types/marker.ts:54</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="fill"><span>fill</span><a href="#fill" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">fill</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span> <span class="tsd-signature-symbol">|</span> <a href="_polar_polar.PolygonFillHatch.html" class="tsd-signature-type tsd-kind-interface">PolygonFillHatch</a></div>
 <div class="tsd-comment tsd-typography"><p>Fill color (or hatch pattern) for map marker.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/1256352f3e20513a5f4612da53bbacfa05b6bf6b/src/core/types/marker.ts#L59">src/core/types/marker.ts:59</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/448f2ff84ab69f6b449ac968043c4add86ed162d/src/core/types/marker.ts#L59">src/core/types/marker.ts:59</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="size"><span>size</span><a href="#size" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">size</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
@@ -59,7 +60,7 @@
 <h4 class="tsd-anchor-link" id="default-value-1">Default Value<a href="#default-value-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p><code>[40 * 2, 36 * 2]</code></p>
 </div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/1256352f3e20513a5f4612da53bbacfa05b6bf6b/src/core/types/marker.ts#L66">src/core/types/marker.ts:66</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/448f2ff84ab69f6b449ac968043c4add86ed162d/src/core/types/marker.ts#L66">src/core/types/marker.ts:66</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="stroke"><span>stroke</span><a href="#stroke" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">stroke</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
@@ -70,7 +71,7 @@
 <h4 class="tsd-anchor-link" id="default-value-2">Default Value<a href="#default-value-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p><code>'#FFFFFF'</code></p>
 </div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/1256352f3e20513a5f4612da53bbacfa05b6bf6b/src/core/types/marker.ts#L73">src/core/types/marker.ts:73</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/448f2ff84ab69f6b449ac968043c4add86ed162d/src/core/types/marker.ts#L73">src/core/types/marker.ts:73</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="strokewidth"><span>stroke<wbr/>Width</span><a href="#strokewidth" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">strokeWidth</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">number</span></div>
@@ -81,14 +82,14 @@
 <h4 class="tsd-anchor-link" id="default-value-3">Default Value<a href="#default-value-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p><code>'2'</code></p>
 </div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/1256352f3e20513a5f4612da53bbacfa05b6bf6b/src/core/types/marker.ts#L80">src/core/types/marker.ts:80</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/448f2ff84ab69f6b449ac968043c4add86ed162d/src/core/types/marker.ts#L80">src/core/types/marker.ts:80</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="clustercount"><code class="tsd-tag">Optional</code><span>cluster<wbr/>Count</span><a href="#clustercount" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">clusterCount</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div>
 <div class="tsd-comment tsd-typography"><p>Text to display on the marker.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/1256352f3e20513a5f4612da53bbacfa05b6bf6b/src/core/types/marker.ts#L86">src/core/types/marker.ts:86</a></li></ul></aside></section></section></details></div>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/448f2ff84ab69f6b449ac968043c4add86ed162d/src/core/types/marker.ts#L86">src/core/types/marker.ts:86</a></li></ul></aside></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
