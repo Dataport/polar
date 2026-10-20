@@ -48,7 +48,7 @@ export interface PolygonFillHatch {
 export interface MarkerStyle {
 	/**
 	 * `width` and `height` of the `<svg>`-cluster-marker.
-	 *
+	 * These are the smallest values that worked well, so we kept them and scaled them up.
 	 * @defaultValue `[40 * 2, 36 * 2]`
 	 */
 	clusterSize: [number, number]
