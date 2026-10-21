@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/addressSearch/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PolarGeoJsonFeature, SearchResult } from '@/core'
 import type {
@@ -24,13 +22,12 @@ import { PluginId } from './types'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import { getMethodContainer } from './utils/methodContainer'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for the address search.
  */
-/* eslint-enable tsdoc/syntax */
+
 export const useAddressSearchStore = defineStore(
 	'plugins/addressSearch',
 	() => {

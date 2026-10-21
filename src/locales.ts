@@ -1,11 +1,9 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys for POLAR shared components.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/shared
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Locale } from '@/core/types'
 

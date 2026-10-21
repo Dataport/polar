@@ -1,11 +1,9 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the fullscreen plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/fullscreen
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Locale } from '@/core'
 

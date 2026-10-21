@@ -1,4 +1,3 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the main export for the NPM package \@polar/polar.
  *
@@ -7,7 +6,6 @@
  * @packageDocumentation
  * @module \@polar/polar
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PolarMapInstance } from './components/polarMapInstance'
 
@@ -59,6 +57,7 @@ export { fetchServiceRegister } from './utils/fetchServiceRegister'
 export * from './utils/export/createMap'
 export * from './utils/export/plugin'
 export * from './utils/export/store'
+export { NineLayoutTag } from './utils/NineLayoutTag'
 
 export type * from './types'
 export type { PolarMapInstance }
