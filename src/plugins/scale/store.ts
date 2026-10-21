@@ -71,16 +71,11 @@ export const useScaleStore = defineStore('plugins/scale', () => {
 			zoomOptions.value.length > 0
 	)
 
-	function updateScale(): void {
+	function updateScale() {
 		const unit = coreStore.map.getView().getProjection().getUnits()
 		const resolution: number = coreStore.map.getView().getResolution() as number
-		const scale: number = calculateScaleFromResolution(
-			unit,
-			resolution,
-			dpi.value
-		)
 
-		scaleValue.value = scale
+		scaleValue.value = calculateScaleFromResolution(unit, resolution, dpi.value)
 	}
 
 	coreStore.map.on('moveend', updateScale)
