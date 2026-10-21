@@ -2,8 +2,8 @@ import * as td from 'typedoc'
 
 const targetAudiences = {
 	core: [],
-	plugin: ['internal'],
-	client: ['internal', 'alpha'],
+	plugin: ['internal', 'docHidden'],
+	client: ['internal', 'docHidden', 'alpha'],
 } as Record<string, string[]>
 
 export function load(app: td.Application) {

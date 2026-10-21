@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/routing/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
@@ -30,13 +28,12 @@ import { useRouteLayer } from './composables/useRouteLayer'
 import { PluginId } from './types'
 import { handleErrors } from './utils/handleErrors'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for routing.
  */
-/* eslint-enable tsdoc/syntax */
+
 export const useRoutingStore = defineStore('plugins/routing', () => {
 	const coreStore = useCoreStore()
 

@@ -1,13 +1,11 @@
 import type { Locale } from '@/core'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the footer plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/footer
  */
-/* eslint-enable tsdoc/syntax */
 
 /**
  * German locales for footer plugin.

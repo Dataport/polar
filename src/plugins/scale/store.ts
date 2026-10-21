@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/scale/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
@@ -16,13 +14,12 @@ import { PluginId } from './types'
 import { beautifyScale } from './utils/beautifyScale'
 import { calculateScaleFromResolution } from './utils/calculateScaleFromResolution'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for the scale.
  */
-/* eslint-enable tsdoc/syntax */
+
 export const useScaleStore = defineStore('plugins/scale', () => {
 	const coreStore = useCoreStore()
 	const { dpi } = useDpi()

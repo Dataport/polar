@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module locales/plugins/InitialView
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Locale } from '@/core'
 
