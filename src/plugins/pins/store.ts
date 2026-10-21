@@ -213,6 +213,18 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		 */
 		latLon,
 
+		/**
+		 * Adds configured initial pin to the map.
+		 *
+		 * @remarks
+		 * This is internally called by `setupPlugin` but may be called again if a
+		 * client is reinstantiated.
+		 *
+		 * @privateRemarks
+		 * May be removed again once disposal works fully.
+		 */
+		setupInitial,
+
 		/** @internal */
 		setupPlugin,
 
