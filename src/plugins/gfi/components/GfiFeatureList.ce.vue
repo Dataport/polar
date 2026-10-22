@@ -122,6 +122,10 @@ header {
 		& > .kern-body {
 			padding: 0;
 		}
+
+		& > .kern-body--small {
+			text-wrap: wrap;
+		}
 	}
 }
 </style>
