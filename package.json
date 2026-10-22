@@ -1,6 +1,6 @@
 {
 	"name": "@polar/polar",
-	"version": "3.0.0-alpha.6",
+	"version": "3.0.0-alpha.7",
 	"description": "Configurable map client based on OpenLayers",
 	"keywords": [
 		"OpenLayers",
@@ -12,8 +12,8 @@
 	"type": "module",
 	"author": "Dataport AöR <polar@dataport.de>",
 	"engines": {
-		"node": "^24.15.0",
-		"npm": "^11.12.1"
+		"node": "^24.22.1",
+		"npm": "^11.19.1"
 	},
 	"exports": {
 		".": {
