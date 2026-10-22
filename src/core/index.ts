@@ -57,7 +57,6 @@ export { fetchServiceRegister } from './utils/fetchServiceRegister'
 export * from './utils/export/createMap'
 export * from './utils/export/plugin'
 export * from './utils/export/store'
-export { NineLayoutTag } from './utils/NineLayoutTag'
 
 export type * from './types'
 export type { PolarMapInstance }
