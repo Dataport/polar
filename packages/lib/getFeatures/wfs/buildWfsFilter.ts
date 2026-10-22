@@ -1,14 +1,61 @@
 import merge from 'lodash.merge'
-import { KeyValueSetArray, WfsParameters } from '../types'
+import { KeyValueSetArray, WfsParameters, WFSVersion } from '../types'
 
 const removeLinebreaks = (s) => s.replace(/\r?\n|\r/g, '')
 
-const getFeaturePrefix = ({ maxFeatures }: WfsParameters) =>
-  `
+interface VersionParameters {
+  version: WFSVersion
+  wfsNamespace: string
+  filterPrefix: string
+  filterNamespace: string
+  schemaLocation: string
+  typeNameAttribute: string
+  maxFeaturesAttribute: string
+  propertyNameElement: string
+}
+
+const defaultVersion: WFSVersion = '1.1.0'
+
+const versionParameters: Record<WFSVersion, VersionParameters> = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  '1.1.0': {
+    version: '1.1.0',
+    wfsNamespace: 'http://www.opengis.net/wfs',
+    filterPrefix: 'ogc',
+    filterNamespace: 'http://www.opengis.net/ogc',
+    schemaLocation:
+      'http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd',
+    typeNameAttribute: 'typeName',
+    maxFeaturesAttribute: 'maxFeatures',
+    propertyNameElement: 'PropertyName',
+  },
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  '2.0.0': {
+    version: '2.0.0',
+    wfsNamespace: 'http://www.opengis.net/wfs/2.0',
+    filterPrefix: 'fes',
+    filterNamespace: 'http://www.opengis.net/fes/2.0',
+    schemaLocation:
+      'http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd',
+    typeNameAttribute: 'typeNames',
+    maxFeaturesAttribute: 'count',
+    propertyNameElement: 'ValueReference',
+  },
+}
+
+const getFeaturePrefix = (
+  { maxFeatures }: WfsParameters,
+  {
+    version,
+    wfsNamespace,
+    schemaLocation,
+    maxFeaturesAttribute,
+  }: VersionParameters
+) => `
 <?xml version="1.0" encoding="UTF-8"?>
-<wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd"${
-    maxFeatures ? ` maxFeatures="${maxFeatures}"` : ''
-  }>`
+<wfs:GetFeature xmlns:wfs="${wfsNamespace}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="${version}" xsi:schemaLocation="${schemaLocation}"${
+  maxFeatures ? ` ${maxFeaturesAttribute}="${maxFeatures}"` : ''
+}>`
 
 const defaultLikeFilterAttributes = {
   wildCard: '*',
@@ -16,16 +63,14 @@ const defaultLikeFilterAttributes = {
   escapeChar: '!',
 }
 
-const queryPrefix = ({
-  srsName,
-  featurePrefix,
-  typeName,
-  xmlns,
-}: WfsParameters) => `
-<wfs:Query typeName="${featurePrefix}:${typeName}" xmlns:${featurePrefix}="${xmlns}" xmlns:ogc="http://www.opengis.net/ogc"${
+const queryPrefix = (
+  { srsName, featurePrefix, typeName, xmlns }: WfsParameters,
+  { typeNameAttribute, filterPrefix, filterNamespace }: VersionParameters
+) => `
+<wfs:Query ${typeNameAttribute}="${featurePrefix}:${typeName}" xmlns:${featurePrefix}="${xmlns}" xmlns:${filterPrefix}="${filterNamespace}"${
   srsName ? ` srsName="${srsName}"` : ''
 }>
-<ogc:Filter>`
+<${filterPrefix}:Filter>`
 
 const wfsLike = (
   fieldName: string,
@@ -35,7 +80,8 @@ const wfsLike = (
     useRightHandWildcard,
     likeFilterAttributes,
     caseSensitive,
-  }: WfsParameters
+  }: WfsParameters,
+  { filterPrefix, propertyNameElement }: VersionParameters
 ) => {
   const mergedLikeFilterAttributes = merge(
     {},
@@ -44,63 +90,66 @@ const wfsLike = (
     caseSensitive !== undefined ? { matchCase: caseSensitive } : {}
   )
   return `
-<ogc:PropertyIsLike${Object.entries(mergedLikeFilterAttributes).reduce(
-    (acc, [key, value]) => `${acc} ${key}="${value}"`,
-    ''
-  )}>
-<ogc:PropertyName>${featurePrefix}:${fieldName}</ogc:PropertyName>
-<ogc:Literal>${input}${
+<${filterPrefix}:PropertyIsLike${Object.entries(
+    mergedLikeFilterAttributes
+  ).reduce((acc, [key, value]) => `${acc} ${key}="${value}"`, '')}>
+<${filterPrefix}:${propertyNameElement}>${featurePrefix}:${fieldName}</${filterPrefix}:${propertyNameElement}>
+<${filterPrefix}:Literal>${input}${
     typeof useRightHandWildcard === 'boolean' && !useRightHandWildcard
       ? ''
       : Object.hasOwn(mergedLikeFilterAttributes, 'wildCard')
       ? mergedLikeFilterAttributes.wildCard
       : '*'
-  }</ogc:Literal>
-</ogc:PropertyIsLike>`
+  }</${filterPrefix}:Literal>
+</${filterPrefix}:PropertyIsLike>`
 }
 
 const querySortBy = (
   sortBy: { propertyName: string; direction?: 'ASC' | 'DESC' }[],
-  featurePrefix: string
-) => `<ogc:SortBy>
+  featurePrefix: string,
+  { filterPrefix, propertyNameElement }: VersionParameters
+) => `<${filterPrefix}:SortBy>
 ${sortBy
   .map(
     ({ propertyName, direction = 'ASC' }) =>
-      `<ogc:SortProperty>
-<ogc:PropertyName>${featurePrefix}:${propertyName}</ogc:PropertyName>
-<ogc:SortOrder>${direction}</ogc:SortOrder>
-</ogc:SortProperty>`
+      `<${filterPrefix}:SortProperty>
+<${filterPrefix}:${propertyNameElement}>${featurePrefix}:${propertyName}</${filterPrefix}:${propertyNameElement}>
+<${filterPrefix}:SortOrder>${direction}</${filterPrefix}:SortOrder>
+</${filterPrefix}:SortProperty>`
   )
   .join('')}
-</ogc:SortBy>`
+</${filterPrefix}:SortBy>`
 
 const querySuffix = (
-  sortBy?: { propertyName: string; direction?: 'ASC' | 'DESC' }[],
-  featurePrefix?: string
-) =>
-  `</ogc:Filter>${
-    sortBy?.length && featurePrefix ? querySortBy(sortBy, featurePrefix) : ''
-  }
+  { sortBy, featurePrefix }: WfsParameters,
+  versionConfig: VersionParameters
+) => `</${versionConfig.filterPrefix}:Filter>${
+  sortBy?.length && featurePrefix
+    ? querySortBy(sortBy, featurePrefix, versionConfig)
+    : ''
+}
 </wfs:Query>`
 
 const getFeatureSuffix = `</wfs:GetFeature>`
 
 const buildWfsFilterQuery = (
   patternMatch: string[][],
-  parameters: WfsParameters
+  parameters: WfsParameters,
+  versionConfig: VersionParameters
 ) => {
-  let request = queryPrefix(parameters)
+  const { filterPrefix } = versionConfig
+  let request = queryPrefix(parameters, versionConfig)
 
   if (patternMatch.length > 1) {
-    request += `<ogc:And>${patternMatch
-      .map(([key, value]) => wfsLike(key, value, parameters))
-      .join('')}</ogc:And>`
+    request += `<${filterPrefix}:And>${patternMatch
+      .map(([key, value]) => wfsLike(key, value, parameters, versionConfig))
+      .join('')}</${filterPrefix}:And>`
   } else if (patternMatch.length === 1) {
     const [key, value] = patternMatch[0]
-    request += wfsLike(key, value, parameters)
+    request += wfsLike(key, value, parameters, versionConfig)
   }
 
-  return request + querySuffix(parameters.sortBy, parameters.featurePrefix)
+  return request + querySuffix(parameters, versionConfig)
 }
 
 /**
@@ -112,9 +161,17 @@ const buildWfsFilterQuery = (
 export const buildWfsFilter = (
   inputs: KeyValueSetArray,
   parameters: WfsParameters
-) =>
-  removeLinebreaks(
-    getFeaturePrefix(parameters) +
-      inputs.map((input) => buildWfsFilterQuery(input, parameters)).join('') +
+) => {
+  // unsupported versions from untyped configurations fall back to the default
+  const versionConfig =
+    versionParameters[parameters.version ?? defaultVersion] ??
+    versionParameters[defaultVersion]
+
+  return removeLinebreaks(
+    getFeaturePrefix(parameters, versionConfig) +
+      inputs
+        .map((input) => buildWfsFilterQuery(input, parameters, versionConfig))
+        .join('') +
       getFeatureSuffix
   )
+}

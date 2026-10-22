@@ -5,6 +5,34 @@ import { ReverseGeocoderFeature } from '../../types'
 
 const { parseString, processors } = xml2js
 
+/* eslint-disable @typescript-eslint/naming-convention */
+interface WpsExceptionReport {
+  Exception?: Array<{ ExceptionText?: string[] }>
+}
+
+interface ParsedWpsResponse {
+  ExceptionReport?: WpsExceptionReport
+  ExecuteResponse?: {
+    ProcessOutputs?: Array<{
+      Output?: Array<{
+        Data?: Array<{
+          ComplexData?: Array<{
+            ReverseGeocoder?: Array<{
+              Ergebnis?: Array<{ Adresse?: Array<Record<string, string[]>> }>
+            }>
+          }>
+        }>
+      }>
+    }>
+    Status?: Array<{
+      ProcessFailed?: Array<{
+        ExceptionReport?: WpsExceptionReport[]
+      }>
+    }>
+  }
+}
+/* eslint-enable @typescript-eslint/naming-convention */
+
 const buildPostBody = ([x, y]: [number, number]) => `
   <wps:Execute xmlns:wps='http://www.opengis.net/wps/1.0.0' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:ows='http://www.opengis.net/ows/1.1' service='WPS' version='1.0.0' xsi:schemaLocation='http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_request.xsd'>
     <ows:Identifier>ReverseGeocoder.fmw</ows:Identifier>
@@ -51,14 +79,26 @@ export async function reverseGeocode(
     body: buildPostBody(coordinate),
   })
 
-  const parsedBody = await readResponseText(await response.text())
+  const parsedBody = (await readResponseText(
+    await response.text()
+  )) as ParsedWpsResponse
 
-  const address = mapValues(
-    // @ts-expect-error | no types for WPS output defined
-    parsedBody.ExecuteResponse.ProcessOutputs[0].Output[0].Data[0]
-      .ComplexData[0].ReverseGeocoder[0].Ergebnis[0].Adresse[0],
-    (v) => v[0]
-  )
+  const addressOutput =
+    parsedBody.ExecuteResponse?.ProcessOutputs?.[0]?.Output?.[0]?.Data?.[0]
+      ?.ComplexData?.[0]?.ReverseGeocoder?.[0]?.Ergebnis?.[0]?.Adresse?.[0]
+
+  if (!addressOutput) {
+    const exceptionText =
+      parsedBody.ExceptionReport?.Exception?.[0]?.ExceptionText?.[0] ??
+      parsedBody.ExecuteResponse?.Status?.[0]?.ProcessFailed?.[0]
+        ?.ExceptionReport?.[0]?.Exception?.[0]?.ExceptionText?.[0]
+    throw new Error(
+      exceptionText ??
+        'WPS response did not contain a ReverseGeocoder address output.'
+    )
+  }
+
+  const address = mapValues(addressOutput, (v) => v[0])
   // NOTE: Property names come from the WPS
   /* eslint-disable @typescript-eslint/naming-convention */
   const properties = {
