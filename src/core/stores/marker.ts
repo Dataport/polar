@@ -10,12 +10,12 @@ import type {
 	PluginId,
 } from '../types'
 
-import { toMerged } from 'es-toolkit'
 import { unByKey } from 'ol/Observable'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, shallowRef, watch } from 'vue'
 
 import { isVisible } from '@/lib/invisibleStyle'
+import { mergeConfiguration } from '@/lib/mergeConfiguration'
 
 import { useClusterMarker } from '../composables/useClusterMarker'
 import { resolveClusterClick } from '../utils/map/resolveClusterClick'
@@ -73,7 +73,7 @@ export const useMarkerStore = defineStore('marker', () => {
 
 	const layers = Object.fromEntries(
 		configuration.value?.layers
-			.map((layer) => toMerged(layerDefaults, layer))
+			.map((layer) => mergeConfiguration(layerDefaults, layer))
 			.map((layer) => [layer.id, layer as MarkerLayer]) ?? []
 	)
 
