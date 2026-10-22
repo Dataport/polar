@@ -9,6 +9,7 @@ import type {
 	MarkerStyle,
 	PluginId,
 } from '../types'
+import type { GetMarkerFunction } from '../types'
 
 import { toMerged } from 'es-toolkit'
 import { unByKey } from 'ol/Observable'
@@ -19,13 +20,17 @@ import { isVisible } from '@/lib/invisibleStyle'
 
 import { useClusterMarker } from '../composables/useClusterMarker'
 import { resolveClusterClick } from '../utils/map/resolveClusterClick'
-import { getMarkerStyle } from '../utils/markers'
+import { createGetMarkerStyle } from '../utils/markers/markers'
 import { useMainStore } from './main'
 import { usePluginStore } from './plugin'
 
-// these have been measured to fit once and influence marker size
-const imgSize: [number, number] = [26, 36]
-const imgSizeMulti: [number, number] = [40, 36]
+const getMarkerStyle: GetMarkerFunction = createGetMarkerStyle(() => {})
+
+/**  these have been measured to fit once and influence marker size
+ *  [40, 36] is the smallest size that worked well, so we kept it and scaled it up
+ */
+const imgSize: [number, number] = [40 * 2, 36 * 2]
+const imgSizeMulti: [number, number] = [40 * 2, 36 * 2]
 
 const defaultStroke = '#FFFFFF'
 const defaultStrokeWidth = '2'
@@ -101,7 +106,8 @@ export const useMarkerStore = defineStore('marker', () => {
 						? layerConfiguration.hoverStyle
 						: layerConfiguration.defaultStyle
 				: layerConfiguration.unselectableStyle,
-			feature.get('features')?.length > 1
+			feature.get('features')?.length,
+			displayFeatureCount.value
 		)
 	}
 
@@ -165,6 +171,10 @@ export const useMarkerStore = defineStore('marker', () => {
 
 	const clusterClickZoom = computed(
 		() => (configuration.value?.clusterClickZoom as boolean) || false
+	)
+
+	const displayFeatureCount = computed(
+		() => configuration.value?.displayFeatureCount || false
 	)
 
 	const isMaxZoom = computed(
