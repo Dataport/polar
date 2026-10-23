@@ -18,7 +18,7 @@ import Draw from 'ol/interaction/Draw'
 import { transform } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, toRaw, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
@@ -157,8 +157,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		).filter(({ value }) => selectableTravelModes.value.includes(value))
 	)
 
-	async function addCoordinateToRoute(coordinate: [number, number]) {
-		const index = currentlyFocusedInput.value
+	async function setRouteCoordinate(
+		index: number,
+		coordinate: [number, number]
+	) {
 		route.value = route.value.toSpliced(index, 1, coordinate)
 		routeInput.value = routeInput.value.toSpliced(
 			index,
@@ -170,7 +172,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				coordinate,
 				false
 			)
-			if (feature?.title) {
+			if (feature?.title && toRaw(route.value[index]) === coordinate) {
 				routeInput.value[index] = feature.title
 			}
 		}
@@ -244,7 +246,8 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	function initializeDraw() {
 		draw = new Draw({ stopClick: true, type: 'Point' })
 		draw.on('drawend', async (e) => {
-			await addCoordinateToRoute(
+			await setRouteCoordinate(
+				currentlyFocusedInput.value,
 				(e.feature.getGeometry() as Point).getCoordinates() as [number, number]
 			)
 			coreStore.unmaskInteraction('routing', 'click')
@@ -286,7 +289,19 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	})
 
 	useRouteLayer(coreStore.map, routeSource)
-	useMarkerLayer(coreStore.map, markerSource, route)
+	useMarkerLayer(
+		coreStore.map,
+		markerSource,
+		route,
+		() => !coreStore.isInteractionMasked('click'),
+		(index, coordinate) => {
+			const x = coordinate.at(0)
+			const y = coordinate.at(1)
+			if (x !== undefined && y !== undefined) {
+				void setRouteCoordinate(index, [x, y])
+			}
+		}
+	)
 
 	function setupPlugin() {
 		initializeDraw()
