@@ -6,16 +6,12 @@ import type { Coordinate } from 'ol/coordinate'
 import type { Point } from 'ol/geom'
 import type {
 	RoutingPluginOptions,
-	RoutingResponseData,
 	SelectableTravelMode,
 	TravelMode,
 } from './types'
 
 import { t } from 'i18next'
-import { Feature } from 'ol'
-import { LineString } from 'ol/geom'
 import Draw from 'ol/interaction/Draw'
-import { transform } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
@@ -24,9 +20,10 @@ import { useCoreStore } from '@/core/stores'
 import { computedT } from '@/lib/computedT'
 
 import { useMarkerLayer } from './composables/useMarkerLayer'
+import { useRouteCalculation } from './composables/useRouteCalculation'
 import { useRouteLayer } from './composables/useRouteLayer'
+import { useRouteSearch } from './composables/useRouteSearch'
 import { PluginId } from './types'
-import { handleErrors } from './utils/handleErrors'
 
 /**
  * @function
@@ -39,13 +36,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	const routeSource = new VectorSource()
 	const markerSource = new VectorSource()
-	let abortController: AbortController | null = null
 	let draw: Draw | undefined
 
 	const _currentlyFocusedInput = ref(-1)
 	const route = ref<Coordinate[]>([[], []])
 	const routeInput = ref<(string | null)[]>([null, null])
-	const routingResponseData = ref<RoutingResponseData | null>(null)
 	const selectedPreference = ref('recommended')
 	const selectedRouteTypesToAvoid = ref<string[]>([])
 	const selectedTravelMode = ref('driving-car')
@@ -53,6 +48,23 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	const configuration = computed(
 		() => (coreStore.configuration.routing || {}) as RoutingPluginOptions
 	)
+
+	const {
+		routingResponseData,
+		routeFeature,
+		showDetails,
+		getRoute,
+		clearRoute,
+	} = useRouteCalculation({
+		coreStore,
+		configuration,
+		route,
+		routeSource,
+		selectedPreference,
+		selectedRouteTypesToAvoid,
+		selectedTravelMode,
+	})
+
 	const reverseGeocoderStore = coreStore.getPluginStore('reverseGeocoder')
 
 	const currentlyFocusedInput = computed({
@@ -76,25 +88,29 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			}
 		},
 	})
-	const routeIncomplete = computed(() =>
-		route.value.some((part) => part.length === 0)
-	)
-	const routeAsWGS84 = computed(() =>
-		route.value.map((coordinate) =>
-			transform(
-				coordinate,
-				coreStore.map.getView().getProjection().getCode(),
-				'EPSG:4326'
-			)
-		)
-	)
-	const routeFeature = computed(
-		() => routingResponseData.value?.features[0] ?? null
-	)
-	const showDetails = computed(() => routingResponseData.value !== null)
-	const url = computed(
-		() => configuration.value.url + selectedTravelMode.value + '/geojson'
-	)
+
+	const {
+		routeInputValues,
+		routeInputLoading,
+		routeSearchResults,
+		showSearchResultList,
+		focusAfterSearch,
+		selectedSearchGroupId,
+		searchResultHint,
+		setRouteInputValue,
+		search,
+		selectResult,
+		resetSearch,
+		setSearchWaypoint,
+	} = useRouteSearch({
+		coreStore,
+		configuration,
+		route,
+		routeInput,
+		currentlyFocusedInput,
+		addCoordinateToRoute,
+	})
+
 	const displayPreferences = computed(
 		() => coreStore.configuration.routing?.displayPreferences || false
 	)
@@ -157,7 +173,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		).filter(({ value }) => selectableTravelModes.value.includes(value))
 	)
 
-	async function addCoordinateToRoute(coordinate: [number, number]) {
+	async function addCoordinateToRoute(
+		coordinate: [number, number],
+		userInput = false
+	) {
 		const index = currentlyFocusedInput.value
 		route.value = route.value.toSpliced(index, 1, coordinate)
 		routeInput.value = routeInput.value.toSpliced(
@@ -165,78 +184,13 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			1,
 			coordinate.join(', ')
 		)
-		if (reverseGeocoderStore) {
+		if (reverseGeocoderStore && !userInput) {
 			const feature = await reverseGeocoderStore.reverseGeocode(
 				coordinate,
 				false
 			)
 			if (feature?.title) {
 				routeInput.value[index] = feature.title
-			}
-		}
-	}
-
-	async function fetchRoute(signal: AbortSignal): Promise<RoutingResponseData> {
-		const response = await fetch(url.value, {
-			method: 'POST',
-			headers: {
-				/* eslint-disable @typescript-eslint/naming-convention */
-				'Content-Type': 'application/json',
-				...(configuration.value.apiKey && {
-					Authorization: configuration.value.apiKey,
-				}),
-				/* eslint-enable @typescript-eslint/naming-convention */
-			},
-			body: JSON.stringify({
-				coordinates: routeAsWGS84.value,
-				geometry: true,
-				instructions: true,
-				language: coreStore.language,
-				options: {
-					avoid_features: selectedRouteTypesToAvoid.value,
-				},
-				preference: selectedPreference.value,
-				units: 'm',
-			}),
-			signal,
-		})
-		if (!response.ok) {
-			throw new Error(
-				'Route could not be determined. Try different coordinates.'
-			)
-		}
-		return response.json()
-	}
-
-	async function getRoute() {
-		routeSource.clear()
-		if (abortController) {
-			abortController.abort()
-		}
-		abortController = new AbortController()
-		const { signal } = abortController
-		try {
-			routingResponseData.value = await fetchRoute(signal)
-
-			if (!routeFeature.value) {
-				throw new Error(t(($) => $.noFeature, { ns: PluginId }))
-			}
-			routeSource.addFeature(
-				new Feature({
-					geometry: new LineString(
-						routeFeature.value.geometry.coordinates.map((coordinate) =>
-							transform(
-								coordinate,
-								'EPSG:4326',
-								coreStore.map.getView().getProjection().getCode()
-							)
-						)
-					),
-				})
-			)
-		} catch (error) {
-			if (!signal.aborted) {
-				handleErrors(error)
 			}
 		}
 	}
@@ -262,7 +216,38 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				el instanceof HTMLElement &&
 				el.id.startsWith('polar-plugin-routing-input-')
 		)
-		if (!isRoutingInput && !path.includes(coreStore.map.getTargetElement())) {
+		const isRoutingResultList = path.some(
+			(el) =>
+				el instanceof HTMLElement &&
+				(el.id.startsWith('polar-result-list-routing-') ||
+					el.closest('.polar-result-list-wrapper') !== null)
+		)
+		if (
+			!isRoutingInput &&
+			!isRoutingResultList &&
+			!path.includes(coreStore.map.getTargetElement())
+		) {
+			const index = currentlyFocusedInput.value
+			const routeLength = route.value[index]?.length ?? 0
+
+			const userClearedWaypoint =
+				routeLength > 0 &&
+				routeInput.value[index] === null &&
+				(routeInputValues.value[index] ?? '').trim() === ''
+			const isStartOrEndPoint =
+				currentlyFocusedInput.value == 0 ||
+				currentlyFocusedInput.value == route.value.length - 1
+
+			if (userClearedWaypoint) {
+				if (isStartOrEndPoint && route.value.length === 2) {
+					route.value = route.value.toSpliced(index, 1, [])
+					routeSource.clear()
+					routingResponseData.value = null
+				} else {
+					setRoute(index, true)
+				}
+			}
+
 			currentlyFocusedInput.value = -1
 		}
 	}
@@ -275,8 +260,12 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 			selectedTravelMode,
 			() => coreStore.language,
 		],
-		() => {
-			if (!routeIncomplete.value) {
+		([coordinates]) => {
+			if (
+				coordinates.filter((coordinate) => coordinate.length > 0).length < 2
+			) {
+				clearRoute()
+			} else {
 				void getRoute()
 			}
 		}
@@ -322,22 +311,18 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	function reset() {
 		route.value = [[], []]
+		resetSearch()
 		routeInput.value = [null, null]
 		currentlyFocusedInput.value = -1
 		selectedPreference.value = 'recommended'
 		selectedTravelMode.value = 'driving-car'
 		selectedRouteTypesToAvoid.value = []
-		routingResponseData.value = null
-		routeSource.clear()
 		markerSource.clear()
-
-		if (abortController) {
-			abortController.abort()
-			abortController = null
-		}
+		clearRoute()
 	}
 
 	function setRoute(index: number, remove = false) {
+		setSearchWaypoint(index, remove)
 		route.value = remove
 			? route.value.toSpliced(index, 1)
 			: route.value.toSpliced(index, 0, [])
@@ -349,7 +334,8 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 	return {
 		/**
 		 * The coordinates selected by the user.
-		 * If all coordinate pairs are filled, a route is requested.
+		 * A route is requested through the filled coordinate pairs in order
+		 * when at least two are available. Empty waypoint inputs are ignored.
 		 */
 		route,
 
@@ -365,6 +351,39 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		 * other chosen options.
 		 */
 		routingResponseData,
+
+		/**
+		 * Input values for each waypoint in {@link route}.
+		 *
+		 * @alpha
+		 */
+		routeInputValues,
+
+		/**
+		 * Search results for each waypoint in {@link route}.
+		 *
+		 * @alpha
+		 */
+		routeSearchResults,
+
+		/**
+		 * The selected search group ID.
+		 *
+		 * @alpha
+		 */
+		selectedSearchGroupId,
+
+		/**
+		 * Whether the search result list should be displayed.
+		 * @alpha
+		 */
+		showSearchResultList,
+
+		/** @alpha @internal */
+		focusAfterSearch,
+
+		/** @alpha */
+		searchResultHint,
 
 		/**
 		 * The input that currently has focus.
@@ -426,11 +445,34 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		reset,
 
 		/**
-		 * Inserts an empty coordinate pair into the route.
+		 * Inserts an empty coordinate pair into the route as well as an empty input value into routeInputValues, routeSearchResults and routeInput.
 		 *
 		 * @alpha
 		 */
 		setRoute,
+
+		/** @alpha */
+		setRouteInputValue,
+
+		/**
+		 * Selects a search result and adds its coordinate to the route.
+		 *
+		 * @alpha
+		 */
+		selectResult,
+
+		/**
+		 * Searches for a route input and updates the search results.
+		 *
+		 * @alpha
+		 */
+		search,
+
+		/**
+		 * Sets the loading state for a specific route input.
+		 * @alpha
+		 */
+		routeInputLoading,
 
 		/**
 		 * Value of {@link RoutingPluginOptions.displayPreferences}.
