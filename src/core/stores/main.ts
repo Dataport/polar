@@ -8,9 +8,10 @@ import type {
 } from '../types'
 
 import { rawLayerList } from '@masterportal/masterportalapi'
-import { toMerged } from 'es-toolkit'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
+
+import { mergeConfiguration } from '@/lib/mergeConfiguration'
 
 import { addInterceptor } from '../utils/addInterceptor'
 import { SMALL_DISPLAY_HEIGHT, SMALL_DISPLAY_WIDTH } from '../utils/constants'
@@ -19,7 +20,7 @@ import defaults from '../utils/defaults'
 export const useMainStore = defineStore('main', () => {
 	const colorScheme = ref<ColorScheme>('system')
 	const configuration = ref<MapConfigurationIncludingDefaults>(
-		toMerged(
+		mergeConfiguration(
 			{
 				layers: [],
 				startCenter: [0, 0],
