@@ -1,6 +1,6 @@
 # CHANGELOG
 
-# unpublished
+# 1.6.4
 - Fix: update to new node (24.22.1) version due to the eMudhra-incident.
 
 ## 1.6.3
