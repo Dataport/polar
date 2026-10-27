@@ -29,7 +29,6 @@
 import type { Pinia } from 'pinia'
 import type { MapConfiguration, MasterportalApiServiceRegister } from '../types'
 
-import { toMerged } from 'es-toolkit'
 import Hammer from 'hammerjs'
 import i18next, { t } from 'i18next'
 import { disposePinia, getActivePinia, storeToRefs } from 'pinia'
@@ -44,6 +43,8 @@ import {
 	useTemplateRef,
 	watch,
 } from 'vue'
+
+import { mergeConfiguration } from '@/lib/mergeConfiguration'
 
 import { useT } from '../composables/useT'
 import { useCoreStore } from '../stores'
@@ -152,7 +153,7 @@ const mainStore = useMainStore()
 const { colorScheme, hasSmallDisplay, hasSmallWidth, hasWindowSize, language } =
 	storeToRefs(mainStore)
 
-mainStore.configuration = toMerged(
+mainStore.configuration = mergeConfiguration(
 	mainStore.configuration,
 	mapZoomOffset(props.mapConfiguration)
 )
