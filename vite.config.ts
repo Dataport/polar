@@ -120,6 +120,11 @@ export default defineConfig(({ mode }) => ({
 		}),
 		enrichedConsole(),
 	],
+	define: {
+		// Strips in-source test blocks from shipped bundle.
+		/* eslint-disable-next-line @typescript-eslint/naming-convention */
+		'import.meta.vitest': 'undefined',
+	},
 	build: {
 		lib: {
 			name: '@polar/polar',
