@@ -1,1 +1,0 @@
-export{_n as Collection}from"./stores-PecaXo-G.js";import"./store-D3wGbQsJ.js";
