@@ -121,9 +121,11 @@ export default defineConfig(({ mode }) => ({
 		enrichedConsole(),
 	],
 	define: {
+		/* eslint-disable @typescript-eslint/naming-convention */
 		// Strips in-source test blocks from shipped bundle.
-		/* eslint-disable-next-line @typescript-eslint/naming-convention */
 		'import.meta.vitest': 'undefined',
+		'process.env.NODE_ENV': JSON.stringify('production'),
+		/* eslint-enable @typescript-eslint/naming-convention */
 	},
 	build: {
 		lib: {
@@ -144,6 +146,9 @@ export default defineConfig(({ mode }) => ({
 		},
 		sourcemap: true,
 		target: 'esnext',
+		rolldownOptions: {
+			external: ['vue', 'pinia', 'ol', /^ol\//, 'i18next', 'i18next-vue'],
+		},
 	},
 	server: {
 		port: 1234,

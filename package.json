@@ -87,6 +87,13 @@
 		"CHANGELOG.md",
 		"security.md"
 	],
+	"peerDependencies": {
+		"i18next": "^26.5.8",
+		"i18next-vue": "^5.4.0",
+		"ol": "10.10.0",
+		"pinia": "^4.1.0",
+		"vue": "^3.5.44"
+	},
 	"devDependencies": {
 		"@actions/github": "^9.0.0",
 		"@commitlint/cli": "^21.2.4",
