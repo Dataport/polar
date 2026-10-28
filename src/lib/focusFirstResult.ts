@@ -1,11 +1,12 @@
 export function focusFirstResult(
 	searchResultsLength: number,
 	shadowRoot: ShadowRoot,
+	elementIdPrefix = 'polar-result-list-address-search-results-feature',
 	event?: KeyboardEvent
 ) {
 	for (let i = 0; i < searchResultsLength; i++) {
 		const firstFocusableElement = shadowRoot.getElementById(
-			`polar-plugin-address-search-results-feature-${i}-0`
+			`${elementIdPrefix}-${i}-0`
 		)
 		if (firstFocusableElement) {
 			firstFocusableElement.focus()
@@ -41,7 +42,9 @@ if (import.meta.vitest) {
 	test('focuses the first available result element', () => {
 		const { focus, element } = createElement()
 		const { shadowRoot } = createShadowRoot((id) =>
-			id === 'polar-plugin-address-search-results-feature-0-0' ? element : null
+			id === 'polar-result-list-address-search-results-feature-0-0'
+				? element
+				: null
 		)
 
 		focusFirstResult(3, shadowRoot)
@@ -52,7 +55,9 @@ if (import.meta.vitest) {
 	test('skips missing ids and focuses the first existing element', () => {
 		const { focus, element } = createElement()
 		const { getElementById, shadowRoot } = createShadowRoot((id) =>
-			id === 'polar-plugin-address-search-results-feature-2-0' ? element : null
+			id === 'polar-result-list-address-search-results-feature-2-0'
+				? element
+				: null
 		)
 
 		focusFirstResult(3, shadowRoot)
@@ -76,7 +81,12 @@ if (import.meta.vitest) {
 		const preventDefault = vi.fn()
 		const event = { preventDefault } as unknown as KeyboardEvent
 
-		focusFirstResult(1, shadowRoot, event)
+		focusFirstResult(
+			1,
+			shadowRoot,
+			'polar-result-list-address-search-results-feature',
+			event
+		)
 
 		expect(preventDefault).toHaveBeenCalledTimes(1)
 	})

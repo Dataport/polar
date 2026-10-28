@@ -197,13 +197,6 @@ export type SearchMethodFunction = (
 	queryParameters: SearchMethodConfiguration['queryParameters']
 ) => Promise<PolarGeoJsonFeatureCollection> | never
 
-export interface SearchResult {
-	categoryId: string
-	categoryLabel: string
-	features: PolarGeoJsonFeatureCollection
-	groupId: string
-}
-
 export type SelectResultFunction = (
 	feature: PolarGeoJsonFeature,
 	categoryId: string
