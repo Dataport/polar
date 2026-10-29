@@ -1,7 +1,7 @@
 import type { Map } from 'ol'
 
 export function getCanvasFromMap(map: Map) {
-	const viewport = map.getViewport()
+	const viewport = map.getViewport() as HTMLElement
 	const canvas = document.createElement('canvas')
 	const context = canvas.getContext('2d')
 
