@@ -90,7 +90,7 @@
 	"peerDependencies": {
 		"i18next": "^26.5.8",
 		"i18next-vue": "^5.4.0",
-		"ol": "10.10.0",
+		"ol": "10.11.0",
 		"pinia": "^4.1.0",
 		"vue": "^3.5.44"
 	},
@@ -100,7 +100,7 @@
 		"@commitlint/config-conventional": "^21.2.4",
 		"@dataport/eslint-config-geodev": "^2.0.0-alpha.3",
 		"@kern-ux/native": "^2.8.2",
-		"@masterportal/masterportalapi": "2.64.0",
+		"@masterportal/masterportalapi": "2.65.0",
 		"@microsoft/api-extractor": "^7.59.4",
 		"@pinia/testing": "^2.0.2",
 		"@repositoryname/noop": "^1.0.6",
@@ -126,7 +126,7 @@
 		"jsdom": "^30.1.3",
 		"jspdf": "^4.2.1",
 		"magic-string": "^1.4.3",
-		"ol": "10.10.0",
+		"ol": "10.11.0",
 		"pinia": "^4.1.0",
 		"postcss-html": "^2.0.0",
 		"prettier": "^3.9.10",

@@ -247,9 +247,10 @@ onMounted(() => {
 	// This is necessary for making `getStore` work
 	;(mainStore.lightElement as { store?: unknown }).store = useCoreStore()
 
-	mainStore.map
-		.getTargetElement()
-		.addEventListener('contextmenu', openContextMenu)
+	;(mainStore.map.getTargetElement() as HTMLElement).addEventListener(
+		'contextmenu',
+		openContextMenu
+	)
 	polarWrapper.value?.addEventListener('pointerdown', contextMenuStore.dismiss)
 	document.addEventListener('pointerdown', contextMenuStore.dismiss)
 })
@@ -267,7 +268,7 @@ onBeforeUnmount(() => {
 
 	i18next.off('languageChanged', updateLanguage)
 
-	const mapEl = mainStore.map.getTargetElement()
+	const mapEl = mainStore.map.getTargetElement() as HTMLElement
 	mapEl.removeEventListener('contextmenu', openContextMenu)
 	document.removeEventListener('pointerdown', contextMenuStore.dismiss)
 	if (mainStore.configuration.markers) {
