@@ -11,7 +11,7 @@
 <li><a href="../modules/_polar_polar_plugins_gfi.html">@polar/polar/plugins/gfi</a></li>
 <li><a href="" aria-current="page">ShowTooltip</a></li></ul>
 <h1>Type Alias ShowTooltip</h1></div>
-<div class="tsd-signature"><span class="tsd-kind-type-alias">ShowTooltip</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">feature</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Feature</span><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[]</span></div>
+<div class="tsd-signature"><span class="tsd-kind-type-alias">ShowTooltip</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">feature</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Feature</span><span class="tsd-signature-symbol">,</span> <span class="tsd-kind-parameter">map</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[]</span></div>
 <div class="tsd-comment tsd-typography"><p>Configuration for the tooltip to be shown when hovering over a feature.
 The first string is the HTML tag to render, the second its contents; contents may be locale keys.</p>
 </div>
@@ -20,13 +20,16 @@ The first string is the HTML tag to render, the second its contents; contents ma
 <ul class="tsd-parameters">
 <li class="tsd-parameter-signature">
 <ul class="tsd-signatures">
-<li class="tsd-signature" id="__type"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">feature</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Feature</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[]</span></li>
+<li class="tsd-signature" id="__type"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">feature</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Feature</span><span class="tsd-signature-symbol">,</span> <span class="tsd-kind-parameter">map</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[]</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li><span><span class="tsd-kind-parameter">feature</span>: <span class="tsd-signature-type">Feature</span></span>
 <div class="tsd-comment tsd-typography"><p>Feature to calculate the tooltip for</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">map</span>: <span class="tsd-signature-type">Map</span></span>
+<div class="tsd-comment tsd-typography"><p>Map the feature is rendered in.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[]</span></h4><p>Array of tuples of the form [HTML tag to render, content or locale key]</p>
 </li></ul></li></ul></div>
@@ -37,7 +40,7 @@ The first string is the HTML tag to render, the second its contents; contents ma
 
 </div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Dataport/polar/blob/e1c724c9a30c56c542f134e46e585819c868c682/src/plugins/gfi/types.ts#L31">src/plugins/gfi/types.ts:31</a></li></ul></aside></div>
+<li>Defined in <a href="https://github.com/Dataport/polar/blob/23a7db4b8f370790e09f1b3eb8d5ec6d8e695631/src/plugins/gfi/types.ts#L32">src/plugins/gfi/types.ts:32</a></li></ul></aside></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
