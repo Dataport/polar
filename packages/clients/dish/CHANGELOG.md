@@ -1,6 +1,11 @@
 # CHANGELOG
 
+## 1.6.4
+
+- Fix: update to new node (24.22.1) version due to the eMudhra-incident.
+
 ## 1.6.3
+
 - Fix: edited the layer 'luftbilder'. The layer could not be retrieved because the server-side name SH_DOP20_4 was removed. An error occurred during the query, and the layer could not be retrieved.
 
 ## 1.6.2
