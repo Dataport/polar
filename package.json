@@ -40,6 +40,10 @@
 		"./lib/*": {
 			"types": "./dist/lib/*.d.ts",
 			"default": "./dist/lib/*.js"
+		},
+		"./components/*": {
+			"types": "./dist/components/*.d.ts",
+			"default": "./dist/components/*.js"
 		}
 	},
 	"repository": {
