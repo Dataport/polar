@@ -231,6 +231,9 @@ function toggle(category: string) {
 	}
 
 	ul {
+		display: flex;
+		flex-direction: column;
+		gap: var(--kern-metric-space-x-small);
 		margin: 0;
 		padding: 0;
 
