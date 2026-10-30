@@ -242,12 +242,18 @@ function toggle(category: string) {
 			margin: var(--kern-metric-space-none) var(--kern-metric-space-small);
 			border-radius: var(--kern-metric-border-radius-default);
 			color: var(--kern-color-layout-text-default);
-			transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+			transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
 
 			&:hover,
 			&:focus {
 				background-color: var(--kern-color-layout-background-hued);
 				cursor: pointer;
+			}
+
+			&:focus {
+				outline: 4px solid
+					var(--kern-color-action-focus-default-contextual, #454b6b);
+				outline-offset: 0px;
 			}
 		}
 	}
