@@ -1,5 +1,9 @@
 # Changelog
 
+## unpublished
+
+- Fix: Report the WPS exception text instead of a generic `TypeError` when reverse geocoding fails.
+
 ## 3.0.1
 
 - Fix: Make action `reverseGeocode` actually callable like it is documented and fix its payload documentation.
