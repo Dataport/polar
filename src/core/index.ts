@@ -11,7 +11,7 @@ import type { PolarMapInstance } from './components/polarMapInstance'
 
 import { defineCustomElement } from 'vue'
 
-import PolarContainer from './components/PolarContainer.ce.vue'
+import PolarContainer from './components/PolarContainer.vue'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
 import './monkeyHeaderLoader'

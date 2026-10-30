@@ -4,7 +4,7 @@
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 
-import component from './components/LayerChooser.ce.vue'
+import component from './components/LayerChooser.vue'
 import locales from './locales'
 import { useLayerChooserStore } from './store'
 import { PluginId } from './types'

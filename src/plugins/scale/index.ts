@@ -5,7 +5,7 @@
 import type { PluginContainer } from '@/core'
 import type { ScalePluginOptions } from './types'
 
-import component from './components/ScaleWidget.ce.vue'
+import component from './components/ScaleWidget.vue'
 import locales from './locales'
 import { useScaleStore } from './store'
 import { PluginId } from './types'

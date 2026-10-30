@@ -5,7 +5,7 @@
 import type { PluginContainer } from '@/core'
 import type { FullscreenPluginOptions } from './types'
 
-import component from './components/FullscreenUI.ce.vue'
+import component from './components/FullscreenUI.vue'
 import locales from './locales'
 import { useFullscreenStore } from './store'
 import { PluginId } from './types'

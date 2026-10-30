@@ -5,7 +5,7 @@
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { LoadingIndicatorOptions } from './types'
 
-import component from './components/LoadingIndicator.ce.vue'
+import component from './components/LoadingIndicator.vue'
 import { useLoadingIndicatorStore } from './store'
 import { PluginId } from './types'
 

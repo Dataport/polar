@@ -5,7 +5,7 @@
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { FooterPluginOptions } from './types'
 
-import component from './components/PolarFooter.ce.vue'
+import component from './components/PolarFooter.vue'
 import locales from './locales'
 import { useFooterStore } from './store'
 import { PluginId } from './types'

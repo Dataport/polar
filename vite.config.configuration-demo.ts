@@ -10,6 +10,10 @@ export default defineConfig({
 		// @ts-expect-error | commonJs dts is broken
 		commonJs(),
 		vue({
+			// Removes the need for '.ce.vue' file extension.
+			features: {
+				customElement: /[\\/]src[\\/].*\.vue$/,
+			},
 			template: {
 				compilerOptions: {
 					isCustomElement: (tag) => tag.includes('-'),

@@ -5,7 +5,7 @@
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { RoutingPluginOptions } from './types'
 
-import component from './components/RoutingWrapper.ce.vue'
+import component from './components/RoutingWrapper.vue'
 import locales from './locales'
 import { useRoutingStore } from './store'
 import { PluginId } from './types'

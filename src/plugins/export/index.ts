@@ -5,7 +5,7 @@
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { ExportPluginOptions } from './types'
 
-import component from './components/ExportUI.ce.vue'
+import component from './components/ExportUI.vue'
 import locales from './locales'
 import { useExportStore } from './store'
 import { PluginId } from './types'

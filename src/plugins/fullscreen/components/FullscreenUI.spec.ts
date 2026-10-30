@@ -9,7 +9,7 @@ import { mockedT } from '@/test/utils/mockI18n'
 
 import { useFullscreenStore } from '../store'
 import { PluginId } from '../types'
-import FullscreenUI from './FullscreenUI.ce.vue'
+import FullscreenUI from './FullscreenUI.vue'
 
 vi.mock('i18next', () => ({
 	t: (key, { ns, context }) => `$t(${ns}:${key}_${context})`,
