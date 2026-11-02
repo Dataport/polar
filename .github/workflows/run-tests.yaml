@@ -152,3 +152,34 @@ jobs:
 
       - name: Run type-checking
         run: npm run tsc:ci
+
+  build:
+    name: Build and check shipped types
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: 'package.json'
+          registry-url: https://registry.npmjs.org/
+
+      - name: Restore node_modules
+        id: node-modules-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json', 'patches/**') }}
+
+      - name: Install NPM dependencies (cache miss fallback)
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Build package
+        run: npm run build:ci
+
+      - name: Check shipped types
+        run: npm run tsc:dist
