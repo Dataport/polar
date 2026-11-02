@@ -16,6 +16,14 @@ export const resourcesEn = {
 	},
 } as const
 
+/**
+ * InitialView plugin locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
 const locales: Locale[] = [
 	{
 		type: 'de',
@@ -27,4 +35,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales
