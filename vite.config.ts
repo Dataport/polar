@@ -108,9 +108,12 @@ export default defineConfig(({ mode }) => ({
 		}),
 		vueDevTools(),
 		dts({
-			bundleTypes: true,
+			// Unbundled, so entries reference shared types instead of copying them.
+			insertTypesEntry: true,
 			processor: 'vue',
 			tsconfigPath: './src/tsconfig.json',
+			exclude: ['src/**/*.spec.ts', 'src/test/**'],
+			compilerOptions: { stripInternal: true },
 			beforeWriteFile: (_, content) => ({
 				content: stripDocHidden(content),
 			}),
