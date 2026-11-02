@@ -605,6 +605,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#typed-translations-in-clients" class="md-nav__link">
+    Typed translations in clients
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -691,6 +698,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#typed-translations-in-clients" class="md-nav__link">
+    Typed translations in clients
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -706,6 +720,9 @@
                   
 
 
+<p>s---
+title: Development</p>
+<hr />
 <h1 id="development">Development</h1>
 <p>Hint:
 Developing yourself is optional.
@@ -734,6 +751,26 @@ POLAR is a purely front-end solution and as such general knowledge about web dev
 <p><em>TypeScript</em></p>
 <progress max="100" value="10">10</progress>
 <p><em>SCSS</em></p>
+<h2 id="typed-translations-in-clients">Typed translations in clients</h2>
+<p>POLAR does not ship its <code>i18next</code> type configuration.
+To get typed <code>$t</code> and <code>t</code> calls in a client, add a declaration file within the client's TypeScript <code>include</code>, e.g. <code>src/@types/i18next.d.ts</code>:</p>
+<pre><code class="language-ts">import 'i18next'
+
+import type { LocaleResources } from '@polar/polar'
+import type { clientLocalesEn } from '../locales'
+
+declare module 'i18next' {
+    interface CustomTypeOptions {
+        enableSelector: true
+        resources: LocaleResources &amp; typeof clientLocalesEn
+    }
+}
+</code></pre>
+<p><code>LocaleResources</code> covers the namespaces of POLAR's core and bundled plugins.
+<code>clientLocalesEn</code> stands for the client's own locale resources, keyed by namespace.</p>
+<!---
+TODO: Document this at a more visible place for client developers.
+-->
 
 
 
