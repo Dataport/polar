@@ -1,7 +1,7 @@
 import type { Component } from 'vue'
 import type { Icon, MoveHandleProperties } from '../types'
 
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { markRaw, ref } from 'vue'
 
 export const useMoveHandleStore = defineStore('moveHandle', () => {
@@ -66,3 +66,7 @@ export const useMoveHandleStore = defineStore('moveHandle', () => {
 		setMoveHandleActionButton,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useMoveHandleStore, import.meta.hot))
+}

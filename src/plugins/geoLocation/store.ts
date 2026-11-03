@@ -17,7 +17,7 @@ import Overlay from 'ol/Overlay'
 import * as Proj from 'ol/proj'
 import { transform as transformCoordinates } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
 import { useSpaceDetector } from '@/composables/spaceDetector'
@@ -358,6 +358,10 @@ export const useGeoLocationStore = defineStore('plugins/geoLocation', () => {
 		boundaryCheck: lastBoundaryCheck,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useGeoLocationStore, import.meta.hot))
+}
 
 // TODO: Migrate tests from jest to vitest
 /*

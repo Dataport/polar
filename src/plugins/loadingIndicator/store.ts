@@ -2,7 +2,7 @@
  * @module \@polar/polar/plugins/loadingIndicator/store
  */
 
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
@@ -104,3 +104,9 @@ export const useLoadingIndicatorStore = defineStore(
 		}
 	}
 )
+
+if (import.meta.hot) {
+	import.meta.hot.accept(
+		acceptHMRUpdate(useLoadingIndicatorStore, import.meta.hot)
+	)
+}
