@@ -1,13 +1,11 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/attributions
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { AttributionsPluginOptions } from './types'
 
-import AttributionsWrapper from './components/AttributionsWrapper.ce.vue'
+import AttributionsWrapper from './components/AttributionsWrapper.vue'
 import locales from './locales'
 import { useAttributionsStore } from './store'
 import { PluginId } from './types'

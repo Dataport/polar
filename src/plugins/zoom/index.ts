@@ -1,13 +1,11 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/zoom
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer } from '@/core'
 import type { ZoomPluginOptions } from './types'
 
-import component from './components/ZoomUI.ce.vue'
+import component from './components/ZoomUI.vue'
 import locales from './locales'
 import { useZoomStore } from './store'
 import { PluginId } from './types'

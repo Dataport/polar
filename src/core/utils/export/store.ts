@@ -1,5 +1,5 @@
 import type { WatchOptions } from 'vue'
-import type PolarContainer from '../../components/PolarContainer.ce.vue'
+import type { PolarMapInstance } from '../..'
 import type { useCoreStore } from '../../stores'
 import type {
 	BundledPluginId,
@@ -28,6 +28,9 @@ type StoreId = 'core' | PluginId
 type StoreParameter<T extends StoreId> = T extends 'core' | BundledPluginId
 	? ExtractStateAndGetters<StoreType<T>>
 	: string
+type GetStoreResult<T extends StoreId> = T extends 'core' | BundledPluginId
+	? StoreType<T>
+	: PolarPluginStore
 
 /**
  * Returns the store module for the core or for an active plugin.
@@ -37,10 +40,12 @@ type StoreParameter<T extends StoreId> = T extends 'core' | BundledPluginId
  * @returns Core store for the map if `'core'` is given, or the plugin's store else.
  */
 export function getStore<T extends StoreId>(
-	map: typeof PolarContainer,
+	map: PolarMapInstance,
 	storeName: T
-): T extends 'core' | BundledPluginId ? StoreType<T> : PolarPluginStore {
-	return storeName === 'core' ? map.store : map.store.getPluginStore(storeName)
+) {
+	return (
+		storeName === 'core' ? map.store : map.store.getPluginStore(storeName)
+	) as GetStoreResult<T>
 }
 
 /**
@@ -53,7 +58,7 @@ export function getStore<T extends StoreId>(
  * @param options - Additional options to give to `watch`.
  */
 export function subscribe<T extends StoreId>(
-	map: typeof PolarContainer,
+	map: PolarMapInstance,
 	storeName: T,
 	parameterName: StoreParameter<T>,
 	callback: SubscribeCallback,
@@ -75,7 +80,7 @@ export function subscribe<T extends StoreId>(
  * @param payload - The payload to update the given parameter with.
  */
 export function updateState<T extends StoreId>(
-	map: typeof PolarContainer,
+	map: PolarMapInstance,
 	storeName: T,
 	parameterName: StoreParameter<T>,
 	payload: unknown

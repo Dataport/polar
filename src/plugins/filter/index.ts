@@ -1,13 +1,11 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/filter
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { FilterPluginOptions } from './types'
 
-import component from './components/FilterUI.ce.vue'
+import component from './components/FilterUI.vue'
 import locales from './locales'
 import { useFilterStore } from './store'
 import { PluginId } from './types'

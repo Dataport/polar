@@ -136,19 +136,9 @@ export interface CategoryWithSelection extends Category {
  * {
  * 	targetProperty: 'start',
  * 	pattern: 'YYYYMMDD',
- * 	last: [
- * 		{
- * 			amounts: [7, 30],
- * 		},
- * 	],
- * 	next: [
- * 		{
- * 			amounts: [7, 30],
- * 		},
- * 	],
- * 	freeSelection: {
- * 		now: 'until',
- * 	},
+ * 	last: [7, 30],
+ * 	next: [7, 30],
+ * 	freeSelection: 'until',
  * }
  * ```
  */
@@ -282,16 +272,8 @@ export interface FilterConfiguration {
  * 			],
  * 			time: {
  * 				targetProperty: 'lastAccident',
- * 				last: [
- * 					{
- * 						amounts: [7, 30],
- * 						unit: 'days',
- * 					},
- * 				],
- * 				freeSelection: {
- * 					unit: 'days',
- * 					now: 'until'
- * 				},
+ * 				last: [7, 30],
+ * 				freeSelection: 'until',
  * 				pattern: 'YYYYDDMM'
  * 			}
  * 		}

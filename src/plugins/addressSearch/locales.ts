@@ -1,11 +1,9 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the addressSearch plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/addressSearch
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Locale } from '@/core'
 
@@ -53,7 +51,14 @@ export const resourcesEn = {
 	},
 } as const
 
-// first type will be used as fallback language
+/**
+ * AddressSearch plugin locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
 const locales: Locale[] = [
 	{
 		type: 'de',
@@ -65,4 +70,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales

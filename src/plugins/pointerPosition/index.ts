@@ -1,13 +1,11 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/pointerPosition
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer } from '@/core'
 import type { PointerPositionPluginOptions } from './types'
 
-import component from './components/PointerPosition.ce.vue'
+import component from './components/PointerPosition.vue'
 import locales from './locales'
 import { usePointerPositionStore } from './store'
 import { PluginId } from './types'

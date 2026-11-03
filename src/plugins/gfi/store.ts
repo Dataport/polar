@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/gfi/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { readonly } from 'vue'
@@ -11,13 +9,12 @@ import { useGfiFeatureStore } from './stores/feature'
 import { useGfiListStore } from './stores/list'
 import { useGfiMainStore } from './stores/main'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for feature information requests.
  */
-/* eslint-enable tsdoc/syntax */
+
 export const useGfiStore = defineStore('plugins/gfi', () => {
 	const gfiMainStore = useGfiMainStore()
 	const gfiMainStoreRefs = storeToRefs(gfiMainStore)

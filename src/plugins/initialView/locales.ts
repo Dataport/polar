@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module locales/plugins/InitialView
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Locale } from '@/core'
 
@@ -18,6 +16,14 @@ export const resourcesEn = {
 	},
 } as const
 
+/**
+ * InitialView plugin locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
 const locales: Locale[] = [
 	{
 		type: 'de',
@@ -29,4 +35,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales

@@ -1,13 +1,11 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/addressSearch
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { AddressSearchPluginOptions } from './types'
 
-import component from './components/AddressSearch.ce.vue'
+import component from './components/AddressSearch.vue'
 import locales from './locales'
 import { useAddressSearchStore } from './store'
 import { PluginId } from './types'

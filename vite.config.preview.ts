@@ -19,9 +19,7 @@ export default defineConfig({
 		}),
 		kernExtraIcons({
 			cssLayer: 'kern-ux-icons',
-			ignoreFilename: (filename) =>
-				!filename.includes('/examples/iceberg/') &&
-				!filename.includes('/examples/github-io/'),
+			ignoreFilename: (filename) => !filename.includes('/examples/iceberg/'),
 		}),
 		enrichedConsole(),
 	],
@@ -42,12 +40,6 @@ export default defineConfig({
 					'iceberg',
 					'index.html'
 				),
-				githubIo: resolve(
-					import.meta.dirname,
-					'examples',
-					'github-io',
-					'index.html'
-				),
 			},
 		},
 	},
@@ -55,6 +47,6 @@ export default defineConfig({
 		port: 1235,
 	},
 	optimizeDeps: {
-		entries: ['snowbox', 'iceberg', 'github-io'],
+		entries: ['snowbox', 'iceberg'],
 	},
 })

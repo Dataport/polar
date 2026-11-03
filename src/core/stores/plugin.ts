@@ -7,10 +7,11 @@ import type {
 	PolarPluginStore,
 } from '../types'
 
-import { toMerged } from 'es-toolkit'
 import i18next from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, markRaw, reactive } from 'vue'
+
+import { mergeConfiguration } from '@/lib/mergeConfiguration'
 
 import { useMainStore } from './main'
 
@@ -25,7 +26,7 @@ export const usePluginStore = defineStore('plugin', () => {
 
 		/* configuration merge – "options" are from client-code, "configuration"
 		 * is from mapConfiguration object and thus overrides */
-		const pluginConfiguration = toMerged(
+		const pluginConfiguration = mergeConfiguration(
 			options || {},
 			(mainStore.configuration[id] || {}) as PluginOptions
 		)

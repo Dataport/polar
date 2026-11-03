@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, readonly } from 'vue'
@@ -13,13 +11,12 @@ import { useMarkerStore } from './marker'
 import { useMoveHandleStore } from './moveHandle'
 import { usePluginStore } from './plugin'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Core store of POLAR.
  */
-/* eslint-enable tsdoc/syntax */
+
 export const useCoreStore = defineStore('core', () => {
 	const mainStore = useMainStore()
 	const mainStoreRefs = storeToRefs(mainStore)

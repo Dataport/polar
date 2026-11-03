@@ -17,8 +17,8 @@ export function calculateScaleFromResolution(
 	// inchesPerMeter is used to convert the resolution (distance in meters) to
 	// inches per pixel (1in = 96px) so that it can be multiplied with dpi.
 	const inchesPerMeter = 39.37
-	const scale = Math.round(
-		resolution * METERS_PER_UNIT[unit] * inchesPerMeter * dpi
+
+	return Math.round(
+		resolution * (METERS_PER_UNIT[unit] as number) * inchesPerMeter * dpi
 	)
-	return scale
 }

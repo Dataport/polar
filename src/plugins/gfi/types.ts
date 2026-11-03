@@ -26,9 +26,10 @@ export const PluginId = 'gfi'
  * ```
  *
  * @param feature - Feature to calculate the tooltip for
+ * @param map - Map the feature is rendered in.
  * @returns Array of tuples of the form [HTML tag to render, content or locale key]
  */
-export type ShowTooltip = (feature: Feature) => [string, string][]
+export type ShowTooltip = (feature: Feature, map: Map) => [string, string][]
 
 /**
  * Gfi configuration for a layer.
@@ -441,7 +442,7 @@ export interface GfiPluginOptions extends PlaceablePluginOptions {
 
 /**
  * parameter specification for request method
- * @internal
+ * @docHidden
  */
 export interface RequestGfiParameters {
 	coordinateOrExtent: [number, number] | [number, number, number, number]
@@ -457,7 +458,7 @@ export interface RequestGfiParameters {
 	mode?: 'bboxDot' | 'intersects'
 }
 
-/** @internal */
+/** @docHidden */
 export interface RequestGfiWmsParameters extends Pick<
 	RequestGfiParameters,
 	'layerConfiguration' | 'layerSpecification' | 'map'

@@ -1,11 +1,9 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the pointerPosition plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/pointerPosition
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Locale } from '@/core'
 
@@ -60,4 +58,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales

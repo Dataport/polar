@@ -1,11 +1,9 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the layerChooser plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/layerChooser
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Locale } from '@/core'
 
@@ -45,7 +43,14 @@ export const resourcesEn = {
 	returnToLayers: 'Back',
 } as const
 
-// first type will be used as fallback language
+/**
+ * LayerChooser plugin locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
 const locales: Locale[] = [
 	{
 		type: 'de',
@@ -57,4 +62,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales

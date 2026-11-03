@@ -1,13 +1,11 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/geoLocation
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { GeoLocationPluginOptions } from './types'
 
-import component from './components/GeoLocation.ce.vue'
+import component from './components/GeoLocation.vue'
 import locales from './locales'
 import { useGeoLocationStore } from './store'
 import { PluginId } from './types'

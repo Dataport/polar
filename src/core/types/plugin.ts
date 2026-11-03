@@ -59,7 +59,7 @@ import type { useZoomStore as ZoomStore } from '@/plugins/zoom/store'
 import type { NineLayoutTag } from '../utils/NineLayoutTag'
 import type { Icon } from './theme'
 
-/** @internal */
+/** @docHidden */
 export interface Locale {
 	resources: Record<string, ResourceKey>
 	type: string
@@ -156,7 +156,7 @@ export type PolarPluginStore<
 	},
 > = SetupStoreDefinition<string, T>
 
-/** @internal */
+/** @docHidden */
 export type BundledPluginId =
 	| typeof AddressSearchPluginId
 	| typeof AttributionsPluginId
@@ -187,7 +187,7 @@ type GetPluginStore<
 	S extends PolarPluginStore<any>,
 > = T extends I ? S : never
 
-/** @internal */
+/** @docHidden */
 export type BundledPluginStores<T extends BundledPluginId> =
 	| GetPluginStore<T, typeof AddressSearchPluginId, typeof AddressSearchStore>
 	| GetPluginStore<T, typeof AttributionsPluginId, typeof AttributionsStore>
@@ -223,7 +223,7 @@ type GetPluginResources<
 	S extends Locale['resources'],
 > = T extends I ? S : never
 
-/** @internal */
+/** @docHidden */
 export type BundledPluginLocaleResources<T extends BundledPluginId> =
 	| GetPluginResources<
 			T,
@@ -267,10 +267,10 @@ export type BundledPluginLocaleResources<T extends BundledPluginId> =
 	| GetPluginResources<T, typeof ToastPluginId, typeof ToastResources>
 	| GetPluginResources<T, typeof ZoomPluginId, typeof ZoomResources>
 
-/** @internal */
+/** @docHidden */
 export type ExternalPluginId = `external-${string}`
 
-/** @internal */
+/** @docHidden */
 export type PluginId = BundledPluginId | ExternalPluginId
 
 export interface PluginContainer {

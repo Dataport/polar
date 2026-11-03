@@ -1,13 +1,11 @@
 import type { Locale } from '@/core'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the iconMenu plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/iconMenu
  */
-/* eslint-enable tsdoc/syntax */
 
 /**
  * German locales for iconMenu plugin.
@@ -47,7 +45,14 @@ export const resourcesEn = {
 	},
 } as const
 
-// first type will be used as fallback language
+/**
+ * IconMenu plugin locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
 const locales: Locale[] = [
 	{
 		type: 'de',
@@ -59,4 +64,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales

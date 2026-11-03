@@ -445,8 +445,7 @@ addPlugin(
 									'skat_text',
 								],
 								exportProperty: 'pic',
-								showTooltip: (feature) => {
-									const olMap = getStore(map, 'core').map
+								showTooltip: (feature, olMap) => {
 									const features = feature.get('features') || [feature]
 									const visibleFeatures = features.filter((f) => isVisible(f))
 									if (visibleFeatures.length > 1) {

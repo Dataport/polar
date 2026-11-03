@@ -1,13 +1,11 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/toast
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer } from '@/core'
 import type { ToastPluginOptions } from './types'
 
-import component from './components/ToastContainer.ce.vue'
+import component from './components/ToastContainer.vue'
 import locales from './locales'
 import { useToastStore } from './store'
 import { PluginId } from './types'

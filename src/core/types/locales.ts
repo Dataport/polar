@@ -3,7 +3,7 @@ import type { resourcesEn as core } from '../locales'
 import type { CoreId, SharedId } from '../types'
 import type { BundledPluginId, BundledPluginLocaleResources } from './plugin'
 
-/** @internal */
+/** @docHidden */
 export type LocaleResources = {
 	[
 		T in typeof CoreId | typeof SharedId | BundledPluginId

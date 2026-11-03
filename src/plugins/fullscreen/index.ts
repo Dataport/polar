@@ -1,13 +1,11 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/fullscreen
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer } from '@/core'
 import type { FullscreenPluginOptions } from './types'
 
-import component from './components/FullscreenUI.ce.vue'
+import component from './components/FullscreenUI.vue'
 import locales from './locales'
 import { useFullscreenStore } from './store'
 import { PluginId } from './types'

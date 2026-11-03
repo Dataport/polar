@@ -8,7 +8,7 @@ import { nextTick } from 'vue'
 import { mockedT } from '@/test/utils/mockI18n'
 
 import { useToastStore } from '../store'
-import ToastUI from './ToastUI.ce.vue'
+import ToastUI from './ToastUI.vue'
 
 /* eslint-disable no-empty-pattern */
 const test = _test.extend<{

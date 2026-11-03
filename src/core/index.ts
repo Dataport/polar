@@ -1,4 +1,3 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the main export for the NPM package \@polar/polar.
  *
@@ -7,20 +6,36 @@
  * @packageDocumentation
  * @module \@polar/polar
  */
-/* eslint-enable tsdoc/syntax */
+
+import type { PolarMapInstance } from './components/polarMapInstance'
 
 import { defineCustomElement } from 'vue'
 
-import PolarContainer from './components/PolarContainer.ce.vue'
+import PolarContainer from './components/PolarContainer.vue'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
 import './monkeyHeaderLoader'
 
+// Augment global namespace
+declare global {
+	// Interface mapping dom elements to interfaces; https://www.typescriptlang.org/docs/handbook/dom-manipulation.html#documentcreateelement
+	interface HTMLElementTagNameMap {
+		/* eslint-disable @typescript-eslint/naming-convention */
+		/**
+		 * This declaration lets `document.createElement('polar-map')` and `document.querySelector('polar-map')`
+		 * resolve to `PolarMapInstance` without a cast.
+		 *
+		 * @remarks
+		 * The element only behaves as typed once the function `register` has
+		 * defined the custom element.
+		 */
+		'polar-map': PolarMapInstance
+		/* eslint-enable @typescript-eslint/naming-convention */
+	}
+}
+
 /**
  * Custom element of the POLAR map.
- *
- * You will probably need this to have TypeScript support on `polar-map` elements
- * if you want to do so.
  */
 export const PolarMap = defineCustomElement(PolarContainer, {
 	configureApp(app) {
@@ -44,4 +59,4 @@ export * from './utils/export/plugin'
 export * from './utils/export/store'
 
 export type * from './types'
-export { type PolarContainer }
+export type { PolarMapInstance }

@@ -11,20 +11,30 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import enrichedConsole from './vitePlugins/enrichedConsole.js'
 
 /**
- * Collects public `lib` entries for subpath exports (e.g.`@polar/polar/lib/invisibleStyle`).
+ * Collects public subpath entries (`lib` and `components`) for subpath exports
+ * (e.g. `@polar/polar/lib/invisibleStyle`, `@polar/polar/components/PolarCard`).
+ *
  * A directory with an `index.ts` is exposed only via its folder path;
- * otherwise each `.ts` file is exposed and subdirectories are traversed.
+ * otherwise each file matching `extensions` is exposed and subdirectories are traversed.
  */
-function collectLibEntries() {
+function collectSubpathEntries(subDir: string, extensions = ['.ts']) {
 	const baseDir = resolve(import.meta.dirname, 'src')
 	const entries: Record<string, string> = {}
 
 	const toKey = (absPath: string) =>
 		relative(baseDir, absPath).split(sep).join('/')
+	const stripExtension = (key: string) => {
+		const ext = extensions.find((candidate) => key.endsWith(candidate))
+		return ext ? key.slice(0, -ext.length) : key
+	}
+	const isEntryFile = (name: string) =>
+		!name.endsWith('.spec.ts') &&
+		!name.endsWith('.d.ts') &&
+		extensions.some((ext) => name.endsWith(ext))
 	const addEntry = (key: string, file: string) => {
 		if (entries[key]) {
 			console.warn(
-				`[vite.config] Duplicate lib entry key "${key}"; ignoring "${file}".`
+				`[vite.config] Duplicate entry key "${key}"; ignoring "${file}".`
 			)
 			return
 		}
@@ -40,24 +50,56 @@ function collectLibEntries() {
 			const full = join(currentDir, item.name)
 			if (item.isDirectory()) {
 				walk(full)
-			} else if (item.isFile() && item.name.endsWith('.ts')) {
-				addEntry(toKey(full).replace(/\.ts$/, ''), full)
+			} else if (item.isFile() && isEntryFile(item.name)) {
+				addEntry(stripExtension(toKey(full)), full)
 			}
 		}
 	}
 
-	walk(join(baseDir, 'lib'))
+	walk(join(baseDir, subDir))
 
 	return entries
 }
 
-const libEntries = collectLibEntries()
+const subpathEntries = {
+	...collectSubpathEntries('lib'),
+	...collectSubpathEntries('components', ['.vue']),
+}
+
+/**
+ * Removes `@docHidden` TSDoc tags from emitted declaration files.
+ */
+function stripDocHidden(content: string) {
+	if (!content.includes('@docHidden')) {
+		return content
+	}
+	const result: string[] = []
+	for (const line of content.split('\n')) {
+		// Standalone comment (`/** @docHidden */`): drop the whole comment
+		if (/^\s*\/\*\*\s*@docHidden\s*\*\/\s*$/.test(line)) {
+			continue
+		}
+		// Tag within a block: drop the tag line and the preceding blank line
+		if (/^\s*\*\s*@docHidden\s*$/.test(line)) {
+			if (result.length && /^\s*\*\s*$/.test(result[result.length - 1])) {
+				result.pop()
+			}
+			continue
+		}
+		result.push(line)
+	}
+	return result.join('\n')
+}
 
 export default defineConfig(({ mode }) => ({
 	plugins: [
 		// @ts-expect-error | commonJs dts is broken
 		commonJs(),
 		vue({
+			// Removes the need for '.ce.vue' file extension.
+			features: {
+				customElement: /[\\/]src[\\/].*\.vue$/,
+			},
 			template: {
 				compilerOptions: {
 					isCustomElement: (tag) => tag.includes('-'),
@@ -66,9 +108,15 @@ export default defineConfig(({ mode }) => ({
 		}),
 		vueDevTools(),
 		dts({
-			bundleTypes: true,
+			// Unbundled, so entries reference shared types instead of copying them.
+			insertTypesEntry: true,
 			processor: 'vue',
 			tsconfigPath: './src/tsconfig.json',
+			exclude: ['src/**/*.spec.ts', 'src/test/**'],
+			compilerOptions: { stripInternal: true },
+			beforeWriteFile: (_, content) => ({
+				content: stripDocHidden(content),
+			}),
 		}),
 		...(mode === 'development'
 			? [
@@ -92,6 +140,13 @@ export default defineConfig(({ mode }) => ({
 		}),
 		enrichedConsole(),
 	],
+	define: {
+		/* eslint-disable @typescript-eslint/naming-convention */
+		// Strips in-source test blocks from shipped bundle.
+		'import.meta.vitest': 'undefined',
+		'process.env.NODE_ENV': JSON.stringify('production'),
+		/* eslint-enable @typescript-eslint/naming-convention */
+	},
 	build: {
 		lib: {
 			name: '@polar/polar',
@@ -106,11 +161,14 @@ export default defineConfig(({ mode }) => ({
 						[`plugin-${basename(path)}-store`, [path, 'store.ts'].join(sep)],
 					])
 				),
-				...libEntries,
+				...subpathEntries,
 			},
 		},
 		sourcemap: true,
 		target: 'esnext',
+		rolldownOptions: {
+			external: ['vue', 'pinia', 'ol', /^ol\//, 'i18next', 'i18next-vue'],
+		},
 	},
 	server: {
 		port: 1234,
@@ -137,9 +195,9 @@ export default defineConfig(({ mode }) => ({
 								],
 							])
 						),
-						// lib keys are never a prefix of one another, so their order is irrelevant.
+						// Subpath keys are never a prefix of one another, so their order is irrelevant.
 						...Object.fromEntries(
-							Object.entries(libEntries).map(([key, file]) => [
+							Object.entries(subpathEntries).map(([key, file]) => [
 								`@polar/polar/${key}`,
 								file,
 							])

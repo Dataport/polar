@@ -1,13 +1,11 @@
 import type { Locale } from '@/core'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the export plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/export
  */
-/* eslint-enable tsdoc/syntax */
 
 /**
  * German locales for export plugin.
@@ -39,6 +37,14 @@ export const resourcesEn = {
 	error: 'An error occurred while exporting the map.',
 } as const
 
+/**
+ * Export plugin locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
 const locales: Locale[] = [
 	{
 		type: 'de',
@@ -50,4 +56,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales

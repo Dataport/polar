@@ -1,8 +1,6 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/scale/store
  */
-/* eslint-enable tsdoc/syntax */
 
 import { t } from 'i18next'
 import { acceptHMRUpdate, defineStore } from 'pinia'
@@ -16,13 +14,12 @@ import { PluginId } from './types'
 import { beautifyScale } from './utils/beautifyScale'
 import { calculateScaleFromResolution } from './utils/calculateScaleFromResolution'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * @function
  *
  * Plugin store for the scale.
  */
-/* eslint-enable tsdoc/syntax */
+
 export const useScaleStore = defineStore('plugins/scale', () => {
 	const coreStore = useCoreStore()
 	const { dpi } = useDpi()
@@ -74,16 +71,11 @@ export const useScaleStore = defineStore('plugins/scale', () => {
 			zoomOptions.value.length > 0
 	)
 
-	function updateScale(): void {
+	function updateScale() {
 		const unit = coreStore.map.getView().getProjection().getUnits()
 		const resolution: number = coreStore.map.getView().getResolution() as number
-		const scale: number = calculateScaleFromResolution(
-			unit,
-			resolution,
-			dpi.value
-		)
 
-		scaleValue.value = scale
+		scaleValue.value = calculateScaleFromResolution(unit, resolution, dpi.value)
 	}
 
 	coreStore.map.on('moveend', updateScale)

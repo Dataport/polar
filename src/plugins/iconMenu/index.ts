@@ -1,13 +1,11 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * @module \@polar/polar/plugins/iconMenu
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { PluginContainer, PolarPluginStore } from '@/core'
 import type { IconMenuPluginOptions } from './types'
 
-import component from './components/IconMenu.ce.vue'
+import component from './components/IconMenu.vue'
 import locales from './locales'
 import { useIconMenuStore } from './store'
 import { PluginId } from './types'

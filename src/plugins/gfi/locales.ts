@@ -1,11 +1,9 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the gfi plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/gfi
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Locale } from '@/core'
 
@@ -91,4 +89,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales

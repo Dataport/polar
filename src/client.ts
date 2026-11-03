@@ -2,7 +2,7 @@ import type {
 	MapConfiguration,
 	MasterportalApiServiceRegister,
 	PluginContainer,
-	PolarContainer,
+	PolarMapInstance,
 } from '@/core'
 import type { Menu } from '@/plugins/iconMenu'
 
@@ -26,7 +26,7 @@ import Routing from '@/plugins/routing'
 import Scale from '@/plugins/scale'
 import Toast from '@/plugins/toast'
 
-function addPlugins(map: typeof PolarContainer, enabledPlugins: string[]) {
+function addPlugins(map: PolarMapInstance, enabledPlugins: string[]) {
 	const iconMenu = IconMenu({
 		displayComponent: true,
 		layoutTag: 'TOP_RIGHT',
@@ -134,14 +134,14 @@ export async function createMap(
 	modifyServiceRegister: (
 		register: MasterportalApiServiceRegister
 	) => MasterportalApiServiceRegister = (x) => x
-): Promise<typeof PolarContainer> {
+): Promise<PolarMapInstance> {
 	let register = serviceRegister
 	if (typeof serviceRegister === 'string') {
 		register = await fetchServiceRegister(serviceRegister)
 	}
 	register = modifyServiceRegister(register as MasterportalApiServiceRegister)
 
-	const map: typeof PolarContainer = await coreCreateMap(
+	const map: PolarMapInstance = await coreCreateMap(
 		containerId,
 		mapConfiguration,
 		register

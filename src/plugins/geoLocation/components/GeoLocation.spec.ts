@@ -7,7 +7,7 @@ import { test as _test, expect, vi } from 'vitest'
 import { mockedT } from '@/test/utils/mockI18n'
 
 import { useGeoLocationStore } from '../store'
-import GeoLocation from './GeoLocation.ce.vue'
+import GeoLocation from './GeoLocation.vue'
 
 /* eslint-disable no-empty-pattern */
 const test = _test.extend<{

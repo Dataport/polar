@@ -1,11 +1,9 @@
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in POLAR core.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/core
  */
-/* eslint-enable tsdoc/syntax */
 
 import type { Locale } from './types'
 
@@ -67,4 +65,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales

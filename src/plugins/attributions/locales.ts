@@ -1,13 +1,11 @@
 import type { Locale } from '@/core'
 
-/* eslint-disable tsdoc/syntax */
 /**
  * This is the documentation for the locales keys in the attributions plugin.
  * These locales are *NOT* exported, but documented only.
  *
  * @module locales/plugins/attributions
  */
-/* eslint-enable tsdoc/syntax */
 
 /**
  * German locales for attributions plugin.
@@ -37,7 +35,14 @@ export const resourcesEn = {
 	title: 'Attributions',
 } as const
 
-// first type will be used as fallback language
+/**
+ * Attributions plugin locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
 const locales: Locale[] = [
 	{
 		type: 'de',
@@ -49,4 +54,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales
