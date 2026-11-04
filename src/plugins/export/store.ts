@@ -6,7 +6,7 @@ import type { Interaction } from 'ol/interaction'
 import type { ExportFormat } from './types'
 
 import { t } from 'i18next'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { useSpaceDetector } from '@/composables/spaceDetector'
@@ -162,3 +162,7 @@ export const useExportStore = defineStore('plugins/export', () => {
 		exportedMap,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useExportStore, import.meta.hot))
+}

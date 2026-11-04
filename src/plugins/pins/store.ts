@@ -13,7 +13,7 @@ import { toMerged } from 'es-toolkit'
 import { pointerMove } from 'ol/events/condition'
 import { Select, Translate } from 'ol/interaction'
 import { toLonLat } from 'ol/proj'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { useStoreWatcher } from '@/composables/useStoreWatcher'
@@ -232,3 +232,7 @@ export const usePinsStore = defineStore('plugins/pins', () => {
 		teardownPlugin,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(usePinsStore, import.meta.hot))
+}

@@ -50,4 +50,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales

@@ -8,7 +8,7 @@ import type { LayerConfiguration } from '@/core'
 import type { LayerLegend, LayerOptions } from './types'
 
 import { toMerged } from 'es-toolkit'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
@@ -275,3 +275,7 @@ export const useLayerChooserStore = defineStore('plugins/layerChooser', () => {
 		toggleOpenedOptionsServiceLayer,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useLayerChooserStore, import.meta.hot))
+}

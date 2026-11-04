@@ -26,9 +26,10 @@ export const PluginId = 'gfi'
  * ```
  *
  * @param feature - Feature to calculate the tooltip for
+ * @param map - Map the feature is rendered in.
  * @returns Array of tuples of the form [HTML tag to render, content or locale key]
  */
-export type ShowTooltip = (feature: Feature) => [string, string][]
+export type ShowTooltip = (feature: Feature, map: Map) => [string, string][]
 
 /**
  * Gfi configuration for a layer.

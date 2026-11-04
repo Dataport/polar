@@ -7,7 +7,7 @@
 import type { PluginContainer } from '@/core'
 import type { InitialViewPluginOptions } from './types'
 
-import component from './components/InitialView.ce.vue'
+import component from './components/InitialView.vue'
 import locales from './locales'
 import { useInitialViewStore } from './store'
 import { PluginId } from './types'

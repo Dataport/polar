@@ -27,9 +27,9 @@ export interface KernThemeTree {
  * twice.
  */
 export interface KernTheme {
-	color: KernThemeTree
-	metric: KernThemeTree
-	typography: KernThemeTree
+	color?: KernThemeTree
+	metric?: KernThemeTree
+	typography?: KernThemeTree
 }
 
 /**

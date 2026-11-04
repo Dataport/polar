@@ -1,4 +1,4 @@
----
+s---
 title: Development
 ---
 
@@ -35,3 +35,30 @@ We are especially writing the client with the following libraries, to which addi
 <progress max="100" value="80">80</progress> *TypeScript*
 
 <progress max="100" value="10">10</progress> *SCSS*
+
+## Typed translations in clients
+
+POLAR does not ship its `i18next` type configuration.
+To get typed `$t` and `t` calls in a client, add a declaration file within the client's TypeScript `include`, e.g. `src/@types/i18next.d.ts`:
+
+```ts
+import 'i18next'
+
+import type { LocaleResources } from '@polar/polar'
+import type { clientLocalesEn } from '../locales'
+
+declare module 'i18next' {
+	interface CustomTypeOptions {
+		enableSelector: true
+		resources: LocaleResources & typeof clientLocalesEn
+	}
+}
+```
+
+`LocaleResources` covers the namespaces of POLAR's core and bundled plugins.
+`clientLocalesEn` stands for the client's own locale resources, keyed by namespace.
+
+<!---
+TODO: Document this at a more visible place for client developers.
+-->
+

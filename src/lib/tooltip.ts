@@ -44,7 +44,7 @@ const defaultStyle = `
  *
  * @example
  * ```
- * import { getTooltip } from '@/lib/tooltip'
+ * import { getTooltip } from '@polar/polar/lib/tooltip'
  *
  * // 'unregister' to drop locale listener after usage of 'element' (div) ends
  * const { element, unregister } = getTooltip(

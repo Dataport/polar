@@ -262,7 +262,10 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				el instanceof HTMLElement &&
 				el.id.startsWith('polar-plugin-routing-input-')
 		)
-		if (!isRoutingInput && !path.includes(coreStore.map.getTargetElement())) {
+		if (
+			!isRoutingInput &&
+			!path.includes(coreStore.map.getTargetElement() as HTMLElement)
+		) {
 			currentlyFocusedInput.value = -1
 		}
 	}

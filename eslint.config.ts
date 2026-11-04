@@ -178,6 +178,8 @@ export default defineConfig([
 			'vue2/',
 			'node_modules/',
 			'docs/assets/',
+			'docs/configuration-demo.js',
+			'docs/configuration-demo.css',
 			'docs-html/',
 			'.vscode/',
 			'**/dist/**',

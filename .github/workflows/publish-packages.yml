@@ -31,6 +31,9 @@ jobs:
       - name: Build package
         run: npm run build:ci
 
+      - name: Check shipped types
+        run: npm run tsc:dist
+
       - name: Publish to NPM
         run: npm publish --access public --tag latest
 
