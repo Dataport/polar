@@ -40,6 +40,19 @@ export interface ReverseGeocoderPluginOptions extends PluginOptions {
 	epsg?: string
 
 	/**
+	 * Escape hatch: Also reverse geocode coordinates that originated from the
+	 * {@link ReverseGeocoderPluginOptions.addressTarget | addressTarget}
+	 * (e.g. a pin set via search). The result is only forwarded, without zooming.
+	 *
+	 * @remarks
+	 * The `addressTarget` must ignore features of type `'reverse_geocoded'`
+	 * (as `pins` does), otherwise an infinite loop occurs.
+	 *
+	 * @defaultValue `false`
+	 */
+	forwardOriginatingChanges?: boolean
+
+	/**
 	 * Zoom level to zoom to when a successful answer was received.
 	 */
 	zoomTo?: number
