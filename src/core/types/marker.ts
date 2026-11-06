@@ -1,6 +1,22 @@
 import type { Feature } from 'ol'
+import type { Style } from 'ol/style'
 
 export type MarkersIsSelectableFunction = (feature: Feature) => boolean
+export type GetMarkerFunction = (
+	style: MarkerStyle,
+	count: number,
+	displayFeatureCount: boolean
+) => Style
+export type GetSVGConfigFunction = (
+	digits: number,
+	displayFeatureCount: boolean
+) => MarkerSVGConfig
+export type GetTextPositionFunction = (path: string) => TextPosition
+export type PinShape = 'circle' | 'pill'
+export interface TextPosition {
+	x: number
+	y: number
+}
 
 interface CallOnMapSelect {
 	action: string
@@ -32,8 +48,8 @@ export interface PolygonFillHatch {
 export interface MarkerStyle {
 	/**
 	 * `width` and `height` of the `<svg>`-cluster-marker.
-	 *
-	 * @defaultValue `[40, 36]`
+	 * These are the smallest values that worked well, so we kept them and scaled them up.
+	 * @defaultValue `[40 * 2, 36 * 2]`
 	 */
 	clusterSize: [number, number]
 
@@ -45,7 +61,7 @@ export interface MarkerStyle {
 	/**
 	 * `width` and `height` of the `<svg>`-marker.
 	 *
-	 * @defaultValue `[26, 36]`
+	 * @defaultValue `[40 * 2, 36 * 2]`
 	 */
 	size: [number, number]
 
@@ -62,6 +78,76 @@ export interface MarkerStyle {
 	 * @defaultValue `'2'`
 	 */
 	strokeWidth: string | number
+
+	/**
+	 * Text to display on the marker.
+	 *
+	 */
+	clusterCount?: number
+}
+
+/**
+ * The SVG shadow paths for the stacked marker layers.
+ */
+type SvgShadowPath = string
+
+/**
+ * The MarkerSVGConfig contains the SVG-informations needed to create the svg for the marker.
+ */
+export interface MarkerSVGConfig {
+	/**
+	 * The SVG path for the markershape where the text is displayed in.
+	 */
+	contentPath: string
+
+	/**
+	 * The definitions for the marker (e.g. shadow patterns with image data).
+	 */
+	defs: string
+
+	/**
+	 * Calculates the x and y coordinates for the text position within the marker.
+	 * The calculation is based on the provided SVG path
+	 * @throws Error If the provided path does not match the expected marker pattern.
+	 * @returns The x and y coordinates for the text position within the marker.
+	 */
+	getTextPosition: GetTextPositionFunction
+
+	/**
+	 * The shape of the marker.
+	 */
+	pinShape: PinShape
+
+	/**
+	 * The shadow path for the main/front marker layer.
+	 */
+	shadowPath: string
+
+	/** The outer shape of the marker. */
+	shapePath: string
+
+	stackedShadow1: SvgShadowPath
+	stackedShadow2: SvgShadowPath
+
+	/**
+	 * The SVG paths for the stacked shape of the marker.
+	 */
+	stackedShape1: string
+	stackedShape2: string
+	stackedTip1: string
+	stackedTip2: string
+
+	readonly textPosition: TextPosition
+
+	/**
+	 * The SVG path for the tip of the marker.
+	 */
+	tipPath: string
+
+	/**
+	 * The viewBox for the marker.
+	 */
+	viewBox: string
 }
 
 export interface MarkerLayer {
@@ -151,4 +237,10 @@ export interface MarkerConfiguration {
 	 * take place. Defaults to `false`.
 	 */
 	clusterClickZoom?: boolean
+
+	/**
+	 * If `true`, the number of features in a cluster will be displayed on the cluster marker.
+	 * @defaultValue `false`
+	 */
+	displayFeatureCount?: boolean
 }
