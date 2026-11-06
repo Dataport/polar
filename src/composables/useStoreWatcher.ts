@@ -29,6 +29,30 @@ type StoreWatcherOptions = WatchOptions & {
 	 * Used to break possible reference loops.
 	 */
 	target?: StoreReference | StoreReference[]
+
+	/**
+	 * If `true`, the callback is still invoked when a reference loop via
+	 * {@link StoreWatcherOptions.target | target} is detected.
+	 * The callback then receives `{ loopDetected: true }` and is responsible
+	 * for not writing to the target again; no origin is recorded for the targets
+	 * in this case.
+	 *
+	 * @defaultValue `false`
+	 */
+	invokeOnLoop?: boolean
+}
+
+/**
+ * Additional information passed to the callback of {@link useStoreWatcher}.
+ *
+ * @internal
+ */
+interface StoreWatcherCallbackContext {
+	/**
+	 * Whether the change originated from one of the configured targets.
+	 * Only ever `true` if {@link StoreWatcherOptions.invokeOnLoop | invokeOnLoop} is set.
+	 */
+	loopDetected: boolean
 }
 
 /**
@@ -36,7 +60,11 @@ type StoreWatcherOptions = WatchOptions & {
  * @internal
  */
 interface WatcherConfig {
-	callback: (value: unknown, source: StoreReference) => void | Promise<void>
+	callback: (
+		value: unknown,
+		source: StoreReference,
+		context: StoreWatcherCallbackContext
+	) => void | Promise<void>
 	handle: WatchStopHandle | null
 	source: StoreReference
 }
@@ -75,7 +103,7 @@ export function useStoreWatcher(
 	options?: StoreWatcherOptions
 ) {
 	const coreStore = useCoreStore()
-	const { target, ...watchOptions } = options ?? {}
+	const { target, invokeOnLoop = false, ...watchOptions } = options ?? {}
 	const sourcesArray = computed(() => {
 		if (typeof sources === 'function') {
 			return sources()
@@ -132,14 +160,19 @@ export function useStoreWatcher(
 					entry && Object.is(entry.value, value) ? entry.chain : []
 
 				const targets = resolveTargets()
-				// Do nothing if target is already part of the loop
+				// Target is already part of the loop: skip, or let the callback handle it.
 				if (targets.some(({ id }) => incoming.includes(id))) {
+					if (invokeOnLoop) {
+						await watcherConfig.callback(value, source, { loopDetected: true })
+					}
 					return
 				}
 
 				// Stamp the origin on the targets synchronously (before awaiting)
 				// so downstream watchers observe it before they run and can break loops.
-				const result = watcherConfig.callback(value, source)
+				const result = watcherConfig.callback(value, source, {
+					loopDetected: false,
+				})
 				targets.forEach(({ id, key, store: targetStore }) => {
 					if (targetStore) {
 						registry.set(`${id}/${key}`, {
@@ -241,7 +274,7 @@ if (import.meta.vitest) {
 	// Rebuilds the real AddressSearch -> Pins -> ReverseGeocoder -> AddressSearch wiring:
 	// a chosen address moves the pin, which reverse geocodes and would write the
 	// address selection back, closing the loop.
-	const setup = (options: { withTarget: boolean }) => {
+	const setup = (options: { withTarget: boolean; invokeOnLoop?: boolean }) => {
 		setActivePinia(createPinia())
 
 		const pins = reactive({ coordinate: null as [number, number] | null })
@@ -270,9 +303,12 @@ if (import.meta.vitest) {
 			)
 			useStoreWatcher(
 				[{ plugin: 'pins', key: 'coordinate' }],
-				(value) => selectResult(value),
+				(value, _source, context) => selectResult(value, context),
 				options.withTarget
-					? { target: { plugin: 'addressSearch', key: 'selectResult' } }
+					? {
+							target: { plugin: 'addressSearch', key: 'selectResult' },
+							invokeOnLoop: options.invokeOnLoop,
+						}
 					: undefined
 			)
 		})
@@ -301,6 +337,19 @@ if (import.meta.vitest) {
 
 		await selectAddress([1, 2])
 
-		expect(selectResult).toHaveBeenCalledWith([1, 2])
+		expect(selectResult).toHaveBeenCalledWith([1, 2], { loopDetected: false })
+	})
+
+	test('invokes the callback on a detected loop if invokeOnLoop is set', async () => {
+		const { selectResult, selectAddress } = setup({
+			withTarget: true,
+			invokeOnLoop: true,
+		})
+
+		await selectAddress([1, 2])
+
+		expect(selectResult).toHaveBeenCalledExactlyOnceWith([1, 2], {
+			loopDetected: true,
+		})
 	})
 }

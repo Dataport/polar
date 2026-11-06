@@ -44,7 +44,7 @@
 				<p class="kern-subline kern-subline--small">
 					{{ text.subtitle }}
 				</p>
-				<p class="kern-body kern-body--small">
+				<p class="kern-body kern-body--small" :title="text.subSubtitle || ''">
 					{{ text.subSubtitle }}
 				</p>
 			</section>
@@ -124,6 +124,16 @@ header {
 		}
 
 		& > .kern-body--small {
+			display: -webkit-box;
+			overflow: hidden;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			/*
+			 * Not fully supported yet, thus the above -webkit stuff as well.
+			 * See https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/line-clamp
+			 * for when this may become baseline.
+			 */
+			line-clamp: 2;
 			text-wrap: wrap;
 		}
 	}

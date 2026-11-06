@@ -45,13 +45,21 @@ export const useReverseGeocoderStore = defineStore(
 
 		useStoreWatcher(
 			() => configuration.value.coordinateSources || [],
-			async (value: unknown) => {
+			async (value, _source, { loopDetected }) => {
 				const coordinate = value as [number, number] | null
 				if (coordinate) {
-					await reverseGeocode(coordinate)
+					// On a loop, only forward the address.
+					await resolveAddress(coordinate, {
+						forwardToAddressTarget: true,
+						zoom: !loopDetected,
+					})
 				}
 			},
-			{ immediate: true, target: configuration.value.addressTarget }
+			{
+				immediate: true,
+				target: configuration.value.addressTarget,
+				invokeOnLoop: configuration.value.forwardOriginatingChanges,
+			}
 		)
 
 		function setupPlugin() {}
@@ -72,6 +80,19 @@ export const useReverseGeocoderStore = defineStore(
 		async function reverseGeocode(
 			coordinate: [number, number],
 			forwardToAddressTarget = true
+		) {
+			return resolveAddress(coordinate, {
+				forwardToAddressTarget,
+				zoom: forwardToAddressTarget,
+			})
+		}
+
+		async function resolveAddress(
+			coordinate: [number, number],
+			{
+				forwardToAddressTarget,
+				zoom,
+			}: { forwardToAddressTarget: boolean; zoom: boolean }
 		) {
 			const finish = indicateLoading()
 			if (abortController.value) {
@@ -98,7 +119,7 @@ export const useReverseGeocoderStore = defineStore(
 				if (configuration.value.addressTarget && forwardToAddressTarget) {
 					passFeatureToTarget(configuration.value.addressTarget, feature)
 				}
-				if (configuration.value.zoomTo && forwardToAddressTarget) {
+				if (configuration.value.zoomTo && zoom) {
 					coreStore.map.getView().fit(new Point(coordinate), {
 						maxZoom: configuration.value.zoomTo,
 						duration: 400,
@@ -151,16 +172,26 @@ if (import.meta.vitest) {
 	const { createPinia, setActivePinia } = await import('pinia')
 	const { reactive } = await import('vue')
 	const useCoreStoreFile = await import('@/core/stores')
+	const useStoreWatcherFile = await import('@/composables/useStoreWatcher')
 	const reverseGeocodeUtilFile = await import('./utils/reverseGeocodeWps')
 	const indicateLoadingFile = await import('@/lib/indicateLoading')
 
 	/* eslint-disable no-empty-pattern */
 	const test = _test.extend<{
+		forwardOriginatingChanges: boolean
+		storeWatcher: Mock<typeof useStoreWatcher>
 		reverseGeocodeUtil: Mock<typeof reverseGeocodeWps>
 		indicateLoading: Mock<typeof indicateLoading>
 		coreStore: Reactive<Record<string, unknown>>
 		store: ReturnType<typeof useReverseGeocoderStore>
 	}>({
+		forwardOriginatingChanges: false,
+		storeWatcher: [
+			async ({}, use) => {
+				await use(vi.spyOn(useStoreWatcherFile, 'useStoreWatcher'))
+			},
+			{ auto: true },
+		],
 		reverseGeocodeUtil: [
 			async ({}, use) => {
 				const reverseGeocodeUtil = vi
@@ -180,7 +211,7 @@ if (import.meta.vitest) {
 			{ auto: true },
 		],
 		coreStore: [
-			async ({}, use) => {
+			async ({ forwardOriginatingChanges }, use) => {
 				const fit = vi.fn()
 				const pluginStores = {
 					pins: reactive({
@@ -196,6 +227,7 @@ if (import.meta.vitest) {
 							coordinateSources: [{ plugin: 'pins', key: 'coordinate' }],
 							addressTarget: { key: 'addressTarget' },
 							zoomTo: 99,
+							forwardOriginatingChanges,
 						},
 					},
 					map: {
@@ -269,6 +301,37 @@ if (import.meta.vitest) {
 		await store.reverseGeocode([3, 4])
 		// @ts-expect-error | fit is mocked
 		expect(coreStore.map.getView().fit).toHaveBeenCalledOnce()
+	})
+
+	test('skips loops by default', ({ storeWatcher }) => {
+		expect(storeWatcher.mock.calls[0]?.[2]?.invokeOnLoop).toBeFalsy()
+	})
+
+	test.extend({ forwardOriginatingChanges: true })(
+		'handles loops if forwardOriginatingChanges is set',
+		({ storeWatcher }) => {
+			expect(storeWatcher.mock.calls[0]?.[2]?.invokeOnLoop).toBe(true)
+		}
+	)
+
+	test('only forwards the address on a loop', async ({
+		reverseGeocodeUtil,
+		coreStore,
+		storeWatcher,
+	}) => {
+		const feature = Symbol('feature')
+		reverseGeocodeUtil.mockResolvedValueOnce(
+			feature as unknown as ReverseGeocoderFeature
+		)
+		const callback = storeWatcher.mock.calls[0]?.[1]
+		await callback?.(
+			[5, 6],
+			{ plugin: 'pins', key: 'coordinate' },
+			{ loopDetected: true }
+		)
+		expect(coreStore.addressTarget).toHaveBeenCalledExactlyOnceWith(feature)
+		// @ts-expect-error | fit is mocked
+		expect(coreStore.map.getView().fit).not.toHaveBeenCalled()
 	})
 }
 
