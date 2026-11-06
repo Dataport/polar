@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { PluginId } from '../types'
+import { PluginId } from '@/plugins/addressSearch/types'
 </script>
 
 <style scoped>
