@@ -42,6 +42,7 @@ const {
 .polar-plugin-zoom-slider:focus-visible {
 	outline: solid var(--kern-color-action-default);
 	outline-offset: 0;
+	border-radius: var(--kern-metric-border-radius-default, 4px);
 }
 
 .polar-plugin-zoom-slider-vertical {
