@@ -7,7 +7,10 @@ import { updateTooltip } from '../utils/updateTooltip'
 
 export function useTooltip(
 	map: Map,
-	tooltipGenerators: Record<string, (feature: Feature) => [string, string][]>
+	tooltipGenerators: Record<
+		string,
+		(feature: Feature, map: Map) => [string, string][]
+	>
 ) {
 	if (!Object.keys(tooltipGenerators).length) {
 		return

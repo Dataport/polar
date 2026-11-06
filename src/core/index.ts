@@ -11,7 +11,7 @@ import type { PolarMapInstance } from './components/polarMapInstance'
 
 import { defineCustomElement } from 'vue'
 
-import PolarContainer from './components/PolarContainer.ce.vue'
+import PolarContainer from './components/PolarContainer.vue'
 import { I18Next } from './vuePlugins/i18next'
 import { Pinia } from './vuePlugins/pinia'
 import './monkeyHeaderLoader'
@@ -57,7 +57,6 @@ export { fetchServiceRegister } from './utils/fetchServiceRegister'
 export * from './utils/export/createMap'
 export * from './utils/export/plugin'
 export * from './utils/export/store'
-export { NineLayoutTag } from './utils/NineLayoutTag'
 
 export type * from './types'
 export type { PolarMapInstance }

@@ -2,7 +2,7 @@ import type { MapBrowserEvent } from 'ol'
 import type { Coordinate } from 'ol/coordinate'
 import type { ContextMenuEntry } from '../types'
 
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import { useMainStore } from './main'
@@ -94,3 +94,7 @@ export const useContextMenuStore = defineStore('contextMenu', () => {
 		suppressMapClickAfterLongPress,
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useContextMenuStore, import.meta.hot))
+}

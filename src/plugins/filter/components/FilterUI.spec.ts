@@ -9,7 +9,7 @@ import { useCoreStore } from '@/core/stores'
 import { mockedT } from '@/test/utils/mockI18n'
 
 import { useFilterStore } from '../store'
-import FilterUI from './FilterUI.ce.vue'
+import FilterUI from './FilterUI.vue'
 
 vi.mock('i18next', () => ({
 	t: (keyFn, opts) => mockedT(keyFn, opts),

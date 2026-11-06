@@ -39,7 +39,14 @@ export const resourcesEn = {
 	groupSelector: 'Select search topic',
 } as const
 
-// first type will be used as fallback language
+/**
+ * AddressSearch plugin locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
 const locales: Locale[] = [
 	{
 		type: 'de',
@@ -51,4 +58,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales

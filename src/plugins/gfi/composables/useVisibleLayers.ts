@@ -1,12 +1,14 @@
 import type Layer from 'ol/layer/Layer'
-import type { Ref } from 'vue'
+import type { DeepReadonly, Ref } from 'vue'
 
 import { ref } from 'vue'
 import { readonly } from 'vue'
 
 import { watchArray } from '@/lib/watchArray'
 
-export function useVisibleLayers(layers: Ref<Layer[]>) {
+export function useVisibleLayers(layers: Ref<Layer[]>): {
+	visibleLayers: DeepReadonly<Ref<Layer[]>>
+} {
 	const visibleLayers = ref<Layer[]>([])
 	const updateVisibleLayers = () => {
 		visibleLayers.value = layers.value.filter((layer) => layer.isVisible())

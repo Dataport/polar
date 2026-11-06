@@ -1,5 +1,5 @@
 import type { Overlay } from 'ol'
-import type { MapBrowserEvent } from 'ol'
+import type { Map, MapBrowserEvent } from 'ol'
 import type { Tooltip } from '@/lib/tooltip'
 
 import { Feature } from 'ol'
@@ -9,7 +9,10 @@ import { getTooltip } from '@/lib/tooltip'
 export function updateTooltip(
 	{ pixel, dragging, originalEvent, map }: MapBrowserEvent<PointerEvent>,
 	overlay: Overlay,
-	tooltipGenerators: Record<string, (feature: Feature) => [string, string][]>
+	tooltipGenerators: Record<
+		string,
+		(feature: Feature, map: Map) => [string, string][]
+	>
 ) {
 	if (dragging || ['touch', 'pen'].includes(originalEvent.pointerType)) {
 		return null
@@ -32,7 +35,7 @@ export function updateTooltip(
 			}
 			let element: Tooltip['element']
 			;({ element, unregister } = getTooltip(
-				tooltipGenerators[layer.get('id')]?.(feature) as [string, string][]
+				tooltipGenerators[layer.get('id')]?.(feature, map) as [string, string][]
 			))
 			overlay.setElement(element)
 			return true

@@ -225,7 +225,7 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		if (
 			!isRoutingInput &&
 			!isRoutingResultList &&
-			!path.includes(coreStore.map.getTargetElement())
+			!path.includes(coreStore.map.getTargetElement() as HTMLElement)
 		) {
 			const index = currentlyFocusedInput.value
 			const routeLength = route.value[index]?.length ?? 0

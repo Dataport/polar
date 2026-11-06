@@ -109,7 +109,14 @@ export const resourcesEn = {
 	noFeature: 'Route could not be determined. Try different coordinates.',
 } as const
 
-// first type will be used as fallback language
+/**
+ * Routing plugin locales.
+ *
+ * @privateRemarks
+ * The first entry will be used as fallback.
+ *
+ * @internal
+ */
 const locales: Locale[] = [
 	{
 		type: 'de',
@@ -121,4 +128,5 @@ const locales: Locale[] = [
 	},
 ]
 
+/** @internal */
 export default locales
