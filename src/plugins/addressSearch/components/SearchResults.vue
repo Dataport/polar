@@ -15,8 +15,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 
-import KernButton from '@/components/kern/KernButton.vue'
-import { useCoreStore } from '@/core/stores'
+import PolarResultList from '@/components/PolarResultList.ce.vue'
 
 import { useAddressSearchStore } from '../store'
 

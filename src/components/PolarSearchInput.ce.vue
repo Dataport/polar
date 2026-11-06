@@ -42,7 +42,7 @@ import type { VueElement } from 'vue'
 
 import { computed } from 'vue'
 
-import KernButton from '@/components/kern/KernButton.ce.vue'
+import KernButton from '@/components/kern/KernButton.vue'
 import SmallLoader from '@/components/SmallLoader.ce.vue'
 
 const props = defineProps<{

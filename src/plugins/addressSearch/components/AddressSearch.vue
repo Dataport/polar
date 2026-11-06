@@ -48,17 +48,15 @@ import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { computed, nextTick } from 'vue'
 
-import KernButton from '@/components/kern/KernButton.vue'
 import PolarCard from '@/components/PolarCard.vue'
+import PolarSearchInput from '@/components/PolarSearchInput.ce.vue'
 import PolarSelect from '@/components/PolarSelect.vue'
 import { useCoreStore } from '@/core/stores'
 import { focusFirstResult } from '@/lib/focusFirstResult'
 
 import { useAddressSearchStore } from '../store'
 import { PluginId } from '../types'
-import { focusFirstResult } from '../utils/focusFirstResult'
 import SearchResults from './SearchResults.vue'
-import SmallLoader from './SmallLoader.vue'
 
 const coreStore = useCoreStore()
 const addressSearchStore = useAddressSearchStore()

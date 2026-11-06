@@ -59,7 +59,7 @@ import type { PolarGeoJsonFeature } from '@/core'
 
 import { ref } from 'vue'
 
-import KernButton from '@/components/kern/KernButton.ce.vue'
+import KernButton from '@/components/kern/KernButton.vue'
 import { strongTitleByInput } from '@/lib/strongTitleByInput'
 
 defineProps<{
