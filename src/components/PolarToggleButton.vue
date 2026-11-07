@@ -93,7 +93,8 @@ fieldset {
 		}
 
 		input:focus-visible + .kern-btn {
-			outline: 2px solid var(--kern-color-action-default);
+			outline: 4px solid
+				var(--kern-color-action-focus-default-contextual, #454b6b);
 			outline-offset: 2px;
 		}
 
