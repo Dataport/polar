@@ -84,6 +84,10 @@ header {
 
 .kern-card__body {
 	gap: 0;
+	/*
+ 	 * Prevents the feature texts from contributing to the card's width.
+ 	 */
+	contain: inline-size;
 
 	.polar-plugin-gfi-list-empty-view {
 		padding: var(--kern-metric-space-small);
