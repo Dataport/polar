@@ -18,7 +18,8 @@ function buildKernTheme(theme: KernTheme): CSSStyleSheet {
 	const flatTheme = flattenKernTheme(theme)
 	sheet.replaceSync(`
 		@layer kern-ux-theme {
-			:host {
+			:host,
+			:host [data-kern-theme] {
 				${flatTheme.map(([k, v]) => `--${k}: ${v} !important;`).join('\n')}
 			}
 		}
