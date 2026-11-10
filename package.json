@@ -137,7 +137,7 @@
 		"prettier": "^3.9.10",
 		"stylelint": "^17.16.0",
 		"stylelint-config-html": "^2.0.0",
-		"stylelint-config-recommended": "^18.0.0",
+		"stylelint-config-recommended": "^19.0.0",
 		"stylelint-config-recommended-vue": "^2.0.0",
 		"stylelint-value-no-unknown-custom-properties": "^6.1.1",
 		"tsarch": "^5.4.1",
