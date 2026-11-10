@@ -24,31 +24,38 @@
 		>
 			{{ $t(($) => $.list.emptyView, { ns: PluginId }) }}
 		</p>
-		<template v-else>
-			<section
+		<!-- role="list" keeps the list semantics despite `list-style: none`. -->
+		<ul v-else class="feature-list" role="list">
+			<li
 				v-for="(
 					{ layerId, feature, hovered, text }, index
 				) of gfiStore.listEnrichedPaginatedFeatures"
 				:key="index"
-				tabindex="0"
-				class="feature-list-item"
-				:class="{ hovered }"
-				@click="setSelectedFeature(layerId, feature)"
-				@mouseenter="gfiStore.hoveredFeature = { layerId, feature }"
-				@focus="gfiStore.hoveredFeature = { layerId, feature }"
-				@blur="gfiStore.hoveredFeature = null"
 			>
-				<h3 class="kern-title kern-title--small">
-					{{ text.title }}
-				</h3>
-				<p class="kern-subline kern-subline--small">
-					{{ text.subtitle }}
-				</p>
-				<p class="kern-body kern-body--small" :title="text.subSubtitle || ''">
-					{{ text.subSubtitle }}
-				</p>
-			</section>
-		</template>
+				<div
+					tabindex="0"
+					role="button"
+					class="feature-list-item"
+					:class="{ hovered }"
+					@click="setSelectedFeature(layerId, feature)"
+					@keydown.enter.prevent="setSelectedFeature(layerId, feature)"
+					@keydown.space.prevent="setSelectedFeature(layerId, feature)"
+					@mouseenter="gfiStore.hoveredFeature = { layerId, feature }"
+					@focus="gfiStore.hoveredFeature = { layerId, feature }"
+					@blur="gfiStore.hoveredFeature = null"
+				>
+					<h3 class="kern-title kern-title--small">
+						{{ text.title }}
+					</h3>
+					<p class="kern-subline kern-subline--small">
+						{{ text.subtitle }}
+					</p>
+					<p class="kern-body kern-body--small" :title="text.subSubtitle || ''">
+						{{ text.subSubtitle }}
+					</p>
+				</div>
+			</li>
+		</ul>
 	</section>
 </template>
 
@@ -94,51 +101,58 @@ header {
 		text-wrap: wrap;
 	}
 
-	.feature-list-item {
+	.feature-list {
 		width: 100%;
-		padding: var(--kern-metric-space-small);
-		overflow: hidden;
-		text-overflow: ellipsis;
-		border-width: var(--kern-metric-border-width-default);
-		border-style: dashed;
-		border-color: transparent;
+		margin: 0;
+		padding: 0;
+		list-style: none;
 
-		&.hovered,
-		&:hover {
-			background-color: oklch(0.9373 0.031 142.34);
-		}
-
-		&:hover,
-		&:focus {
-			border-radius: var(--kern-metric-border-radius-default);
-			border-color: oklch(0.639 0.177 141.85);
-		}
-
-		&:hover {
-			cursor: pointer;
-		}
-
-		&:focus {
-			border-style: solid;
-		}
-
-		& > .kern-subline,
-		& > .kern-body {
-			padding: 0;
-		}
-
-		& > .kern-body--small {
-			display: -webkit-box;
+		.feature-list-item {
+			width: 100%;
+			padding: var(--kern-metric-space-small);
 			overflow: hidden;
-			-webkit-box-orient: vertical;
-			-webkit-line-clamp: 2;
-			/*
-			 * Not fully supported yet, thus the above -webkit stuff as well.
-			 * See https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/line-clamp
-			 * for when this may become baseline.
-			 */
-			line-clamp: 2;
-			text-wrap: wrap;
+			text-overflow: ellipsis;
+			border-width: var(--kern-metric-border-width-default);
+			border-style: dashed;
+			border-color: transparent;
+
+			&.hovered,
+			&:hover {
+				background-color: oklch(0.9373 0.031 142.34);
+			}
+
+			&:hover,
+			&:focus {
+				border-radius: var(--kern-metric-border-radius-default);
+				border-color: oklch(0.639 0.177 141.85);
+			}
+
+			&:hover {
+				cursor: pointer;
+			}
+
+			&:focus {
+				border-style: solid;
+			}
+
+			& > .kern-subline,
+			& > .kern-body {
+				padding: 0;
+			}
+
+			& > .kern-body--small {
+				display: -webkit-box;
+				overflow: hidden;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				/*
+				 * Not fully supported yet, thus the above -webkit stuff as well.
+				 * See https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/line-clamp
+				 * for when this may become baseline.
+				 */
+				line-clamp: 2;
+				text-wrap: wrap;
+			}
 		}
 	}
 }
