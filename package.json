@@ -93,7 +93,7 @@
 		"security.md"
 	],
 	"peerDependencies": {
-		"i18next": "^26.5.12",
+		"i18next": "^26.7.2",
 		"i18next-vue": "^5.4.0",
 		"ol": "10.11.0",
 		"pinia": "^4.1.0",
@@ -106,7 +106,7 @@
 		"@dataport/eslint-config-geodev": "^2.0.0-alpha.3",
 		"@kern-ux/native": "^2.8.2",
 		"@masterportal/masterportalapi": "2.66.0",
-		"@microsoft/api-extractor": "^7.60.0",
+		"@microsoft/api-extractor": "^7.60.1",
 		"@pinia/testing": "^2.0.2",
 		"@repositoryname/noop": "^1.0.6",
 		"@types/geojson": "7946.0.16",
@@ -125,8 +125,8 @@
 		"eslint-plugin-prettier": "^5.5.7",
 		"hammerjs": "2.0.8",
 		"husky": "^9.1.7",
-		"i18next": "^26.5.12",
-		"i18next-browser-languagedetector": "^8.2.4",
+		"i18next": "^26.7.2",
+		"i18next-browser-languagedetector": "^8.3.0",
 		"i18next-vue": "^5.4.0",
 		"jsdom": "^30.1.3",
 		"jspdf": "^4.2.1",
