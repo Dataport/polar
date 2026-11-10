@@ -6,7 +6,7 @@
 				Array.isArray(searchResults) && searchResults.length,
 			'kern-card-standard': layout === 'standard',
 		}"
-		:style="`max-width: ${maxWidth}`"
+		:style="`max-height: ${maxHeight}; max-width: ${maxWidth}`"
 	>
 		<div class="polar-plugin-address-search-selection-wrapper">
 			<!-- Mapping in template to guarantee update on language change-->
@@ -107,6 +107,10 @@ const ariaLabel = computed(() =>
 		{ ns: PluginId }
 	)
 )
+const maxHeight = computed(
+	() =>
+		`calc(${coreStore.clientHeight}px - var(--kern-metric-dimension-large) - 2 * var(--kern-metric-space-small))`
+)
 const maxWidth = computed(() => `${coreStore.clientWidth * 0.75}px`)
 const slotPlacement = computed(() =>
 	layout.value === 'standard' ? '0' : 'var(--kern-metric-space-small)'
@@ -160,10 +164,6 @@ function inputDown(event: KeyboardEvent) {
 	flex-direction: column;
 	align-items: flex-start;
 	gap: var(--kern-metric-space-small);
-	max-height: calc(
-		calc(100% - var(--kern-metric-dimension-large)) -
-			calc(2 * var(--kern-metric-space-small))
-	);
 	width: 25rem;
 	min-width: inherit;
 	z-index: 1;
