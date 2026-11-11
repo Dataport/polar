@@ -627,7 +627,6 @@ addPlugin(
 		displayComponent: true,
 		layoutTag: 'TOP_LEFT',
 		searchMethods: [
-			// TODO: mpapi currently fails
 			/*
 			{
 				queryParameters: {
