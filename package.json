@@ -1,5 +1,6 @@
 {
   "name": "polar-monorepo",
+  "Version": "2.0.0",
   "private": true,
   "description": "monorepository to build masterportalAPI-based map clients",
   "author": "Dataport AöR <polar@dataport.de>",
