@@ -30,5 +30,10 @@ export async function getWfsFeatures(
 
   const response = await fetch(encodeURI(url), { signal, method: 'POST', body })
   errorCheck(response)
-  return parseWfsResponse(response, fieldName || patterns, !fieldName)
+  return parseWfsResponse(
+    response,
+    fieldName || patterns,
+    !fieldName,
+    parameters.version
+  )
 }

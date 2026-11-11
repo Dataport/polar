@@ -138,6 +138,39 @@ describe('plugin-reversegeocoder', () => {
           },
         })
       })
+
+      it('reports the WPS exception text when execution fails', async () => {
+        // @ts-ignore | mock response
+        global.fetch = jest.fn(() =>
+          Promise.resolve({
+            text: () =>
+              Promise.resolve(`<?xml version="1.0"?>
+                                <wps:ExecuteResponse xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1">
+                                  <wps:Status>
+                                    <wps:ProcessFailed>
+                                      <ows:ExceptionReport>
+                                        <ows:Exception>
+                                          <ows:ExceptionText>Coordinate is outside the service area.</ows:ExceptionText>
+                                        </ows:Exception>
+                                      </ows:ExceptionReport>
+                                    </wps:ProcessFailed>
+                                  </wps:Status>
+                                </wps:ExecuteResponse>`),
+          })
+        )
+
+        await expect(
+          reverseGeocode(
+            {
+              rootGetters: {
+                // @ts-ignore
+                configuration: { reverseGeocoder: { url: testUrl } },
+              },
+            },
+            testCoordinates
+          )
+        ).rejects.toThrow('Coordinate is outside the service area.')
+      })
     })
   })
 })

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unpublished
+
+- Feature: Add optional `version` parameter to WFS search configuration for WFS 2.0.0 services.
+
 ## 3.3.0
 
 - Feature: Add new parameter `sortBy` to type `WfsParameter` for server-side sorting of WFS search results.
