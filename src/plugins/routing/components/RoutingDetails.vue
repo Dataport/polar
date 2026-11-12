@@ -3,7 +3,7 @@
 		<hr class="kern-divider" aria-hidden="true" />
 		<span role="status" aria-live="polite">
 			{{
-				$t(($) => $.ariaLive, {
+				$t(($) => $.aria.ariaLive, {
 					ns: PluginId,
 					steps: steps.length,
 					duration: formatDuration(duration),

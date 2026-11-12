@@ -2,12 +2,11 @@
  * @module \@polar/polar/plugins/addressSearch/store
  */
 
-import type { PolarGeoJsonFeature } from '@/core'
+import type { PolarGeoJsonFeature, SearchResult } from '@/core'
 import type {
 	AddressSearchPluginOptions,
 	GroupProperties,
 	SearchMethodConfiguration,
-	SearchResult,
 } from './types'
 
 import { debounce, toMerged } from 'es-toolkit'
@@ -16,11 +15,12 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { useCoreStore } from '@/core/stores'
+import SearchResultSymbols from '@/lib/searchResultSymbols'
+import { selectSearchResult } from '@/lib/selectSearchResult'
 
 import { PluginId } from './types'
 import { getResultsFromPromises } from './utils/getResultsFromPromises'
 import { getMethodContainer } from './utils/methodContainer'
-import SearchResultSymbols from './utils/searchResultSymbols'
 
 /**
  * @function
@@ -201,15 +201,42 @@ export const useAddressSearchStore = defineStore(
 			chosenAddress.value = null
 		}
 
+		function getCategoryLabel(categoryId: string) {
+			const properties = configuration.value.categoryProperties?.[categoryId]
+			return properties
+				? // @ts-expect-error | Other values can be used.
+					t(properties.label)
+				: t(($) => $.defaultLabel, { ns: PluginId })
+		}
+
 		function _search() {
 			if (inputValue.value.length < minLength.value) {
 				searchResults.value = SearchResultSymbols.NO_SEARCH
 				isLoading.value = false
 				return Promise.resolve()
 			}
-			isLoading.value = true
 			abortController = new AbortController()
 			const localAbortControllerReference = abortController
+			isLoading.value = true
+			return runSearch(inputValue.value, localAbortControllerReference)
+				.then((results) => {
+					searchResults.value = results
+					return results
+				})
+				.catch((error: unknown) => {
+					console.error('An error occurred while searching.', error)
+					searchResults.value = SearchResultSymbols.ERROR
+					return SearchResultSymbols.ERROR
+				})
+				.finally(() => {
+					isLoading.value = false
+				})
+		}
+
+		async function runSearch(
+			inputValue: string,
+			abortController: AbortController = new AbortController()
+		) {
 			return Promise.allSettled(
 				configuration.value.searchMethods.map(
 					async ({
@@ -221,40 +248,29 @@ export const useAddressSearchStore = defineStore(
 						url,
 					}) => {
 						const features = await methodContainer.getSearchMethod(type)(
-							localAbortControllerReference.signal,
+							abortController.signal,
 							url,
-							inputValue.value,
+							inputValue,
 							toMerged(queryParameters || {}, {
 								epsg: coreStore.configuration.epsg,
 							})
 						)
 						const id = categoryId || 'default'
-						const properties = configuration.value.categoryProperties?.[id]
 						return {
 							categoryId: id,
-							categoryLabel: properties
-								? // @ts-expect-error | Other values can be used.
-									t(properties.label)
-								: t(($) => $.defaultLabel, { ns: PluginId }),
+							categoryLabel: getCategoryLabel(id),
 							features: resultModifier?.(features) ?? features,
 							groupId: groupId || 'defaultGroup',
 						}
 					}
 				)
 			)
-				.then(
-					(results) =>
-						(searchResults.value = getResultsFromPromises(
-							results,
-							localAbortControllerReference
-						))
-				)
+				.then((results) => {
+					return getResultsFromPromises(results, abortController)
+				})
 				.catch((error: unknown) => {
 					console.error('An error occurred while searching.', error)
-					searchResults.value = SearchResultSymbols.ERROR
-				})
-				.finally(() => {
-					isLoading.value = false
+					return Promise.resolve(SearchResultSymbols.ERROR)
 				})
 		}
 
@@ -299,14 +315,17 @@ export const useAddressSearchStore = defineStore(
 			feature: PolarGeoJsonFeature,
 			categoryId = 'default'
 		) {
-			const customMethod = configuration.value.customSelectResult?.[categoryId]
-			if (customMethod) {
-				customMethod(feature, categoryId)
-			} else {
-				chosenAddress.value = feature
-				_inputValue.value = feature.title
-				searchResults.value = SearchResultSymbols.NO_SEARCH
+			const searchResult = selectSearchResult(
+				feature,
+				configuration.value.customSelectResult,
+				categoryId
+			)
+			if (!searchResult) {
+				return
 			}
+			chosenAddress.value = searchResult.feature
+			_inputValue.value = searchResult.title
+			searchResults.value = searchResult.resultSymbol
 		}
 
 		return {
@@ -363,6 +382,9 @@ export const useAddressSearchStore = defineStore(
 			limitResults,
 
 			/** @alpha */
+			minLength,
+
+			/** @alpha */
 			abortAndRequest,
 
 			/** @alpha */
@@ -379,6 +401,9 @@ export const useAddressSearchStore = defineStore(
 
 			/** @alpha */
 			selectResult,
+
+			/** @alpha */
+			runSearch,
 
 			/** @internal */
 			setupPlugin,
