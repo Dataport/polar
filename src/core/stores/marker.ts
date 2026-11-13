@@ -14,7 +14,6 @@ import { unByKey } from 'ol/Observable'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, shallowRef, watch } from 'vue'
 
-import { isVisible } from '@/lib/invisibleStyle'
 import { mergeConfiguration } from '@/lib/mergeConfiguration'
 
 import { useClusterMarker } from '../composables/useClusterMarker'
@@ -262,15 +261,6 @@ export const useMarkerStore = defineStore('marker', () => {
 					})
 				}
 				if (source !== null) {
-					// @ts-expect-error | Undocumented hook.
-					source.geometryFunction =
-						// prevents features from jumping due to invisible features "pulling"
-						(feature: Feature) =>
-							isVisible(feature) ? feature.getGeometry() : null
-					teardownCallbacks.push(() => {
-						// @ts-expect-error | Undocumented hook.
-						source.geometryFunction = undefined
-					})
 					source.getFeatures().forEach((feature) => {
 						stampFeature(feature)
 					})
