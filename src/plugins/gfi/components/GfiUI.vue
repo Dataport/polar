@@ -27,6 +27,7 @@
 		</p>
 		<GfiFeature
 			v-else-if="gfiStore.feature"
+			:auto-focus="mounted"
 			:layer-id="gfiStore.feature.layerId"
 		/>
 		<GfiFeatureList v-else-if="gfiStore.configuration.featureList" />
@@ -34,6 +35,8 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
 import PolarCard from '@/components/PolarCard.vue'
 import { useCoreStore } from '@/core/stores'
 
@@ -44,6 +47,17 @@ import GfiFeatureList from './GfiFeatureList.vue'
 
 const coreStore = useCoreStore()
 const gfiStore = useGfiStore()
+
+/*
+ * Only becomes true after the initial render.
+ * Needed, so the first button of GfiFeature is only focused when navigating
+ * inside the plugin and not closing & opening the window.
+ */
+const mounted = ref(false)
+
+onMounted(() => {
+	mounted.value = true
+})
 </script>
 
 <style scoped>

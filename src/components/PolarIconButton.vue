@@ -54,7 +54,7 @@ defineOptions({
 
 	&:focus,
 	&:hover {
-		background: var(--kern-color-action-default);
+		background: var(--kern-color-action-state-indicator-shade-hover);
 		border: solid var(--kern-color-action-on-default);
 		outline: solid var(--kern-color-action-default);
 	}
