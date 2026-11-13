@@ -45,6 +45,8 @@ export const resourcesDe = {
 		noResults: 'Keine Ergebnisse gefunden.',
 		loading: 'Suche ...',
 		tooShort: 'Für die Suche bitte mindestens {{minLength}} Zeichen eingeben.',
+		invalidCoordinates:
+			'Bitte gültige Koordinaten (x, y) im Koordinatenreferenzsystem und Bereich der Karte eingeben.',
 	},
 	aria: {
 		ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
@@ -97,6 +99,8 @@ export const resourcesEn = {
 		noResults: 'No results found.',
 		loading: 'Searching...',
 		tooShort: 'Please enter at least {{minLength}} characters.',
+		invalidCoordinates:
+			'Enter valid coordinates (x, y) in the coordinate reference system and extent of the map.',
 	},
 	aria: {
 		ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,

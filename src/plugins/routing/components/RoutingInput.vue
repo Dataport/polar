@@ -25,8 +25,11 @@
 				:layout="coreStore.layout"
 				:is-loading="routeInputLoading[index]"
 				:hint="searchResultHintForInput"
+				:aria-invalid="routeInputInvalid[index] || undefined"
 				@update:input-value="(val) => routeStore.setRouteInputValue(index, val)"
 				@focus="currentlyFocusedInput = index"
+				@blur="routeStore.commitRouteInput(index)"
+				@keydown.enter.prevent="routeStore.commitRouteInput(index)"
 				@keydown.down.prevent.stop="focusResultList"
 			/>
 			<PolarResultList
@@ -67,6 +70,7 @@
 </template>
 
 <script setup lang="ts">
+import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
@@ -107,6 +111,7 @@ const {
 	focusAfterSearch,
 	searchResultHint,
 	routeInputLoading,
+	routeInputInvalid,
 } = storeToRefs(routeStore)
 
 const routeInputValue = computed({
@@ -132,11 +137,14 @@ const showResultList = computed(
 		showSearchResultList.value && currentlyFocusedInput.value === props.index
 )
 
-const searchResultHintForInput = computed(() =>
-	currentlyFocusedInput.value === props.index
+const searchResultHintForInput = computed(() => {
+	if (routeInputInvalid.value[props.index]) {
+		return t(($) => $.hint.invalidCoordinates, { ns: PluginId })
+	}
+	return currentlyFocusedInput.value === props.index
 		? searchResultHint.value || ''
 		: ''
-)
+})
 
 /**
  * This makes sure that there are always two fillable input fields at max.
