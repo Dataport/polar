@@ -98,6 +98,9 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 		selectedSearchGroupId,
 		searchResultHint,
 		setRouteInputValue,
+		commitRouteInput,
+		resetRouteInput,
+		routeInputInvalid,
 		search,
 		selectResult,
 		resetSearch,
@@ -175,10 +178,15 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 	async function addCoordinateToRoute(
 		coordinate: [number, number],
-		userInput = false
+		userInput = false,
+		index = currentlyFocusedInput.value
 	) {
-		const index = currentlyFocusedInput.value
+		if (index < 0 || index >= route.value.length) {
+			return
+		}
+		resetRouteInput(index)
 		route.value = route.value.toSpliced(index, 1, coordinate)
+		const waypoint = route.value[index]
 		routeInput.value = routeInput.value.toSpliced(
 			index,
 			1,
@@ -189,7 +197,11 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 				coordinate,
 				false
 			)
-			if (feature?.title) {
+			if (
+				feature?.title &&
+				route.value[index] === waypoint &&
+				routeInput.value[index] === coordinate.join(', ')
+			) {
 				routeInput.value[index] = feature.title
 			}
 		}
@@ -453,6 +465,12 @@ export const useRoutingStore = defineStore('plugins/routing', () => {
 
 		/** @alpha */
 		setRouteInputValue,
+
+		/** @alpha */
+		commitRouteInput,
+
+		/** @alpha */
+		routeInputInvalid,
 
 		/**
 		 * Selects a search result and adds its coordinate to the route.
