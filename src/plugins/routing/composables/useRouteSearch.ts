@@ -51,18 +51,18 @@ export function useRouteSearch({
 	const routeInputInvalid = ref([false, false])
 	let requestCounter = 0
 
-	function isCoordinateInput(input: string) {
-		return (
-			/^[\d\s.,+\-()[\]]+$/.test(input) ||
-			(input.includes(',') &&
-				input
-					.split(',')
-					.every(
-						(part) =>
-							/^[[(]*[+-]?(?:\d|\.\d|Infinity|NaN|$)/.test(part.trim()) &&
-							!/\s/.test(part.trim())
-					))
-		)
+	function parseCoordinateInput(input: string): [number, number] | undefined {
+		const match = input
+			.trim()
+			.match(
+				/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*,\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))$/
+			)
+		if (!match) {
+			return
+		}
+
+		const coordinate: [number, number] = [Number(match[1]), Number(match[2])]
+		return coordinate.every(Number.isFinite) ? coordinate : undefined
 	}
 
 	function invalidateSearch(index: number) {
@@ -79,25 +79,11 @@ export function useRouteSearch({
 
 	async function commitRouteInput(index: number) {
 		const input = routeInputValues.value[index]?.trim() ?? ''
-		if (!isCoordinateInput(input) || index < 0 || index >= route.value.length) {
+		const coordinate = parseCoordinateInput(input)
+		if (!coordinate || index < 0 || index >= route.value.length) {
 			return
 		}
 		invalidateSearch(index)
-		const parts = input.split(',').map((part) => part.trim())
-		const [x, y] = parts.map(Number)
-		const numberPattern = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/
-		if (
-			parts.length !== 2 ||
-			!parts.every((part) => numberPattern.test(part)) ||
-			x === undefined ||
-			y === undefined ||
-			!Number.isFinite(x) ||
-			!Number.isFinite(y)
-		) {
-			routeInputInvalid.value[index] = true
-			return
-		}
-		const coordinate: [number, number] = [x, y]
 		const projection = coreStore.map.getView().getProjection()
 		const projectionExtent = projection.getExtent()
 		const extent = coreStore.configuration.extent
@@ -184,7 +170,7 @@ export function useRouteSearch({
 		routeInputValues.value = routeInputValues.value.toSpliced(index, 1, value)
 		routeInput.value = routeInput.value.toSpliced(index, 1, null)
 		routeInputInvalid.value[index] = false
-		if (isCoordinateInput(value.trim())) {
+		if (parseCoordinateInput(value)) {
 			invalidateSearch(index)
 		} else {
 			void searchForRouteInput(index, value)
@@ -289,7 +275,7 @@ export function useRouteSearch({
 		)
 		routeInput.value[targetIndex] = null
 		routeInputInvalid.value[targetIndex] = false
-		if (isCoordinateInput(input.trim())) {
+		if (parseCoordinateInput(input)) {
 			await commitRouteInput(targetIndex)
 			return
 		}
