@@ -89,7 +89,7 @@ export const phases: Phase[] = [
 	},
 	{
 		status: 'progress',
-		label: 'Q2 · 2026 - Q4 · 2026',
+		label: 'Q2 · 2026 - Q2 · 2027',
 		sublabel: 'In Progress',
 		accentIcon: 'location-on',
 		milestoneIcon: '',
@@ -105,7 +105,7 @@ export const phases: Phase[] = [
 				accentIcon: 'rocket-launch',
 			},
 			{
-				title: 'Fixing more bugs',
+				title: 'Fixing additional bugs',
 				body: 'Further improvements across the core and plugin ecosystem.',
 				accentIcon: 'bug-report',
 			},
@@ -113,7 +113,7 @@ export const phases: Phase[] = [
 	},
 	{
 		status: 'planned',
-		label: 'Q1 · 2027',
+		label: 'Q3 · 2027 - Q4 · 2027',
 		sublabel: 'Planned',
 		accentIcon: 'palette',
 		milestoneIcon: '',
