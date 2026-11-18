@@ -105,7 +105,7 @@ function wheelEffect(event: WheelEvent) {
 	wheelStopTimeout = setTimeout(() => {
 		zoomAnnouncement.value = ''
 		wheelStopTimeout = null
-	}, 500)
+	}, 2000)
 	if (hasWindowSize.value || !overlay.value) {
 		return
 	}
