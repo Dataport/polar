@@ -51,9 +51,9 @@ export const resourcesDe = {
 	aria: {
 		ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
 		instructionWithSearch:
-			'Durch Klicken in die Karte oder durch Eingabe und Auswahl eines Suchbegriffs einen Ort hinzufügen.',
+			'Durch Klicken in die Karte, Eingabe eines Suchbegriffs oder Einfügen einer Koordinate einen Ort hinzufügen.',
 		instructionWithoutSearch:
-			'Durch Klicken in die Karte einen Ort hinzufügen.',
+			'Durch Klicken in die Karte oder Einfügen einer Koordinate einen Ort hinzufügen.',
 	},
 	distance: 'Entfernung: {{distance}}',
 	duration: 'Dauer: {{duration}}',
@@ -105,8 +105,9 @@ export const resourcesEn = {
 	aria: {
 		ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
 		instructionWithSearch:
-			'Add a location by clicking on the map or by entering and selecting a search term.',
-		instructionWithoutSearch: 'Add a location by clicking on the map.',
+			'Add a location by clicking on the map or by entering a coordinate or a search term.',
+		instructionWithoutSearch:
+			'Add a location by clicking on the map or entering a coordinate.',
 	},
 	distance: 'Distance: {{distance}}',
 	duration: 'Duration: {{duration}}',
