@@ -45,13 +45,15 @@ export const resourcesDe = {
 		noResults: 'Keine Ergebnisse gefunden.',
 		loading: 'Suche ...',
 		tooShort: 'Für die Suche bitte mindestens {{minLength}} Zeichen eingeben.',
+		invalidCoordinates:
+			'Bitte gültige Koordinaten (x, y) im Koordinatenreferenzsystem und Bereich der Karte eingeben.',
 	},
 	aria: {
 		ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
 		instructionWithSearch:
-			'Durch Klicken in die Karte oder durch Eingabe und Auswahl eines Suchbegriffs einen Ort hinzufügen.',
+			'Durch Klicken in die Karte, Eingabe eines Suchbegriffs oder Einfügen einer Koordinate einen Ort hinzufügen.',
 		instructionWithoutSearch:
-			'Durch Klicken in die Karte einen Ort hinzufügen.',
+			'Durch Klicken in die Karte oder Einfügen einer Koordinate einen Ort hinzufügen.',
 	},
 	distance: 'Entfernung: {{distance}}',
 	duration: 'Dauer: {{duration}}',
@@ -97,12 +99,15 @@ export const resourcesEn = {
 		noResults: 'No results found.',
 		loading: 'Searching...',
 		tooShort: 'Please enter at least {{minLength}} characters.',
+		invalidCoordinates:
+			'Enter valid coordinates (x, y) in the coordinate reference system and extent of the map.',
 	},
 	aria: {
 		ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
 		instructionWithSearch:
-			'Add a location by clicking on the map or by entering and selecting a search term.',
-		instructionWithoutSearch: 'Add a location by clicking on the map.',
+			'Add a location by clicking on the map or by entering a coordinate or a search term.',
+		instructionWithoutSearch:
+			'Add a location by clicking on the map or entering a coordinate.',
 	},
 	distance: 'Distance: {{distance}}',
 	duration: 'Duration: {{duration}}',
