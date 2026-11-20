@@ -70,6 +70,14 @@ export interface RoutingPluginOptions extends PluginOptions {
 	displayRouteTypesToAvoid?: boolean
 
 	/**
+	 * Address-search group whose results are displayed in routing.
+	 * Must match a group configured in the address search plugin.
+	 *
+	 * @defaultValue 'defaultGroup'.
+	 */
+	searchGroupId?: string
+
+	/**
 	 * List of available travel modes.
 	 *
 	 * @defaultValue `['driving-car', 'cycling-regular', 'foot-walking']`

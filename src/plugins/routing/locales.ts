@@ -10,7 +10,6 @@ import type { Locale } from '@/core'
 export const resourcesDe = {
 	title: 'Routenplaner',
 	label: {
-		aria: 'Durch Klicken in die Karte eine Koordinate als {{position}} auswählen.',
 		start: 'Start',
 		middle: 'Wegpunkt',
 		end: 'Ziel',
@@ -40,7 +39,20 @@ export const resourcesDe = {
 		tollways: 'Mautstraßen',
 		ferries: 'Fähren',
 	},
-	ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
+	hint: {
+		empty: 'Bitte einen Suchbegriff eingeben oder in die Karte klicken.',
+		error: 'Etwas ist bei der Suche schiefgegangen.',
+		noResults: 'Keine Ergebnisse gefunden.',
+		loading: 'Suche ...',
+		tooShort: 'Für die Suche bitte mindestens {{minLength}} Zeichen eingeben.',
+	},
+	aria: {
+		ariaLive: `Route berechnet: {{steps}} Schritte, {{duration}}, {{distance}}.`,
+		instructionWithSearch:
+			'Durch Klicken in die Karte oder durch Eingabe und Auswahl eines Suchbegriffs einen Ort hinzufügen.',
+		instructionWithoutSearch:
+			'Durch Klicken in die Karte einen Ort hinzufügen.',
+	},
 	distance: 'Entfernung: {{distance}}',
 	duration: 'Dauer: {{duration}}',
 	noFeature:
@@ -50,7 +62,6 @@ export const resourcesDe = {
 export const resourcesEn = {
 	title: 'Route Planner',
 	label: {
-		aria: 'Add a coordinate as {{position}} by clicking in the map.',
 		start: 'Start',
 		middle: 'Waypoint',
 		end: 'Destination',
@@ -80,7 +91,19 @@ export const resourcesEn = {
 		tollways: 'Tollways',
 		ferries: 'Ferries',
 	},
-	ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
+	hint: {
+		empty: 'Please enter a search term or click on the map.',
+		error: 'Something went wrong.',
+		noResults: 'No results found.',
+		loading: 'Searching...',
+		tooShort: 'Please enter at least {{minLength}} characters.',
+	},
+	aria: {
+		ariaLive: `Route calculated: {{steps}} steps, {{duration}}, {{distance}}.`,
+		instructionWithSearch:
+			'Add a location by clicking on the map or by entering and selecting a search term.',
+		instructionWithoutSearch: 'Add a location by clicking on the map.',
+	},
 	distance: 'Distance: {{distance}}',
 	duration: 'Duration: {{duration}}',
 	noFeature: 'Route could not be determined. Try different coordinates.',
