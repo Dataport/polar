@@ -23,6 +23,8 @@
 			<li
 				:id="`${idPrefix}-${j}`"
 				tabindex="-1"
+				@focus="focusedFeatureIndex = j"
+				@blur="focusedFeatureIndex = null"
 				@click="emit('selectResult', feature, categoryId)"
 				@keydown.enter.prevent.stop="emit('selectResult', feature, categoryId)"
 			>
@@ -32,7 +34,7 @@
 					aria-hidden="true"
 					v-html="strongTitleByInput(feature.title, inputValue)"
 				/>
-				<slot />
+				<slot :feature="feature" :focus="focusedFeatureIndex === j" />
 			</li>
 		</template>
 	</ul>
@@ -78,7 +80,12 @@ const emit = defineEmits<{
 	selectResult: [PolarGeoJsonFeature, string]
 }>()
 
+defineSlots<{
+	default(props: { feature: PolarGeoJsonFeature; focus: boolean }): unknown
+}>()
+
 const expanded = ref(false)
+const focusedFeatureIndex = ref<number | null>(null)
 </script>
 
 <style scoped>

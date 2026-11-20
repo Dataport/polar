@@ -8,8 +8,16 @@
 		:selected-group-id="selectedGroupId"
 		:focus-after-search="addressSearchStore.focusAfterSearch"
 		@select-result="selectResult"
-	/>
-	<component :is="afterResultComponent" v-if="afterResultComponent" />
+	>
+		<template #default="{ feature, focus }">
+			<component
+				:is="afterResultComponent"
+				v-if="afterResultComponent"
+				:feature="feature"
+				:focus="focus"
+			/>
+		</template>
+	</PolarResultList>
 </template>
 
 <script setup lang="ts">

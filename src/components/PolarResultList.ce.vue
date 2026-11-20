@@ -24,7 +24,9 @@
 					(feature, categoryId) => emit('selectResult', feature, categoryId)
 				"
 			>
-				<slot />
+				<template #default="{ feature, focus }">
+					<slot :feature="feature" :focus="focus" />
+				</template>
 			</PolarResultCategory>
 			<hr
 				v-if="i < results.length - 1"
@@ -57,6 +59,10 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	selectResult: [PolarGeoJsonFeature, string]
+}>()
+
+defineSlots<{
+	default(props: { feature: PolarGeoJsonFeature; focus: boolean }): unknown
 }>()
 
 const coreStore = useCoreStore()
