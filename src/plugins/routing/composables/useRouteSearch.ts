@@ -39,7 +39,7 @@ export function useRouteSearch({
 		SearchResultSymbols.NO_SEARCH,
 		SearchResultSymbols.NO_SEARCH,
 	])
-	const routeSearchRequestCounters = ref([0, 0])
+	let routeSearchRequests: (symbol | null)[] = [null, null]
 
 	const addressSearchStore = computed(() =>
 		coreStore.getPluginStore('addressSearch')
@@ -134,11 +134,9 @@ export function useRouteSearch({
 			return
 		}
 
-		const currentCounter = (routeSearchRequestCounters.value[index] ?? 0) + 1
-		routeSearchRequestCounters.value =
-			routeSearchRequestCounters.value.toSpliced(index, 1, currentCounter)
-
 		if (!input.trim().length || input.trim().length < addressSearch.minLength) {
+			routeSearchRequests[index] = null
+			setRouteInputLoading(index, false)
 			rawRouteSearchResults.value = rawRouteSearchResults.value.toSpliced(
 				index,
 				1,
@@ -146,39 +144,33 @@ export function useRouteSearch({
 			)
 			return
 		}
+		const request = Symbol()
+		routeSearchRequests[index] = request
 		setRouteInputLoading(index, true)
 
-		await addressSearch
-			.runSearch(input)
-			.then((results: SearchResult[] | symbol) => {
-				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
-					return
-				}
-				rawRouteSearchResults.value = rawRouteSearchResults.value.toSpliced(
-					index,
-					1,
-					results
-				)
-			})
-			.catch((error: unknown) => {
-				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
-					return
-				}
-				rawRouteSearchResults.value = rawRouteSearchResults.value.toSpliced(
-					index,
-					1,
-					SearchResultSymbols.NO_SEARCH
-				)
-				handleErrors(error)
-			})
-			.finally(() => {
-				setRouteInputLoading(index, false)
-			})
+		let results: SearchResult[] | symbol
+		try {
+			results = await addressSearch.runSearch(input)
+		} catch (error) {
+			if (!routeSearchRequests.includes(request)) {
+				return
+			}
+			handleErrors(error)
+			results = SearchResultSymbols.NO_SEARCH
+		}
 
-		if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
+		// The waypoint may have moved or been removed while the request was pending.
+		const currentIndex = routeSearchRequests.indexOf(request)
+		if (currentIndex === -1) {
 			return
 		}
-		const result = routeSearchResults.value[index] ?? []
+		rawRouteSearchResults.value = rawRouteSearchResults.value.toSpliced(
+			currentIndex,
+			1,
+			results
+		)
+		setRouteInputLoading(currentIndex, false)
+		const result = routeSearchResults.value[currentIndex]
 		if (!Array.isArray(result)) {
 			return
 		}
@@ -198,7 +190,7 @@ export function useRouteSearch({
 			autoselect === 'first' ||
 			(autoselect === 'only' && featureCount === 1)
 		) {
-			currentlyFocusedInput.value = index
+			currentlyFocusedInput.value = currentIndex
 			await selectResult(firstFeature, firstFound.categoryId)
 		}
 	}
@@ -248,7 +240,8 @@ export function useRouteSearch({
 			SearchResultSymbols.NO_SEARCH,
 			SearchResultSymbols.NO_SEARCH,
 		]
-		routeSearchRequestCounters.value = [0, 0]
+		routeSearchRequests = [null, null]
+		routeInputLoading.value = [false, false]
 	}
 
 	function setSearchWaypoint(index: number, remove: boolean) {
@@ -262,9 +255,12 @@ export function useRouteSearch({
 					0,
 					SearchResultSymbols.NO_SEARCH
 				)
-		routeSearchRequestCounters.value = remove
-			? routeSearchRequestCounters.value.toSpliced(index, 1)
-			: routeSearchRequestCounters.value.toSpliced(index, 0, 0)
+		routeSearchRequests = remove
+			? routeSearchRequests.toSpliced(index, 1)
+			: routeSearchRequests.toSpliced(index, 0, null)
+		routeInputLoading.value = remove
+			? routeInputLoading.value.toSpliced(index, 1)
+			: routeInputLoading.value.toSpliced(index, 0, false)
 	}
 
 	return {
