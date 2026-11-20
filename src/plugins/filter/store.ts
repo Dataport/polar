@@ -2,10 +2,15 @@
  * @module \@polar/polar/plugins/filter/store
  */
 
+import type Feature from 'ol/Feature'
+import type VectorLayer from 'ol/layer/Vector'
+
+import { Cluster } from 'ol/source'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { watch } from 'vue'
 
 import { getVectorSource } from '@/lib/getVectorSource'
+import { isVisible } from '@/lib/invisibleStyle'
 
 import { useFilterMainStore } from './stores/main'
 import { useFilterTimeStore } from './stores/time'
@@ -28,6 +33,25 @@ export const useFilterStore = defineStore('plugins/filter', () => {
 	function setupPlugin() {
 		filterMainStore.filteredLayers.forEach((layer) => {
 			const source = getVectorSource(layer)
+			const layerSource = (layer as VectorLayer).getSource()
+			if (layerSource instanceof Cluster) {
+				// @ts-expect-error | Undocumented hook.
+				const originalGeometryFunction = layerSource.geometryFunction
+				// @ts-expect-error | Undocumented hook.
+				layerSource.geometryFunction =
+					// prevents features from jumping due to invisible features "pulling"
+					(feature: Feature) =>
+						isVisible(feature)
+							? originalGeometryFunction.call(layerSource, feature)
+							: null
+
+				teardownCallbacks.push(() => {
+					// @ts-expect-error | Undocumented hook.
+					layerSource.geometryFunction = originalGeometryFunction
+					layerSource.refresh()
+				})
+			}
+
 			const callback = () => {
 				updateFeatureVisibility(
 					source,
