@@ -5,6 +5,9 @@
 		:lang="language"
 		:data-kern-theme="colorScheme"
 	>
+		<div class="kern-sr-only" role="status" aria-atomic="true">
+			{{ zoomAnnouncement }}
+		</div>
 		<PolarMapOverlay ref="polar-map-overlay" />
 		<div class="polar-map-layer">
 			<PolarMap
@@ -88,16 +91,31 @@ const noCommandOnZoom = useT(() =>
 const noControlOnZoom = useT(() =>
 	t(($) => $.overlay.noControlOnZoom, { ns: CoreId })
 )
+const zoomAnnouncement = ref('')
+let wheelStopTimeout: ReturnType<typeof setTimeout> | null = null
+
+function clearWheelStopTimeout() {
+	if (wheelStopTimeout !== null) {
+		clearTimeout(wheelStopTimeout)
+	}
+}
 
 function wheelEffect(event: WheelEvent) {
+	clearWheelStopTimeout()
+	wheelStopTimeout = setTimeout(() => {
+		zoomAnnouncement.value = ''
+		wheelStopTimeout = null
+	}, 2000)
 	if (hasWindowSize.value || !overlay.value) {
 		return
 	}
 	const condition = computed(() => !hasWindowSize.value)
 	if (isMacOS && !event.metaKey) {
 		overlay.value.show(noCommandOnZoom, condition)
+		zoomAnnouncement.value = noCommandOnZoom.value
 	} else if (!isMacOS && !event.ctrlKey) {
 		overlay.value.show(noControlOnZoom, condition)
+		zoomAnnouncement.value = noControlOnZoom.value
 	}
 }
 
@@ -256,6 +274,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+	clearWheelStopTimeout()
 	panHammer?.destroy()
 	panHammer = null
 	longPressHammer?.destroy()
