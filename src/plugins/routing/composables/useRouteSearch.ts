@@ -35,7 +35,7 @@ export function useRouteSearch({
 }: RouteSearchOptions) {
 	const routeInputValues = ref(['', ''])
 	const routeInputLoading = ref<boolean[]>([false, false])
-	const routeSearchResults = ref<(SearchResult[] | symbol)[]>([
+	const rawRouteSearchResults = ref<(SearchResult[] | symbol)[]>([
 		SearchResultSymbols.NO_SEARCH,
 		SearchResultSymbols.NO_SEARCH,
 	])
@@ -54,6 +54,15 @@ export function useRouteSearch({
 	)
 	const selectedSearchGroupId = computed(
 		() => configuration.value.searchGroupId ?? 'defaultGroup'
+	)
+	const routeSearchResults = computed(() =>
+		rawRouteSearchResults.value.map((results) =>
+			Array.isArray(results)
+				? results.filter(
+						(result) => result.groupId === selectedSearchGroupId.value
+					)
+				: results
+		)
 	)
 
 	const searchResultHint = computed((): string | undefined => {
@@ -81,12 +90,10 @@ export function useRouteSearch({
 		if (routeInputLoading.value[index]) {
 			return t(($) => $.hint.loading, { ns: PluginId })
 		}
-		if (!Array.isArray(routeSearchResults.value[index])) {
+		const results = routeSearchResults.value[index]
+		if (!Array.isArray(results)) {
 			return ''
 		}
-		const results = routeSearchResults.value[index].filter(
-			(group) => group.groupId === selectedSearchGroupId.value
-		)
 		if (
 			!results.some(
 				(group) =>
@@ -132,7 +139,7 @@ export function useRouteSearch({
 			routeSearchRequestCounters.value.toSpliced(index, 1, currentCounter)
 
 		if (!input.trim().length || input.trim().length < addressSearch.minLength) {
-			routeSearchResults.value = routeSearchResults.value.toSpliced(
+			rawRouteSearchResults.value = rawRouteSearchResults.value.toSpliced(
 				index,
 				1,
 				SearchResultSymbols.NO_SEARCH
@@ -147,7 +154,7 @@ export function useRouteSearch({
 				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
 					return
 				}
-				routeSearchResults.value = routeSearchResults.value.toSpliced(
+				rawRouteSearchResults.value = rawRouteSearchResults.value.toSpliced(
 					index,
 					1,
 					results
@@ -157,7 +164,7 @@ export function useRouteSearch({
 				if ((routeSearchRequestCounters.value[index] ?? 0) !== currentCounter) {
 					return
 				}
-				routeSearchResults.value = routeSearchResults.value.toSpliced(
+				rawRouteSearchResults.value = rawRouteSearchResults.value.toSpliced(
 					index,
 					1,
 					SearchResultSymbols.NO_SEARCH
@@ -179,16 +186,20 @@ export function useRouteSearch({
 		if (!firstFound) {
 			return
 		}
-		const firstFeatures = firstFound.features.features
+		const firstFeature = firstFound.features.features[0]
+		if (!firstFeature) {
+			return
+		}
+		const featureCount = result.reduce(
+			(count, { features }) => count + features.features.length,
+			0
+		)
 		if (
-			(autoselect === 'first' && firstFeatures.length >= 1) ||
-			(autoselect === 'only' && firstFeatures.length === 1)
+			autoselect === 'first' ||
+			(autoselect === 'only' && featureCount === 1)
 		) {
 			currentlyFocusedInput.value = index
-			await selectResult(
-				firstFeatures[0] as PolarGeoJsonFeature,
-				firstFound.categoryId
-			)
+			await selectResult(firstFeature, firstFound.categoryId)
 		}
 	}
 
@@ -224,7 +235,7 @@ export function useRouteSearch({
 			1,
 			searchResult.title
 		)
-		routeSearchResults.value = routeSearchResults.value.toSpliced(
+		rawRouteSearchResults.value = rawRouteSearchResults.value.toSpliced(
 			index,
 			1,
 			SearchResultSymbols.NO_SEARCH
@@ -233,7 +244,7 @@ export function useRouteSearch({
 
 	function resetSearch() {
 		routeInputValues.value = ['', '']
-		routeSearchResults.value = [
+		rawRouteSearchResults.value = [
 			SearchResultSymbols.NO_SEARCH,
 			SearchResultSymbols.NO_SEARCH,
 		]
@@ -244,9 +255,9 @@ export function useRouteSearch({
 		routeInputValues.value = remove
 			? routeInputValues.value.toSpliced(index, 1)
 			: routeInputValues.value.toSpliced(index, 0, '')
-		routeSearchResults.value = remove
-			? routeSearchResults.value.toSpliced(index, 1)
-			: routeSearchResults.value.toSpliced(
+		rawRouteSearchResults.value = remove
+			? rawRouteSearchResults.value.toSpliced(index, 1)
+			: rawRouteSearchResults.value.toSpliced(
 					index,
 					0,
 					SearchResultSymbols.NO_SEARCH

@@ -90,30 +90,27 @@ const defaultResultItemIdPrefix = computed(() => {
 	)
 })
 
-const resultsBySearchMethod = computed(() =>
-	Array.isArray(props.searchResults) ? props.searchResults : []
-)
-const results = computed<SearchResult[]>(() =>
-	Array.isArray(resultsBySearchMethod.value)
-		? // If we do not clone, we'd still copy references on the deeper levels
-			structuredClone(toRaw(resultsBySearchMethod.value))
-				.filter((result) => result.groupId === props.selectedGroupId)
-				.reduce<SearchResult[]>((acc, curr) => {
-					const index = acc.findIndex(
-						(val) => val.categoryId === curr.categoryId
-					)
-					if (index === -1) {
-						return [...acc, curr]
-					}
-					;(acc[index] as SearchResult).features.features = [
-						...(acc[index] as SearchResult).features.features,
-						...curr.features.features,
-					]
+const results = computed<SearchResult[]>(() => {
+	if (!Array.isArray(props.searchResults)) {
+		return []
+	}
 
-					return acc
-				}, [])
-		: []
-)
+	return props.searchResults
+		.filter((result) => result.groupId === props.selectedGroupId)
+		.reduce<SearchResult[]>((categories, result) => {
+			// Unwrap Vue proxies so cloning can isolate the feature arrays before merging.
+			const copy = structuredClone(toRaw(result))
+			const category = categories.find(
+				({ categoryId }) => categoryId === copy.categoryId
+			)
+			if (category) {
+				category.features.features.push(...copy.features.features)
+			} else {
+				categories.push(copy)
+			}
+			return categories
+		}, [])
+})
 
 watch(results, () => {
 	if (props.focusAfterSearch && coreStore.shadowRoot) {
