@@ -39,7 +39,7 @@ export function useRouteSearch({
 		SearchResultSymbols.NO_SEARCH,
 		SearchResultSymbols.NO_SEARCH,
 	])
-	let routeSearchRequests: (symbol | null)[] = [null, null]
+	let routeSearchRequests: (AbortController | null)[] = [null, null]
 
 	const addressSearchStore = computed(() =>
 		coreStore.getPluginStore('addressSearch')
@@ -134,6 +134,7 @@ export function useRouteSearch({
 			return
 		}
 
+		routeSearchRequests[index]?.abort()
 		if (!input.trim().length || input.trim().length < addressSearch.minLength) {
 			routeSearchRequests[index] = null
 			setRouteInputLoading(index, false)
@@ -144,13 +145,13 @@ export function useRouteSearch({
 			)
 			return
 		}
-		const request = Symbol()
+		const request = new AbortController()
 		routeSearchRequests[index] = request
 		setRouteInputLoading(index, true)
 
 		let results: SearchResult[] | symbol
 		try {
-			results = await addressSearch.runSearch(input)
+			results = await addressSearch.runSearch(input, request)
 		} catch (error) {
 			if (!routeSearchRequests.includes(request)) {
 				return
@@ -164,6 +165,7 @@ export function useRouteSearch({
 		if (currentIndex === -1) {
 			return
 		}
+		routeSearchRequests[currentIndex] = null
 		rawRouteSearchResults.value = rawRouteSearchResults.value.toSpliced(
 			currentIndex,
 			1,
@@ -235,16 +237,20 @@ export function useRouteSearch({
 	}
 
 	function resetSearch() {
+		routeSearchRequests.forEach((request) => request?.abort())
+		routeSearchRequests = [null, null]
 		routeInputValues.value = ['', '']
 		rawRouteSearchResults.value = [
 			SearchResultSymbols.NO_SEARCH,
 			SearchResultSymbols.NO_SEARCH,
 		]
-		routeSearchRequests = [null, null]
 		routeInputLoading.value = [false, false]
 	}
 
 	function setSearchWaypoint(index: number, remove: boolean) {
+		if (remove) {
+			routeSearchRequests[index]?.abort()
+		}
 		routeInputValues.value = remove
 			? routeInputValues.value.toSpliced(index, 1)
 			: routeInputValues.value.toSpliced(index, 0, '')
