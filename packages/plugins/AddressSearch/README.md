@@ -208,7 +208,7 @@ These fields are interpreted by all implemented services.
 
 | fieldName | type | description |
 | - | - | - |
-| maxFeatures | number? | Maximum amount of features to retrieve. Doesn't limit results if not set. |
+| maxFeatures | number? | Maximum amount of features to retrieve. Doesn't limit results if not set. For WFS searches with `version: '2.0.0'`, this value is sent as the `count` attribute. |
 
 Example configuration:
 ```js
@@ -232,6 +232,7 @@ queryParameters: {
 | srsName | string? | Name of the projection (srs) for the query. |
 | useRightHandWildcard? | boolean? | By default, if searching for "search", it is sent as "search*". This behaviour can be deactivated by setting this parameter to `false`. |
 | caseSensitive | boolean |  When `false`, searches are case-insensitive. When `true`, exact case matching is required. Requires WFS server support for the `matchCase` attribute. |
+| version | '1.1.0' \| '2.0.0'? | WFS protocol version. Defaults to `1.1.0`. |
 
 Since inputs may overlap with multiple patterns, multiple queries are fired and executed on the WFS until the `maxFeatures` requirement is met, beginning with the pattern that 'looks like the user input the most'. The best-fitting pattern on the returned features will be used to generate a display string. When two patterns fit best, the first one is used.
 
