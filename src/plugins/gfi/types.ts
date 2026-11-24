@@ -449,7 +449,7 @@ export interface RequestGfiParameters {
 	layer: BaseLayer
 	layerConfiguration: GfiLayerConfiguration
 
-	/** rawLayerList entry, see https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md */
+	/** rawLayerList entry, see https://gitlab.opencode.de/lgvhh/urban-data-solutions/masterportal/-/blob/dev/docs/User/Global-Config/services.json.md */
 	layerSpecification: Record<string, unknown>
 
 	map: Map

@@ -81,7 +81,7 @@ export interface PolarMapOptions {
  * You may also pass the URL directly to the `serviceRegister` parameter of {@link createMap}.
  *
  * An example for a predefined service register is [the service register of the city of Hamburg](https://geodienste.hamburg.de/services-internet.json).
- * Full documentation regarding the configuration can be read [here](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/doc/services.json.md).
+ * Full documentation regarding the configuration can be read [here](https://gitlab.opencode.de/lgvhh/urban-data-solutions/masterportal/-/blob/dev/docs/User/Global-Config/services.json.md).
  * However, not all listed services have been implemented in the `@masterportal/masterportalapi` yet,
  * and no documentation regarding implemented properties exists there yet.
  */

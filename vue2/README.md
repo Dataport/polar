@@ -4,7 +4,7 @@
 
 <h1 align="center"><img alt="POLAR" height="80px" src="./pages/assets/iceberg.svg" /></h1>
 
-**Plugins for OpenLAyeRs** is based on the [masterportalAPI](https://bitbucket.org/geowerkstatt-hamburg/masterportalapi) and [OpenLayers](https://openlayers.org/).
+**Plugins for OpenLAyeRs** is based on the [masterportalAPI](https://gitlab.opencode.de/lgvhh/urban-data-solutions/masterportalapi/) and [OpenLayers](https://openlayers.org/).
 
 POLAR is ...
 
