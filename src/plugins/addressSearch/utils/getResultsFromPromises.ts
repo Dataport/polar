@@ -1,4 +1,4 @@
-import type { SearchResult } from '../types'
+import type { SearchResult } from '@/core'
 
 export function getResultsFromPromises(
 	promises: PromiseSettledResult<SearchResult>[],
