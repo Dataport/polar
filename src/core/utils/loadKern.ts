@@ -18,7 +18,8 @@ function buildKernTheme(theme: KernTheme): CSSStyleSheet {
 	const flatTheme = flattenKernTheme(theme)
 	sheet.replaceSync(`
 		@layer kern-ux-theme {
-			:host {
+			:host,
+			:host [data-kern-theme] {
 				${flatTheme.map(([k, v]) => `--${k}: ${v} !important;`).join('\n')}
 			}
 		}
@@ -37,8 +38,12 @@ export function loadKern(host: ShadowRoot, theme: KernTheme = {}) {
 	`)
 	host.adoptedStyleSheets.push(kernSheet)
 
-	// @ts-expect-error | It's fine, we're getting `undefined` when accessing a string, too.
-	if (typeof theme.typography?.font?.family?.default !== 'undefined') {
+	if (
+		// @ts-expect-error | It's fine, we're getting `undefined` when accessing a string, too.
+		typeof theme.typography?.font?.family?.default === 'undefined' ||
+		// @ts-expect-error | It's fine, it exists.
+		theme.typography.font.family.default === 'Fira Sans'
+	) {
 		void import('@kern-ux/native/dist/fonts/fira-sans.css')
 	}
 

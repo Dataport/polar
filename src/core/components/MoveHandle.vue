@@ -254,6 +254,7 @@ function updateMaxHeight() {
 	justify-content: flex-end;
 	width: 100%;
 	padding: 0 var(--kern-metric-space-small);
+	margin-bottom: var(--kern-metric-space-small);
 }
 
 .polar-move-handle-has-action-button {

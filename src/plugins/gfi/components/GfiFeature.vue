@@ -1,5 +1,5 @@
 <template>
-	<div class="action-bar">
+	<div ref="actionBar" class="action-bar">
 		<div class="action-bar-group">
 			<KernButton
 				v-if="gfiStore.features.length > 1"
@@ -143,6 +143,8 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, useTemplateRef } from 'vue'
+
 import KernButton from '@/components/kern/KernButton.vue'
 import { useCoreStore } from '@/core/stores'
 
@@ -153,9 +155,18 @@ import { isValidHttpUrl } from '../utils/isValidHttpUrl'
 const coreStore = useCoreStore()
 const gfiStore = useGfiStore()
 
-defineProps<{
+const props = defineProps<{
+	autoFocus: boolean
 	layerId: string
 }>()
+
+const actionBar = useTemplateRef<HTMLDivElement>('actionBar')
+
+onMounted(() => {
+	if (props.autoFocus) {
+		actionBar.value?.querySelector('button')?.focus()
+	}
+})
 
 function startDownload(url: string) {
 	open(url)
@@ -176,6 +187,11 @@ function closeGfi() {
 	.action-bar-group {
 		display: flex;
 		gap: var(--kern-metric-space-small);
+
+		/* KERN shows its focus outline on `:focus` but we only want it for keyboard navigation. */
+		.kern-btn:focus:not(:focus-visible) {
+			outline: none;
+		}
 	}
 }
 
