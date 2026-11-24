@@ -30,7 +30,7 @@ type StoreParameter<T extends StoreId> = T extends 'core' | BundledPluginId
 	: string
 type GetStoreResult<T extends StoreId> = T extends 'core' | BundledPluginId
 	? StoreType<T>
-	: PolarPluginStore
+	: ReturnType<PolarPluginStore>
 
 /**
  * Returns the store module for the core or for an active plugin.
