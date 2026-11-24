@@ -17,9 +17,15 @@ export interface KernThemeTree {
  *
  * **About fonts**
  *
+ * If `kern.typography.font.family.default` is not set, KERN's font `Fira Sans`
+ * is used. Its font faces are part of `@polar/polar/polar.css`, which then has
+ * to be included in the page, e.g. via
+ * `<link rel="stylesheet" href="@polar/polar/polar.css" />`.
+ *
  * Please mind that setting a value to `kern.typography.font.family.default`
  * will stop the client from loading the font `Fira Sans` used in the KERN
- * design system. 'inherit' will not work as a value due to technical
+ * design system; including `@polar/polar/polar.css` is then not necessary.
+ * 'inherit' will not work as a value due to technical
  * limitations of the ShadowDOM. To inherit whatever would naturally arrive or
  * is styled on the host node, use `''` (empty string).
  * You may also set `"Fira Sans", sans-serif` (the default value) to this
