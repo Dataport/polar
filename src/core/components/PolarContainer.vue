@@ -89,15 +89,16 @@ const noControlOnZoom = useT(() =>
 	t(($) => $.overlay.noControlOnZoom, { ns: CoreId })
 )
 
+const mobileDisplayCondition = computed(() => !hasWindowSize.value)
+
 function wheelEffect(event: WheelEvent) {
 	if (hasWindowSize.value || !overlay.value) {
 		return
 	}
-	const condition = computed(() => !hasWindowSize.value)
 	if (isMacOS && !event.metaKey) {
-		overlay.value.show(noCommandOnZoom, condition)
+		overlay.value.show(noCommandOnZoom, mobileDisplayCondition)
 	} else if (!isMacOS && !event.ctrlKey) {
-		overlay.value.show(noControlOnZoom, condition)
+		overlay.value.show(noControlOnZoom, mobileDisplayCondition)
 	}
 }
 
@@ -142,7 +143,7 @@ function updateListeners() {
 							interaction.get('_isPolarDragLikeInteraction')
 						)
 				) {
-					overlay.value.show(oneFingerPan)
+					overlay.value.show(oneFingerPan, mobileDisplayCondition)
 				}
 			})
 		}
