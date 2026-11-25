@@ -13,7 +13,6 @@ import type { Locale } from '@/core/types'
  */
 export const resourcesDe = {
 	pagination: {
-		currentPage: 'Aktuelle Seite, Seite {{page}}',
 		page: 'Seite {{page}}',
 		next: 'Nächste Seite',
 		previous: 'Vorherige Seite',
@@ -28,7 +27,6 @@ export const resourcesDe = {
  */
 export const resourcesEn = {
 	pagination: {
-		currentPage: 'Current page, page {{page}}',
 		page: 'Page {{page}}',
 		next: 'Next page',
 		previous: 'Previous page',
