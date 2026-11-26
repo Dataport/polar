@@ -245,6 +245,7 @@ function updateMaxHeight() {
 
 	&:focus {
 		outline: solid var(--kern-color-action-default);
+		outline-offset: 0;
 	}
 }
 
